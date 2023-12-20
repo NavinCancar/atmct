@@ -1,0 +1,231 @@
+/*Layout*/
+:root {
+  --main-bg-color: #0343ad;
+  --main-text-color: #0343ad;
+  --second-text-color: #0354ad;
+  --second-bg-color: #cbe4ff;
+  /*#007bff*/
+}
+
+.primary-text { 
+  color: var(--main-text-color);
+}
+
+.second-text {
+  color: var(--second-text-color);
+}
+
+.primary-bg {
+  background-color: var(--main-bg-color);
+}
+
+.secondary-bg {
+  background-color: var(--second-bg-color);
+}
+
+.rounded-full {
+  border-radius: 100%;
+}
+
+#wrapper {
+  overflow-x: hidden;
+  background-image: linear-gradient(
+    to right,
+    #84bfff,
+    #cbe4ff
+  );
+  /*
+    #baf3d7,
+    #c2f5de,
+    #cbf7e4,
+    #d4f8ea,
+    #ddfaef
+  */
+}
+
+#sidebar-wrapper {
+  min-height: 100vh;
+  margin-left: -15rem;
+  -webkit-transition: margin 0.25s ease-out;
+  -moz-transition: margin 0.25s ease-out;
+  -o-transition: margin 0.25s ease-out;
+  transition: margin 0.25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+  width: 15rem;
+}
+
+#page-content-wrapper {
+  min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: 0;
+}
+
+/*Menu*/
+#menu-toggle {
+  cursor: pointer;
+}
+
+.list-group-item {
+  border: none;
+  padding: 17px 30px;
+}
+
+.list-group-item.active {
+  background-color: transparent;
+  color: var(--main-text-color);
+  font-weight: bold;
+  border: none;
+}
+
+.list-group-item-action:hover{
+  color: var(  --second-text-color);
+}
+
+@media (min-width: 768px) {
+  #sidebar-wrapper {
+    margin-left: 0;
+  }
+
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -15rem;
+  }
+}
+
+/*Toggler button*/
+.navbar-light .navbar-toggler {
+  color: rgba(0,0,0,0);
+  border-color: rgba(0,0,0,0);
+}
+
+/*Dropdown menu*/
+.card-header {
+  padding: 0;
+  margin-bottom: 0;
+  background-color: #fff;
+  border-bottom: 0px;
+}
+
+.card{
+  border: 0px;
+}
+
+ul.dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+/*Ngày giờ*/
+.today{
+  padding: 5px 5px 0px 5px;
+  background-color: var(--main-text-color);
+  color: #fff;
+}
+
+.today:hover{
+  background-color: var(--second-text-color);
+}
+
+/*Page number*/
+.page-item .page-link {
+  z-index: 3;
+  color: var(--main-text-color);
+  background-color: #fff;
+  border-color: #dee2e6;
+}
+.page-item.active .page-link {
+  color: #fff;
+  background-color: var(--main-text-color);
+  border-color: var(--main-text-color);
+}
+
+.pagination {
+  padding-left: 48%;
+}
+
+/*Button*/
+.btn-search{
+  background-color: var(--main-text-color);
+  color: #fff;
+}
+
+.btn-search:hover{
+  background-color: var(--second-text-color);
+  color: #fff;
+}
+
+.center{
+  margin: auto;
+}
+
+.position-center {
+  width:62%;
+  margin: 0 auto;
+}
+
+.form-group{
+  padding-bottom: 10px;
+}
+
+/*Thống kê*/
+.time .col-md-3{
+  margin-top: 10px;
+}
+
+
+
+
+/*Trang login*/
+#login-wrapper {
+  overflow-x: hidden;
+  background-image: url(../image/background.jpg);
+  background-size: 100% ;
+}
+
+.login-form {
+  border-radius: 20px;
+  margin-top: 80px !important;
+  width: 24% !important;
+  background-color: white !important;
+  padding: 50px;
+  padding-top: 30px;
+}
+
+.btn-login {
+  width: 100%;
+  border: none;
+  border-radius: 50px;
+
+}
+
+.login-form-control {
+  color: rgba(0, 0, 0, .87);
+  border-bottom-color: rgba(0, 0, 0, .42);
+  box-shadow: none !important;
+  border: none;
+  border-bottom: 1px solid;
+  border-radius: 4px 4px 0 0;
+}
+
+.login-form-control:focus {
+  border-bottom-color: var(--second-text-color);
+}
+
+@media only screen and (max-width: 600px) {
+  .login-form {
+      width: 90% !important;
+  }
+}
