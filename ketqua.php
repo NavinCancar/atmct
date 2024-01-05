@@ -37,22 +37,19 @@
                         <div class="col-md-10">
                             <div class="row g-2">
                                 <div class="col-md-4">
-                                    <!-- địa điểm cần tìm -->
-                                    <input type="text" class="form-control border-0" placeholder="Nhập vào địa điểm" />
+                                    <input type="text" class="form-control border-0" placeholder="Khoảng cách tối đa" />
                                 </div>
                                 <div class="col-md-4">
-                                    <!-- loại xăng cần tìm cần tìm -->
                                     <select class="form-select border-0">
-                                        <option selected>Loại Xăng</option>
+                                        <option selected>Thẻ ATM thuộc ngân hàng</option>
                                         <option value="1">Category 1</option>
                                         <option value="2">Category 2</option>
                                         <option value="3">Category 3</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <!-- tên cty cần tìm cần tìm -->
                                     <select class="form-select border-0">
-                                        <option selected>Công ty</option>
+                                        <option selected>Dịch vụ cần tìm</option>
                                         <option value="1">Location 1</option>
                                         <option value="2">Location 2</option>
                                         <option value="3">Location 3</option>

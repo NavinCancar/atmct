@@ -38,8 +38,8 @@
             </div>
             <div class="container-xxl py-5 bg-dark banner mb-5 col-sm-10 animated slideInUp">
                 <div class="container my-5 pt-5 pb-4 text-center">
-                    <h1 class="display-3 text-white mb-3 pt-5">Trạm xăng Cần Thơ</h1>
-                    <h4 class="text-light pb-5">Nơi chia sẻ cho bạn về tình trạng buôn bán xăng dầu tại Cần Thơ.</h4>            
+                    <h1 class="display-3 text-white mb-3 pt-5">ATM Cần Thơ</h1>
+                    <h4 class="text-light pb-5">Khám phá mạng lưới ATM và ngân hàng tại Cần Thơ cùng chúng tôi!</h4>            
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
 
         <!-- Carousel Start -->
         <div class="container-fluid p-0">
-            <h1 class="text-center mb-5 wow fadeInUp orange-text" data-wow-delay="0.1s">Các trạm xăng thành phố</h1>
+            <h1 class="text-center mb-5 wow fadeInUp orange-text" data-wow-delay="0.1s">Mạng lưới cây ATM và phòng giao dịch tại Cần Thơ</h1>
             <div class="owl-carousel header-carousel position-relative">
                 <div class="owl-carousel-item position-relative">
                     <!-- <img class="img-fluid" src="img/carousel-1.jpg" alt=""> -->
@@ -71,22 +71,19 @@
                         <div class="col-md-10">
                             <div class="row g-2">
                                 <div class="col-md-4">
-                                    <!-- địa điểm cần tìm -->
-                                    <input type="text" class="form-control border-0" placeholder="Nhập vào địa điểm" />
+                                    <input type="text" class="form-control border-0" placeholder="Khoảng cách tối đa" />
                                 </div>
                                 <div class="col-md-4">
-                                    <!-- loại xăng cần tìm cần tìm -->
                                     <select class="form-select border-0">
-                                        <option selected>Loại Xăng</option>
+                                        <option selected>Thẻ ATM thuộc ngân hàng</option>
                                         <option value="1">Category 1</option>
                                         <option value="2">Category 2</option>
                                         <option value="3">Category 3</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <!-- tên cty cần tìm cần tìm -->
                                     <select class="form-select border-0">
-                                        <option selected>Công ty</option>
+                                        <option selected>Dịch vụ cần tìm</option>
                                         <option value="1">Location 1</option>
                                         <option value="2">Location 2</option>
                                         <option value="3">Location 3</option>
@@ -104,16 +101,16 @@
         <!-- Search End -->
 
 
-        <!-- Station Start -->
+        <!-- Transaction office Start -->
         <div class="container-xxl py-5">
             <div class="container">
-                <h1 class="text-center mb-5 wow fadeInUp orange-text" data-wow-delay="0.1s">Danh sách trạm xăng</h1>
+                <h1 class="text-center mb-5 wow fadeInUp orange-text" data-wow-delay="0.1s">Danh sách phòng giao dịch</h1>
                 <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
                     <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
                         <li class="nav-item">
                             <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill"
                                 href="#tab-1">
-                                <h6 class="mt-n1 mb-0">Trạm gần nhất</h6>
+                                <h6 class="mt-n1 mb-0">Gần nhất</h6>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -335,13 +332,13 @@
                 </div>
             </div>
         </div>
-        <!-- Station End -->
+        <!-- Transaction office End -->
 
 
-        <!-- Company Start -->
+        <!-- Bank Start -->
         <div class="container-xxl py-5">
             <div class="container">
-                <h1 class="text-center mb-5 wow fadeInUp orange-text" data-wow-delay="0.1s">Các công ty nổi bật</h1>
+                <h1 class="text-center mb-5 wow fadeInUp orange-text" data-wow-delay="0.1s">Các ngân hàng nổi bật</h1>
                 <div class="row g-4">
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                         <a class="cat-item rounded p-4" href="">
@@ -402,7 +399,7 @@
                 </div>
             </div>
         </div>
-        <!-- Company End -->
+        <!-- Bank End -->
 
 
         <!-- Analysis Start -->
@@ -427,10 +424,10 @@
                     </div>
                     <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                         <h1 class="mb-4 orange-text">Thống kê</h1>
-                        <p class="mb-4">Các thống kê dựa trên cơ sở dữ liệu của các trạm xăng và công ty xăng tại thành phố mở ra cái nhìn về:</p>
-                        <p><i class="fa fa-check text-primary me-3"></i>Tổng quan về thị trường xăng dầu.</p>
-                        <p><i class="fa fa-check text-primary me-3"></i>Thông tin chi tiết về tình trạng hoạt động của các trạm xăng.</p>
-                        <p><i class="fa fa-check text-primary me-3"></i>Cung cấp thông tin và lựa chọn cho người dùng.</p>
+                        <p class="mb-4">Các thống kê dựa trên cơ sở dữ liệu của các trụ ATM  thuộc các ngân hàng tại thành phố mở ra cái nhìn về:</p>
+                        <p><i class="fa fa-check text-primary me-3"></i>Tổng quan về mạng lưới ATM của các ngân hàng.</p>
+                        <p><i class="fa fa-check text-primary me-3"></i>Thông tin chi tiết về số lượng trụ ATM theo đơn vị hành chính quận/huyện.</p>
+                        <p><i class="fa fa-check text-primary me-3"></i>Cung cấp thông tin và lựa chọn cho người dùng để nắm bắt tình hình và tìm kiếm thông tin theo nhu cầu cụ thể.</p>
                         <a class="btn btn-primary py-3 px-5 mt-3" href="">Xem thống kê ngay</a>
                     </div>
                 </div>

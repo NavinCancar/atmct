@@ -1,11 +1,11 @@
 /********** Template CSS **********/
 :root {
-    --primary: #0343ad;
-    --secondary: #0354ad;
+    --primary: #1e8383;
+    --secondary: #579586;
     --light: #EFFDF5;
     --dark: #2B3940;
-    --orange: #ff7300;
-    --blue: #007bff;
+    --orange: #fbaf44;
+    --blue: #008CFF;
 }
 
 .back-to-top {
@@ -21,7 +21,7 @@
 }
 
 .blue-bg50{
-    background-color: #007bff70 !important;
+    background-color: #008CFF70 !important;
 }
 
 .blue-text{
@@ -248,7 +248,7 @@
 }
 
 .page-header {
-    background: linear-gradient(rgba(43, 57, 64, .5), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url(../img/site.jpg) center center no-repeat;
+    background: linear-gradient(rgba(43, 57, 64, .5), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url(../img/site.png) center center no-repeat;
     background-size: cover;
 }
 
@@ -422,8 +422,8 @@
 
 .btn-orange{
     color:#000;
-    background-color:#ff7300;
-    border-color:#ff7300
+    background-color:#fbaf44;
+    border-color:#fbaf44
 }
 .btn-orange:hover{
     color:#fff;
@@ -455,8 +455,8 @@
 }
 .btn-orange:disabled,
 .btn-orange.disabled{color:#000;
-    background-color:#ff7300;
-    border-color:#ff7300
+    background-color:#fbaf44;
+    border-color:#fbaf44
 }
 
 .btn-blue{

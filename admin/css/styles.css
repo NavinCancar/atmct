@@ -1,8 +1,8 @@
 /*Layout*/
 :root {
-  --main-bg-color: #0343ad;
-  --main-text-color: #0343ad;
-  --second-text-color: #0354ad;
+  --main-bg-color: #1e8383;
+  --main-text-color: #1e8383;
+  --second-text-color: #579586;
   --second-bg-color: #cbe4ff;
   /*#007bff*/
 }
@@ -31,8 +31,8 @@
   overflow-x: hidden;
   background-image: linear-gradient(
     to right,
-    #84bfff,
-    #cbe4ff
+    #ffdeaf,
+    rgb(203, 255, 244)
   );
   /*
     #baf3d7,
@@ -191,7 +191,7 @@ ul.dropdown-menu {
 /*Trang login*/
 #login-wrapper {
   overflow-x: hidden;
-  background-image: url(../image/background.jpg);
+  background-image: url(../image/site.png);
   background-size: 100% ;
 }
 
