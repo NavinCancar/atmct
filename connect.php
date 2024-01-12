@@ -1,5 +1,5 @@
 <?php 
-    $conn = mysqli_connect("localhost", "root", "", "leaflet");
+    $conn = mysqli_connect("localhost", "root", "", "qltruatm");
             
     if (!$conn) {//loi ket noi csdl
         echo "Error: Unable to connect to MySQL." . PHP_EOL;

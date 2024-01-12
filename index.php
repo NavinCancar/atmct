@@ -488,28 +488,156 @@
         <a href="#" class="btn btn-lg btn-orange btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
+    <script>
+        $(document).ready(function(){
+            $('#pgd, #tatm').on('show.bs.collapse', function () {
+            $('#pgd, #tatm').not(this).collapse('hide');
+            });
+        });
+    </script>
 
+    <!-- SCRIPT XỬ LÝ BẢN ĐỒ -->
+    <script>
+        $(document).ready(function () {
+            //Lấy vị trí ng dùng
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position){
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
 
+                    //----------------------------------------------------------------
+                    //Gọi map
+                    var mapOptions = {
+                        center: [latitude, longitude],
+                        zoom: 10
+                    };
+                    
+                    var map = new L.map('map', mapOptions);
+                    
+                    var layer = new
+                    L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                    
+                    map.addLayer(layer);
+                    
+                    //----------------------------------------------------------------
+                    // Hiển thị vị trí người dùng
+                    var userPolyline = L.polyline([[latitude, longitude], [latitude, longitude]], { color: 'red', weight: 30 }).addTo(map);
+                    userPolyline.bindPopup('Vị trí của bạn').openPopup();        
+                    
 
+                    //----------------------------------------------------------------
+                    //Lẩy toạ độ trong csdl ra rounting
+                    <?php
+                        //Viết câu truy vấn
+                        $query = "SELECT * FROM `locations`";
+                        //Thực thi truy vấn
+                        $result = mysqli_query($conn, $query);
+                        //Duyệt kết quả trả về
+                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
+                            echo 'var marker = L.marker(['.$row["vidox"].', '.$row["kinhdoy"].']).addTo(map);';
+                            echo 'marker.bindPopup("'.$row["name"].'");';
+                        }
+                    ?>
 
-        <script>
-           //Thiết lập thông số cho bản đồ
-var mapOptions = {
-    center: [10.029294, 105.769436],
-    zoom: 20
-};
+                    $("#sb-kc").click(function (e) {
+                        e.preventDefault();
+                        map.remove();
+                        var khoangCach = $("#kcach").val();
+                        //Lấy vị trí ng dùng
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function(position){
+                                var latitude = position.coords.latitude;
+                                var longitude = position.coords.longitude;
 
-//Khai báo đối tượng bản đồ
-var map = new L.map('map', mapOptions);
+                                //----------------------------------------------------------------
+                                //Gọi map
+                                var mapOptions = {
+                                    center: [latitude, longitude],
+                                    zoom: 10
+                                };
+                                
+                                map = new L.map('map', mapOptions);
+                                
+                                var layer = new
+                                L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                                
+                                map.addLayer(layer);
+                                
+                                //----------------------------------------------------------------
+                                // Hiển thị vị trí người dùng
+                                var userPolyline = L.polyline([[latitude, longitude], [latitude, longitude]], { color: 'red', weight: 30 }).addTo(map);
+                                userPolyline.bindPopup('Vị trí của bạn').openPopup();        
+                                
 
-//Khai báo lớp bản đồ
-var layer = new
-L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                                //----------------------------------------------------------------
+                                //Lẩy toạ độ trong csdl ra rounting
+                                <?php
+                                    //Viết câu truy vấn
+                                    $query = "SELECT * FROM `locations`";
+                                    //Thực thi truy vấn
+                                    $result = mysqli_query($conn, $query);
+                                    //Duyệt kết quả trả về
+                                    /*while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
+                                    echo 'var marker = L.marker(['.$row["vidox"].', '.$row["kinhdoy"].']).addTo(map);';
+                                    echo 'marker.bindPopup("'.$row["name"].'");';
+                                    }*/
+                                    while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
+                                ?>
+                                    //----------------------------------------------------------------
+                                    //Tìm đường từ người dùng
+                                    var control = L.Routing.control({
+                                        waypoints: [
+                                            L.latLng(latitude, longitude),
+                                            L.latLng(<?php echo $row["vidox"].', '.$row["kinhdoy"]; ?>)
+                                        ],
+                                        geocoder: L.Control.Geocoder.nominatim(),
+                                        routeWhileDragging: true,
+                                        reverseWaypoints: true,
+                                        showAlternatives: true,
+                                        language: 'vi',
+                                        altLineOptions: {
+                                            styles: [
+                                                {color: 'black', opacity: 0.15, weight: 9},
+                                                {color: 'white', opacity: 0.8, weight: 6},
+                                                {color: 'blue', opacity: 0.5, weight: 2}
+                                            ]
+                                        }
+                                        
+                                    });
 
-//Thêm mới lớp bản đồ vào bản đồ
-map.addLayer(layer);
-        </script>
+                                    //----------------------------------------------------------------
+                                    //Tính đường đi
+                                    control.on('routesfound', function(e) {
+                                        var routes = e.routes;
+                                        var summary = routes[0].summary;
+                                        // alert distance and time in km and minutes
+                                        console.log('Total [<?php echo $row["name"]; ?>] distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+                                        if(summary.totalDistance / 1000 <= khoangCach){
+                                            <?php
+                                                echo 'var marker = L.marker(['.$row["vidox"].', '.$row["kinhdoy"].']).addTo(map);';
+                                                echo 'marker.bindPopup("'.$row["name"].'");';
+                                            ?>
+                                        }
+                                    });
 
+                                control.route();
+                                
+                            <?php } ?>
+                            
+                            });
+                        }
+
+                        else {
+                            console.error('Hãy bật cho phép cung cấp thông tin vị trí cho chức năng này.');
+                        }
+                    });
+                });
+            }
+            else {
+                console.error('Hãy bật cho phép cung cấp thông tin vị trí cho chức năng này.');
+            }
+        });
+    </script>
 
 </body>
 </html>

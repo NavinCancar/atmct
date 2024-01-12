@@ -10,9 +10,8 @@
         <a href="phonggiaodich.php" class="nav-item nav-link">Phòng giao dịch</a>
         <a href="thongke.php" class="nav-item nav-link">Thống kê</a>
         <a href="gioithieu.php" class="nav-item nav-link">Giới thiệu</a>
-        <a href="ketqua.php" class="nav-item nav-link">Kết quả</a>
     </div>
     <a href="" class="btn btn-blue rounded-0 py-4 px-lg-5 d-none d-lg-block">
-        Các trạm gần nhất <i class="fa fa-arrow-right ms-3"></i>
+        Bản đồ <i class="fa fa-arrow-right ms-3"></i>
     </a>
 </div>
