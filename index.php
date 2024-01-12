@@ -46,60 +46,101 @@
         <!-- Header End -->
 
 
-        <!-- Carousel Start -->
+        <!-- Map Start -->
         <div class="container-fluid p-0">
             <h1 class="text-center mb-5 wow fadeInUp orange-text" data-wow-delay="0.1s">Mạng lưới cây ATM và phòng giao dịch tại Cần Thơ</h1>
-            <div class="owl-carousel header-carousel position-relative">
-                <div class="owl-carousel-item position-relative">
-                    <!-- <img class="img-fluid" src="img/carousel-1.jpg" alt=""> -->
-                    <!-- ban do -->
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7416.705603631216!2d105.76777276350276!3d10.028158770447037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0883d2192b0f1%3A0x4c90a391d232ccce!2zVHLGsOG7nW5nIEPDtG5nIE5naOG7hyBUaMO0bmcgVGluIHbDoCBUcnV54buBbiBUaMO0bmcgKENUVSk!5e0!3m2!1svi!2s!4v1689152456196!5m2!1svi!2s"
-                        style="border:1px; width: 100rem; height: 35rem" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="row">
+                <div class="col-md-4">
+                    <h5 class="px-5 text-center text-primary">Tìm kiếm:</h5>
                 </div>
-            </div>
-        </div>
-        <!-- Carousel End -->
+                <div class="col-md-4">
+                    <button data-bs-toggle="collapse" data-bs-target="#pgd" class="btn btn-primary px-5 w-100">Phòng giao dịch</button>
+                </div>
+                <div class="col-md-4">
+                    <button data-bs-toggle="collapse" data-bs-target="#tatm" class="btn btn-primary px-5 w-100">Trụ ATM</button>
+                </div>
 
-
-        <!-- Search Start -->
-        <div class="container-fluid bg-primary wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
-            <div class="container">
-                <form action="#">
-                    <div class="row g-2">
-                        <div class="col-md-10">
-                            <div class="row g-2">
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control border-0" placeholder="Khoảng cách tối đa" />
-                                </div>
-                                <div class="col-md-4">
-                                    <select class="form-select border-0">
-                                        <option selected>Thẻ ATM thuộc ngân hàng</option>
-                                        <option value="1">Category 1</option>
-                                        <option value="2">Category 2</option>
-                                        <option value="3">Category 3</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <select class="form-select border-0">
-                                        <option selected>Dịch vụ cần tìm</option>
-                                        <option value="1">Location 1</option>
-                                        <option value="2">Location 2</option>
-                                        <option value="3">Location 3</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>   
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-orange border-0 w-100">Tìm</button>
+                <div id="pgd" class="collapse">
+                    <!-- Search Start -->
+                    <div class="container-fluid bg-primary" style="padding: 35px; opacity: 95%;">
+                        <div class="container">
+                            <form action="#">
+                                <div class="row g-2">
+                                    <div class="col-md-9">
+                                        <div class="row g-2">
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control border-0" required="" placeholder="Khoảng cách tối đa cần tìm (*)" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <select class="form-select border-0">
+                                                    <option selected>Thuộc ngân hàng</option>
+                                                    <option value="0">Tất cả ngân hàng</option>
+                                                    <option value="1">Category 1</option>
+                                                    <option value="2">Category 2</option>
+                                                    <option value="3">Category 3</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>   
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-orange border-0 w-100">Tìm phòng giao dịch</button>
+                                    </div>
+                                </div>     
+                            </form>
                         </div>
-                    </div>     
-                </form>
-            </div>
-        </div>
-        <!-- Search End -->
+                    </div>
+                    <!-- Search End -->
+                </div>
 
+                <div id="tatm" class="collapse">
+                    <!-- Search Start -->
+                    <div class="container-fluid bg-primary" style="padding: 35px; opacity: 95%;">
+                        <div class="container">
+                            <form action="#">
+                                <div class="row g-2">
+                                    <div class="col-md-9">
+                                        <div class="row g-2">
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control border-0" required="" placeholder="Khoảng cách tối đa cần tìm (*)" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <select class="form-select border-0">
+                                                    <option selected>Chấp nhận thẻ ngân hàng (*)</option>
+                                                    <option value="1">Category 1</option>
+                                                    <option value="2">Category 2</option>
+                                                    <option value="3">Category 3</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <select class="form-select border-0">
+                                                    <option selected>Có cung cấp dịch vụ</option>
+                                                    <option value="1">Location 1</option>
+                                                    <option value="2">Location 2</option>
+                                                    <option value="3">Location 3</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control border-0" required="" placeholder="Khoản phí dịch vụ cần tìm" />
+                                            </div>
+                                        </div>
+                                    </div>   
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-orange border-0 w-100">Tìm trụ ATM</button>
+                                    </div>
+                                </div>     
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Search End -->
+                </div>
+                
+            </div>
+            
+            <!-- Map -->
+            <div id="map" style="border:1px; width: 100%; height: 25rem" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></div>
+        </div>
+        <!-- Map End -->
 
         <!-- Transaction office Start -->
         <div class="container-xxl py-5">
@@ -446,5 +487,29 @@
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-orange btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
+
+
+
+
+
+        <script>
+           //Thiết lập thông số cho bản đồ
+var mapOptions = {
+    center: [10.029294, 105.769436],
+    zoom: 20
+};
+
+//Khai báo đối tượng bản đồ
+var map = new L.map('map', mapOptions);
+
+//Khai báo lớp bản đồ
+var layer = new
+L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+
+//Thêm mới lớp bản đồ vào bản đồ
+map.addLayer(layer);
+        </script>
+
+
 </body>
 </html>

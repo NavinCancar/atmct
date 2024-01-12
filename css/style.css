@@ -20,6 +20,10 @@
     color: var(--orange) !important;
 }
 
+.orange-background{
+    background-color: var(--orange) !important;
+}
+
 .blue-bg50{
     background-color: #008CFF70 !important;
 }
