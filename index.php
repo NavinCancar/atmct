@@ -54,13 +54,13 @@
                     <h5 class="px-5 text-center text-primary">Tìm kiếm:</h5>
                 </div>
                 <div class="col-md-4">
-                    <button data-bs-toggle="collapse" data-bs-target="#pgd" class="btn btn-primary px-5 w-100">Phòng giao dịch</button>
+                    <button data-bs-toggle="collapse" data-bs-target="#pgdcoll" id="pgd-btn" class="btn btn-primary px-5 w-100">Phòng giao dịch</button>
                 </div>
                 <div class="col-md-4">
-                    <button data-bs-toggle="collapse" data-bs-target="#tatm" class="btn btn-primary px-5 w-100">Trụ ATM</button>
+                    <button data-bs-toggle="collapse" data-bs-target="#atmcoll" id="atm-btn" class="btn btn-primary px-5 w-100">Trụ ATM</button>
                 </div>
 
-                <div id="pgd" class="collapse">
+                <div id="pgdcoll" class="collapse">
                     <!-- Search Start -->
                     <div class="container-fluid bg-primary" style="padding: 35px; opacity: 95%;">
                         <div class="container">
@@ -92,7 +92,7 @@
                     <!-- Search End -->
                 </div>
 
-                <div id="tatm" class="collapse">
+                <div id="atmcoll" class="collapse">
                     <!-- Search Start -->
                     <div class="container-fluid bg-primary" style="padding: 35px; opacity: 95%;">
                         <div class="container">
@@ -137,7 +137,7 @@
             </div>
             
             <!-- Map -->
-            <div id="map" style="border:1px; width: 100%; height: 25rem" allowfullscreen="" loading="lazy"
+            <div id="map" style="border:1px; width: 100%; height: 35rem" allowfullscreen="" loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"></div>
         </div>
         <!-- Map End -->
@@ -490,8 +490,8 @@
 
     <script>
         $(document).ready(function(){
-            $('#pgd, #tatm').on('show.bs.collapse', function () {
-            $('#pgd, #tatm').not(this).collapse('hide');
+            $('#pgdcoll, #atmcoll').on('show.bs.collapse', function () {
+            $('#pgdcoll, #atmcoll').not(this).collapse('hide');
             });
         });
     </script>
@@ -499,17 +499,60 @@
     <!-- SCRIPT XỬ LÝ BẢN ĐỒ -->
     <script>
         $(document).ready(function () {
-            //Lấy vị trí ng dùng
+            //***************************************************************************
+            //KHAI BÁO BAN ĐẦU
+            //***************************************************************************
+            var findRouting = null;
+
+            //***************************************************************************
+            //SETUP ICON
+            //***************************************************************************
+            var NHIcon = L.Icon.extend({
+                options: {
+                    shadowUrl: 'img/light.png',
+                    iconSize:     [48, 60],
+                    shadowSize:   [60, 46],
+                    iconAnchor:   [23.5, 52],
+                    shadowAnchor: [29, 18],
+                    popupAnchor:  [-3, -76]
+                }
+            });
+
+            var PGDIcon = L.Icon.extend({
+                options: {
+                    shadowUrl: 'img/shadow.png',
+                    iconSize:     [38, 48],
+                    shadowSize:   [50, 38],
+                    iconAnchor:   [18, 42],
+                    shadowAnchor: [25, 30],
+                    popupAnchor:  [-3, -76]
+                }
+            });
+
+            var ATMIcon = L.Icon.extend({
+                options: {
+                    shadowUrl: 'img/shadow.png',
+                    iconSize:     [32, 45],
+                    shadowSize:   [50, 38],
+                    iconAnchor:   [0, 42],
+                    shadowAnchor: [12, 30],
+                    popupAnchor:  [-3, -76]
+                }
+            });
+
+            //***************************************************************************
+            //LẤY VỊ TRÍ NGƯỜI DÙNG -> XỬ LÝ
+            //***************************************************************************
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position){
-                    var latitude = position.coords.latitude;
-                    var longitude = position.coords.longitude;
+                    var ulatitude = position.coords.latitude;
+                    var ulongitude = position.coords.longitude;
 
                     //----------------------------------------------------------------
                     //Gọi map
                     var mapOptions = {
-                        center: [latitude, longitude],
-                        zoom: 10
+                        center: [ulatitude, ulongitude],
+                        zoom: 15
                     };
                     
                     var map = new L.map('map', mapOptions);
@@ -521,39 +564,97 @@
                     
                     //----------------------------------------------------------------
                     // Hiển thị vị trí người dùng
-                    var userPolyline = L.polyline([[latitude, longitude], [latitude, longitude]], { color: 'red', weight: 30 }).addTo(map);
+                    var userPolyline = L.polyline([[ulatitude, ulongitude], [ulatitude, ulongitude]], { color: 'red', weight: 30 }).addTo(map);
                     userPolyline.bindPopup('Vị trí của bạn').openPopup();        
+
+                    //***************************************************************************
+                    //GỌI NGÂN HÀNG START
+                    <?php
+                        $query = "SELECT * FROM `ngan_hang`";
+                        $result = mysqli_query($conn, $query);
+                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
+                            var pgdIcon = new NHIcon({iconUrl: "img/pgd/<?php echo $row["NH_MA"]; ?>.png"});
+                            var marker = L.marker([<?php echo $row["NH_VIDOX"]; ?>, <?php echo $row["NH_KINHDOY"]; ?>],{icon: pgdIcon}).addTo(map);
+                            marker.bindPopup("<?php echo $row["NH_TEN"]; ?>");
+                            //----------------------------------------------------------------
+                            // CLICK -> ROUTING START
+                            marker.on("click", function(e) {
+                                var markerId = <?php echo $row["NH_MA"]; ?>;
+                                var latitude = <?php echo $row["NH_VIDOX"]; ?>;
+                                var longitude = <?php echo $row["NH_KINHDOY"]; ?>;
+                                handleMarkerClick(markerId, latitude, longitude);
+                                //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
+                            });
+                            // CLICK -> ROUTING END
+                            //----------------------------------------------------------------
+                    <?php } ?>
+                    //GỌI NGÂN HÀNG END
+                    //***************************************************************************
+                    //***************************************************************************
+                    //GỌI PGD START
+                    <?php
+                        $query = "SELECT * FROM `phong_giao_dich` ";
+                        $result = mysqli_query($conn, $query);
+                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
+                            var pgdIcon = new PGDIcon({iconUrl: "img/pgd/<?php echo $row["NH_MA"]; ?>.png"});
+                            var marker = L.marker([<?php echo $row["PGD_VIDOX"]; ?>, <?php echo $row["PGD_KINHDOY"]; ?>],{icon: pgdIcon}).addTo(map);
+                            marker.bindPopup("<?php echo $row["PGD_TEN"]; ?>");
+                            //----------------------------------------------------------------
+                            // CLICK -> ROUTING START
+                            marker.on("click", function(e) {
+                                var markerId = <?php echo $row["PGD_MA"]; ?>;
+                                var latitude = <?php echo $row["PGD_VIDOX"]; ?>;
+                                var longitude = <?php echo $row["PGD_KINHDOY"]; ?>;
+                                handleMarkerClick(markerId, latitude, longitude);
+                                //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
+                            });
+                            // CLICK -> ROUTING END
+                            //----------------------------------------------------------------
+                    <?php } ?>
+                    //GỌI PGD END
+                    //***************************************************************************
+                    //***************************************************************************
+                    //GỌI ATM START
+                    <?php
+                        $query = "SELECT * FROM `tru_atm` ";
+                        $result = mysqli_query($conn, $query);
+                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
+                            var atmIcon = new ATMIcon({iconUrl: "img/atm/<?php echo $row["NH_MA"]; ?>.png"});
+                            var marker = L.marker([<?php echo $row["TA_VIDOX"]; ?>, <?php echo $row["TA_KINHDOY"]; ?>],{icon: atmIcon}).addTo(map);
+                            marker.bindPopup("<?php echo $row["TA_SOHIEU"]; ?>");
+                            //----------------------------------------------------------------
+                            // CLICK -> ROUTING START
+                            marker.on("click", function(e) {
+                                var markerId = <?php echo $row["TA_SOHIEU"]; ?>;
+                                var latitude = <?php echo $row["TA_VIDOX"]; ?>;
+                                var longitude = <?php echo $row["TA_KINHDOY"]; ?>;
+                                handleMarkerClick(markerId, latitude, longitude);
+                                //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
+                            });
+                            // CLICK -> ROUTING END
+                            //----------------------------------------------------------------
+                    <?php } ?>
+                    //GỌI ATM END
+                    //***************************************************************************
                     
 
-                    //----------------------------------------------------------------
-                    //Lẩy toạ độ trong csdl ra rounting
-                    <?php
-                        //Viết câu truy vấn
-                        $query = "SELECT * FROM `locations`";
-                        //Thực thi truy vấn
-                        $result = mysqli_query($conn, $query);
-                        //Duyệt kết quả trả về
-                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
-                            echo 'var marker = L.marker(['.$row["vidox"].', '.$row["kinhdoy"].']).addTo(map);';
-                            echo 'marker.bindPopup("'.$row["name"].'");';
-                        }
-                    ?>
 
-                    $("#sb-kc").click(function (e) {
+                    //***************************************************************************
+                    //NÚT PGD ĐƯỢC CLICK START
+                    $("#pgd-btn").click(function (e) {
                         e.preventDefault();
                         map.remove();
-                        var khoangCach = $("#kcach").val();
                         //Lấy vị trí ng dùng
                         if (navigator.geolocation) {
                             navigator.geolocation.getCurrentPosition(function(position){
-                                var latitude = position.coords.latitude;
-                                var longitude = position.coords.longitude;
+                                var ulatitude = position.coords.latitude;
+                                var ulongitude = position.coords.longitude;
 
                                 //----------------------------------------------------------------
                                 //Gọi map
                                 var mapOptions = {
-                                    center: [latitude, longitude],
-                                    zoom: 10
+                                    center: [ulatitude, ulongitude],
+                                    zoom: 15
                                 };
                                 
                                 map = new L.map('map', mapOptions);
@@ -565,7 +666,135 @@
                                 
                                 //----------------------------------------------------------------
                                 // Hiển thị vị trí người dùng
-                                var userPolyline = L.polyline([[latitude, longitude], [latitude, longitude]], { color: 'red', weight: 30 }).addTo(map);
+                                var userPolyline = L.polyline([[ulatitude, ulongitude], [ulatitude, ulongitude]], { color: 'red', weight: 30 }).addTo(map);
+                                userPolyline.bindPopup('Vị trí của bạn').openPopup();   
+
+                                //----------------------------------------------------------------
+                                //***************************************************************************
+                                //GỌI PGD START
+                                <?php
+                                    $query = "SELECT * FROM `phong_giao_dich` ";
+                                    $result = mysqli_query($conn, $query);
+                                    while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
+                                        var pgdIcon = new PGDIcon({iconUrl: "img/pgd/<?php echo $row["NH_MA"]; ?>.png"});
+                                        var marker = L.marker([<?php echo $row["PGD_VIDOX"]; ?>, <?php echo $row["PGD_KINHDOY"]; ?>],{icon: pgdIcon}).addTo(map);
+                                        marker.bindPopup("<?php echo $row["PGD_TEN"]; ?>");
+                                        //----------------------------------------------------------------
+                                        // CLICK -> ROUTING START
+                                        marker.on("click", function(e) {
+                                            var markerId = <?php echo $row["PGD_MA"]; ?>;
+                                            var latitude = <?php echo $row["PGD_VIDOX"]; ?>;
+                                            var longitude = <?php echo $row["PGD_KINHDOY"]; ?>;
+                                            handleMarkerClick(markerId, latitude, longitude);
+                                            //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
+                                        });
+                                        // CLICK -> ROUTING END
+                                        //----------------------------------------------------------------
+                                <?php } ?>
+                                //GỌI PGD END
+                                //***************************************************************************
+
+                            });
+                        }
+                        else {
+                            // Xử lý trường hợp trình duyệt không hỗ trợ geolocation
+                            console.error('Geolocation is not supported by your browser.');
+                        }
+                    });
+                    //NÚT PGD ĐƯỢC CLICK END
+                    //***************************************************************************
+                    //***************************************************************************
+                    //NÚT ATM ĐƯỢC CLICK START
+                    $("#atm-btn").click(function (e) {
+                        e.preventDefault();
+                        map.remove();
+                        //Lấy vị trí ng dùng
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function(position){
+                                var ulatitude = position.coords.latitude;
+                                var ulongitude = position.coords.longitude;
+
+                                //----------------------------------------------------------------
+                                //Gọi map
+                                var mapOptions = {
+                                    center: [ulatitude, ulongitude],
+                                    zoom: 15
+                                };
+                                
+                                map = new L.map('map', mapOptions);
+                                
+                                var layer = new
+                                L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                                
+                                map.addLayer(layer);
+                                
+                                //----------------------------------------------------------------
+                                // Hiển thị vị trí người dùng
+                                var userPolyline = L.polyline([[ulatitude, ulongitude], [ulatitude, ulongitude]], { color: 'red', weight: 30 }).addTo(map);
+                                userPolyline.bindPopup('Vị trí của bạn').openPopup();   
+
+                                //----------------------------------------------------------------
+                                //***************************************************************************
+                                //GỌI ATM START
+                                <?php
+                                    $query = "SELECT * FROM `tru_atm` ";
+                                    $result = mysqli_query($conn, $query);
+                                    while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
+                                        var atmIcon = new ATMIcon({iconUrl: "img/atm/<?php echo $row["NH_MA"]; ?>.png"});
+                                        var marker = L.marker([<?php echo $row["TA_VIDOX"]; ?>, <?php echo $row["TA_KINHDOY"]; ?>],{icon: atmIcon}).addTo(map);
+                                        marker.bindPopup("<?php echo $row["TA_SOHIEU"]; ?>");
+                                        //----------------------------------------------------------------
+                                        // CLICK -> ROUTING START
+                                        marker.on("click", function(e) {
+                                            var markerId = <?php echo $row["TA_SOHIEU"]; ?>;
+                                            var latitude = <?php echo $row["TA_VIDOX"]; ?>;
+                                            var longitude = <?php echo $row["TA_KINHDOY"]; ?>;
+                                            handleMarkerClick(markerId, latitude, longitude);
+                                            //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
+                                        });
+                                        // CLICK -> ROUTING END
+                                        //----------------------------------------------------------------
+                                <?php } ?>
+                                //GỌI ATM END
+                                //***************************************************************************
+                            });
+                        }
+                        else {
+                            // Xử lý trường hợp trình duyệt không hỗ trợ geolocation
+                            console.error('Geolocation is not supported by your browser.');
+                        }
+                    });
+                    //NÚT ATM ĐƯỢC CLICK END
+                    //***************************************************************************
+
+                    
+                    $("#sb-kc").click(function (e) {
+                        e.preventDefault();
+                        map.remove();
+                        var khoangCach = $("#kcach").val();
+                        //Lấy vị trí ng dùng
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function(position){
+                                var ulatitude = position.coords.latitude;
+                                var ulongitude = position.coords.longitude;
+
+                                //----------------------------------------------------------------
+                                //Gọi map
+                                var mapOptions = {
+                                    center: [ulatitude, ulongitude],
+                                    zoom: 15
+                                };
+                                
+                                map = new L.map('map', mapOptions);
+                                
+                                var layer = new
+                                L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                                
+                                map.addLayer(layer);
+                                
+                                //----------------------------------------------------------------
+                                // Hiển thị vị trí người dùng
+                                var userPolyline = L.polyline([[ulatitude, ulongitude], [ulatitude, ulongitude]], { color: 'red', weight: 30 }).addTo(map);
                                 userPolyline.bindPopup('Vị trí của bạn').openPopup();        
                                 
 
@@ -573,22 +802,18 @@
                                 //Lẩy toạ độ trong csdl ra rounting
                                 <?php
                                     //Viết câu truy vấn
-                                    $query = "SELECT * FROM `locations`";
+                                    $query = "SELECT * FROM `ngan_hang`";
                                     //Thực thi truy vấn
                                     $result = mysqli_query($conn, $query);
                                     //Duyệt kết quả trả về
-                                    /*while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
-                                    echo 'var marker = L.marker(['.$row["vidox"].', '.$row["kinhdoy"].']).addTo(map);';
-                                    echo 'marker.bindPopup("'.$row["name"].'");';
-                                    }*/
                                     while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
                                 ?>
                                     //----------------------------------------------------------------
                                     //Tìm đường từ người dùng
                                     var control = L.Routing.control({
                                         waypoints: [
-                                            L.latLng(latitude, longitude),
-                                            L.latLng(<?php echo $row["vidox"].', '.$row["kinhdoy"]; ?>)
+                                            L.latLng(ulatitude, ulongitude),
+                                            L.latLng(<?php echo $row["NH_VIDOX"].', '.$row["NH_KINHDOY"]; ?>)
                                         ],
                                         geocoder: L.Control.Geocoder.nominatim(),
                                         routeWhileDragging: true,
@@ -611,12 +836,24 @@
                                         var routes = e.routes;
                                         var summary = routes[0].summary;
                                         // alert distance and time in km and minutes
-                                        console.log('Total [<?php echo $row["name"]; ?>] distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+                                        console.log('Total [<?php echo $row["NH_TEN"]; ?>] distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
                                         if(summary.totalDistance / 1000 <= khoangCach){
                                             <?php
-                                                echo 'var marker = L.marker(['.$row["vidox"].', '.$row["kinhdoy"].']).addTo(map);';
-                                                echo 'marker.bindPopup("'.$row["name"].'");';
+                                                echo 'var marker = L.marker(['.$row["NH_VIDOX"].', '.$row["NH_KINHDOY"].']).addTo(map);';
+                                                echo 'marker.bindPopup("'.$row["NH_TEN"].'");';
                                             ?>
+
+                                            //---------------------------------------------------
+                                            // CLICK -> ROUTING START
+                                            marker.on("click", function(e) {
+                                                var markerId = <?php echo $row["NH_MA"]; ?>;
+                                                var latitude = <?php echo $row["NH_VIDOX"]; ?>;
+                                                var longitude = <?php echo $row["NH_KINHDOY"]; ?>;
+                                                handleMarkerClick(markerId, latitude, longitude);
+                                                //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
+                                            });
+                                            // CLICK -> ROUTING END
+                                            //---------------------------------------------------
                                         }
                                     });
 
@@ -628,13 +865,44 @@
                         }
 
                         else {
-                            console.error('Hãy bật cho phép cung cấp thông tin vị trí cho chức năng này.');
+                            // Xử lý trường hợp trình duyệt không hỗ trợ geolocation
+                            console.error('Geolocation is not supported by your browser.');
                         }
                     });
-                });
+
+
+                    //Hàm bổ sung
+                    function handleMarkerClick(markerId, latitude, longitude) {
+                        if (findRouting != null) {
+                            map.removeControl(findRouting);
+                            findRouting = null;
+                        }
+                        findRouting = L.Routing.control({
+                            waypoints: [
+                                L.latLng(ulatitude, ulongitude),
+                                L.latLng(latitude, longitude)
+                            ],
+                            geocoder: L.Control.Geocoder.nominatim(),
+                            routeWhileDragging: true,
+                            reverseWaypoints: true,
+                            showAlternatives: true,
+                            language: 'vi',
+                            altLineOptions: {
+                                styles: [
+                                    {color: 'black', opacity: 0.15, weight: 9},
+                                    {color: 'white', opacity: 0.8, weight: 6},
+                                    {color: 'blue', opacity: 0.5, weight: 2}
+                                ]
+                            }
+                        }).addTo(map);
+
+                        
+                    };
+
+                })
             }
             else {
-                console.error('Hãy bật cho phép cung cấp thông tin vị trí cho chức năng này.');
+                console.error('Geolocation is not supported by your browser.');
             }
         });
     </script>
