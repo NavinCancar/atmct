@@ -868,108 +868,13 @@
                         var khoangcachInput = pgdForm.querySelector('input[name="khoangcach"]').value;
                         var nganhangSelect = pgdForm.querySelector('select[name="nganhang"]').value;
 
-                        //----------------------------------------------------------------
-                        //Lấy vị trí ng dùng
-                        if (navigator.geolocation) {
-                            navigator.geolocation.getCurrentPosition(function(position){
-                                var ulatitude = position.coords.latitude;
-                                var ulongitude = position.coords.longitude;
+                        $.post('pgdrouting.php', {
+                            nganhangSelect: nganhangSelect,
+                            khoangcachInput: khoangcachInput
+                            }, function(data) { //data là kết quả trả về
 
-                                //----------------------------------------------------------------
-                                //Gọi map
-                                var mapOptions = {
-                                    center: [ulatitude, ulongitude],
-                                    zoom: 10
-                                };
-                                
-                                map = new L.map('map', mapOptions);
-                                
-                                var layer = new
-                                L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-                                
-                                map.addLayer(layer);
-                                
-                                //----------------------------------------------------------------
-                                // Hiển thị vị trí người dùng
-                                var userPolyline = L.polyline([[ulatitude, ulongitude], [ulatitude, ulongitude]], { color: 'red', weight: 30 }).addTo(map);
-                                userPolyline.bindPopup('Vị trí của bạn').openPopup();        
-                                
-                                //----------------------------------------------------------------
-
-
-                                //***************************************************************************
-                                //ROUTING PGD START
-                                <?php 
-                                    
-                                    $query = "SELECT * FROM `phong_giao_dich` ";
-                                    $result = mysqli_query($conn, $query);
-                                    while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
-
-                                        //---------------------------------------------------
-                                        // ROUTING ẨN ĐỂ TÌM ĐƯỜNG ĐẾN NGƯỜI DÙNG START
-                                        var control = L.Routing.control({
-                                            waypoints: [
-                                                L.latLng(ulatitude, ulongitude),
-                                                L.latLng(<?php echo $row["PGD_VIDOX"].', '.$row["PGD_KINHDOY"]; ?>)
-                                            ],
-                                            geocoder: L.Control.Geocoder.nominatim(),
-                                            routeWhileDragging: true,
-                                            reverseWaypoints: true,
-                                            showAlternatives: true,
-                                            language: 'vi',
-                                            altLineOptions: {
-                                                styles: [
-                                                    {color: 'black', opacity: 0.15, weight: 9},
-                                                    {color: 'white', opacity: 0.8, weight: 6},
-                                                    {color: 'blue', opacity: 0.5, weight: 2}
-                                                ]
-                                            }
-                                        });
-                                        // ROUTING ẨN ĐỂ TÌM ĐƯỜNG ĐẾN NGƯỜI DÙNG END
-                                        //---------------------------------------------------
-
-                                        //---------------------------------------------------
-                                        // TÍNH KHOẢNG CÁCH NGẦM START
-                                        control.on('routesfound', function(e) {
-                                            var routes = e.routes;
-                                            var summary = routes[0].summary;
-                                            // Công thức lấy khoảng cách và thời gian
-                                            console.log('Total [<?php echo $row["PGD_TEN"]; ?>] distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
-                                            
-                                            //Lấy các giá trị thoả điều kiện
-                                            if(summary.totalDistance / 1000 <= khoangcachInput){
-                                                var pgdIcon = new PGDIcon({iconUrl: "img/pgd/<?php echo $row["NH_MA"]; ?>.png"});
-                                                var marker = L.marker([<?php echo $row["PGD_VIDOX"]; ?>, <?php echo $row["PGD_KINHDOY"]; ?>],{icon: pgdIcon}).addTo(map);
-                                                marker.bindPopup("<?php echo $row["PGD_TEN"]; ?>");
-
-                                                //---------------------------------------------------
-                                                // CLICK -> ROUTING START
-                                                marker.on("click", function(e) {
-                                                    var markerId = <?php echo $row["PGD_MA"]; ?>;
-                                                    var latitude = <?php echo $row["PGD_VIDOX"]; ?>;
-                                                    var longitude = <?php echo $row["PGD_KINHDOY"]; ?>;
-                                                    handleMarkerClick(markerId, latitude, longitude);
-                                                    //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
-                                                });
-                                                // CLICK -> ROUTING END
-                                                //---------------------------------------------------
-                                            }
-                                        });
-                                        control.route();      
-                                        // TÍNH KHOẢNG CÁCH NGẦM END
-                                        //---------------------------------------------------
-
-                                <?php } ?>
-                                //ROUTING PGD END
-                                //***************************************************************************
-                            
-                            });
-                        }
-
-                        else {
-                            // Xử lý trường hợp trình duyệt không hỗ trợ geolocation
-                            console.error('Geolocation is not supported by your browser.');
-                        }
+                            window.location.href = 'pgdrouting.php';
+                        });
                     });
                     //FORM PGD ĐƯỢC SUBMIT END
                     //***************************************************************************
