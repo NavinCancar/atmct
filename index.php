@@ -63,7 +63,7 @@
                     <!-- Search Start -->
                     <div class="container-fluid bg-primary" style="padding: 35px; opacity: 95%;">
                         <div class="container">
-                            <form action="#" id="pgd-form">
+                            <form action="pgdrouting.php" method="get" id="pgd-form">
                                 <div class="row g-2">
                                     <div class="col-md-9">
                                         <div class="row g-2">
@@ -85,7 +85,7 @@
                                         </div>
                                     </div>   
                                     <div class="col-md-3">
-                                        <button type="button" id="pgd-sb" class="btn btn-orange border-0 w-100">Tìm phòng giao dịch</button>
+                                        <button type="submit" id="pgd-sb" class="btn btn-orange border-0 w-100">Tìm phòng giao dịch</button>
                                     </div>
                                 </div>     
                             </form>
@@ -98,7 +98,7 @@
                     <!-- Search Start -->
                     <div class="container-fluid bg-primary" style="padding: 35px; opacity: 95%;">
                         <div class="container">
-                            <form action="#" id="atm-form">
+                            <form action="atmrouting.php" method="get" id="atm-form">
                                 <div class="row g-2">
                                     <div class="col-md-9">
                                         <div class="row g-2">
@@ -106,7 +106,7 @@
                                                 <input type="number" min="0" class="form-control border-0" required="" name="khoangcach" placeholder="Khoảng cách (km) tối đa cần tìm (*)" />
                                             </div>
                                             <div class="col-md-6">
-                                                <select class="form-select border-0" name="nganhang">
+                                                <select class="form-select border-0" name="nganhang" required="">
                                                     <option  value="0" selected>Chấp nhận thẻ ngân hàng (*)</option>
                                                     <?php
                                                         $query = "SELECT * FROM `ngan_hang`";
@@ -141,7 +141,7 @@
                                         </div>
                                     </div>   
                                     <div class="col-md-3">
-                                        <button type="button" id="atm-sb" class="btn btn-orange border-0 w-100">Tìm trụ ATM</button>
+                                        <button type="submit" id="atm-sb" class="btn btn-orange border-0 w-100">Tìm trụ ATM</button>
                                     </div>
                                 </div>     
                             </form>
@@ -521,8 +521,7 @@
             var pgdSubmitButton = document.getElementById('pgd-sb');
             pgdSubmitButton.disabled = true;
 
-            $("#pgd-form").change(function (e) {
-                e.preventDefault();
+            $("#pgd-form").change(function () {
                 var pgdForm = document.getElementById('pgd-form');
                 var khoangcachInput = pgdForm.querySelector('input[name="khoangcach"]').value;
                 var nganhangSelect = pgdForm.querySelector('select[name="nganhang"]').value;
@@ -546,8 +545,7 @@
             dvminInput.disabled = true;
             dvmaxInput.disabled = true;
 
-            $("#atm-form").change(function (e) {
-                e.preventDefault();
+            $("#atm-form").change(function () {
                 var atmForm = document.getElementById('atm-form');
                 var khoangcachInput = atmForm.querySelector('input[name="khoangcach"]').value;
                 var nganhangSelect = atmForm.querySelector('select[name="nganhang"]').value;
@@ -853,32 +851,6 @@
                     });
                     //NÚT ATM ĐƯỢC CLICK END
                     //***************************************************************************
-
-                    
-
-                    //***************************************************************************
-                    //FORM PGD ĐƯỢC SUBMIT START
-                    $("#pgd-sb").click(function (e) {
-                        e.preventDefault();
-                        map.remove();
-                        
-                        //----------------------------------------------------------------
-                        //Lấy giá trị của form
-                        var pgdForm = document.getElementById('pgd-form');
-                        var khoangcachInput = pgdForm.querySelector('input[name="khoangcach"]').value;
-                        var nganhangSelect = pgdForm.querySelector('select[name="nganhang"]').value;
-
-                        $.post('pgdrouting.php', {
-                            nganhangSelect: nganhangSelect,
-                            khoangcachInput: khoangcachInput
-                            }, function(data) { //data là kết quả trả về
-
-                            window.location.href = 'pgdrouting.php';
-                        });
-                    });
-                    //FORM PGD ĐƯỢC SUBMIT END
-                    //***************************************************************************
-
 
                     //Hàm bổ sung
                     function handleMarkerClick(markerId, latitude, longitude) {

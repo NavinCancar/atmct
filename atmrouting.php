@@ -34,7 +34,16 @@
             <?php
                 //$khoangcach = $_GET['khoangcach'];
                 //$nganhang = $_GET['nganhang'];
-                //echo $khoangcach.','.$nganhang;
+                //$dichvu = $_GET['dichvu'];
+                //if($dichvu!=0){
+                //    $dichvumin = $_GET['dichvumin'];
+                //    $dichvumax = $_GET['dichvumax']; 
+                //}
+                //else{
+                //    $dichvumin = -1;
+                //    $dichvumax = -1; 
+                //}
+                //echo $khoangcach.','.$nganhang.','.$dichvu.','.$dichvumin.','.$dichvumax;
             ?>
 
             <div class="row">
@@ -309,16 +318,46 @@
                     //***************************************************************************
                     //XỬ LÝ TÌM KIẾM START
                     //***************************************************************************
-                    //ROUTING PGD START
+                    //ROUTING ATM START
                     <?php 
                         $khoangcach = $_GET['khoangcach'];
                         $nganhang = $_GET['nganhang'];
+                        $dichvu = $_GET['dichvu'];
+                        if($dichvu!=0){
+                            $dichvumin = $_GET['dichvumin'];
+                            $dichvumax = $_GET['dichvumax']; 
+                        }
+                        else{
+                            $dichvumin = -1;
+                            $dichvumax = -1; 
+                        }
 
-                        if($nganhang==0){$query = "SELECT * FROM `phong_giao_dich`";}
-                        else{$query = "SELECT * FROM `phong_giao_dich` WHERE `NH_MA`=".$nganhang;}
+                        if($dichvu==0){
+                            $query = "SELECT `tru_atm`.* FROM `tru_atm` JOIN `chap_nhan_the` ON `tru_atm`.`TA_SOHIEU` = `chap_nhan_the`.`TA_SOHIEU`
+                                        WHERE `chap_nhan_the`.`NH_MA`=".$nganhang;
+                        }
+                        else{
+                            /*$query = "SELECT `tru_atm`.* FROM `tru_atm` JOIN `ngan_hang` ON `tru_atm`.`NH_MA` = `ngan_hang`.`NH_MA`
+                                        JOIN `muc_phi` ON `muc_phi`.`NH_TRU_ATM` = `ngan_hang`.`NH_MA`
+                                        JOIN `dich_vu` ON `muc_phi`.`DV_MA` = `dich_vu`.`DV_MA`
+                                        WHERE `muc_phi`.`NH_THE`=".$nganhang." AND `muc_phi`.`MP_DONGIA` BETWEEN ".$dichvumin." AND ".$dichvumax;*/
+
+                            $query = "SELECT `tru_atm`.* FROM `tru_atm` JOIN `chap_nhan_the` ON `tru_atm`.`TA_SOHIEU` = `chap_nhan_the`.`TA_SOHIEU`
+                                        WHERE `tru_atm`.`TA_SOHIEU` IN (SELECT `tru_atm`.`TA_SOHIEU` FROM `tru_atm` JOIN `ngan_hang` ON `tru_atm`.`NH_MA` = `ngan_hang`.`NH_MA`
+                                        JOIN `muc_phi` ON `muc_phi`.`NH_TRU_ATM` = `ngan_hang`.`NH_MA`
+                                        JOIN `dich_vu` ON `muc_phi`.`DV_MA` = `dich_vu`.`DV_MA`
+                                        WHERE `muc_phi`.`NH_THE`=".$nganhang." AND `muc_phi`.`MP_DONGIA` BETWEEN ".$dichvumin." AND ".$dichvumax.") 
+                                        AND `chap_nhan_the`.`NH_MA`=".$nganhang;
+
+                            if($dichvumin == 0){
+                                $subquery = "SELECT `tru_atm`.* FROM `tru_atm` WHERE `NH_MA`=".$nganhang."";
+                                $query = $query. " UNION " . $subquery;
+                            }
+                        }
                         
-                        echo'console.log("'.$query.'");';
+                        //echo'console.log("'.$query.'");';
                         $result = mysqli_query($conn, $query);
+                        //echo'console.log("'.$result.'");';
                         while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
 
                             //---------------------------------------------------
@@ -326,7 +365,7 @@
                             var control = L.Routing.control({
                                 waypoints: [
                                     L.latLng(ulatitude, ulongitude),
-                                    L.latLng(<?php echo $row["PGD_VIDOX"].', '.$row["PGD_KINHDOY"]; ?>)
+                                    L.latLng(<?php echo $row["TA_VIDOX"].', '.$row["TA_KINHDOY"]; ?>)
                                 ],
                                 geocoder: L.Control.Geocoder.nominatim(),
                                 routeWhileDragging: true,
@@ -350,20 +389,20 @@
                                 var routes = e.routes;
                                 var summary = routes[0].summary;
                                 // Công thức lấy khoảng cách và thời gian
-                                console.log('Total [<?php echo $row["PGD_TEN"]; ?>] distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+                                console.log('Total [<?php echo $row["TA_SOHIEU"]; ?>] distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
                                 
                                 //Lấy các giá trị thoả điều kiện
                                 if(summary.totalDistance / 1000 <= <?php echo $khoangcach ?>){
-                                    var pgdIcon = new PGDIcon({iconUrl: "img/pgd/<?php echo $row["NH_MA"]; ?>.png"});
-                                    var marker = L.marker([<?php echo $row["PGD_VIDOX"]; ?>, <?php echo $row["PGD_KINHDOY"]; ?>],{icon: pgdIcon}).addTo(map);
-                                    marker.bindPopup("<?php echo $row["PGD_TEN"]; ?>");
+                                    var atmIcon = new ATMIcon({iconUrl: "img/atm/<?php echo $row["NH_MA"]; ?>.png"});
+                                    var marker = L.marker([<?php echo $row["TA_VIDOX"]; ?>, <?php echo $row["TA_KINHDOY"]; ?>],{icon: atmIcon}).addTo(map);
+                                    marker.bindPopup("<?php echo $row["TA_SOHIEU"]; ?>");
 
                                     //---------------------------------------------------
                                     // CLICK -> ROUTING START
                                     marker.on("click", function(e) {
-                                        var markerId = <?php echo $row["PGD_MA"]; ?>;
-                                        var latitude = <?php echo $row["PGD_VIDOX"]; ?>;
-                                        var longitude = <?php echo $row["PGD_KINHDOY"]; ?>;
+                                        var markerId = <?php echo $row["TA_SOHIEU"]; ?>;
+                                        var latitude = <?php echo $row["TA_VIDOX"]; ?>;
+                                        var longitude = <?php echo $row["TA_KINHDOY"]; ?>;
                                         handleMarkerClick(markerId, latitude, longitude);
                                         //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
                                     });
@@ -376,12 +415,12 @@
                             //---------------------------------------------------
 
                     <?php } ?>
-                    //ROUTING PGD END
+                    //ROUTING ATM END
                     //***************************************************************************
-                    //XỬ LÝ TÌM KIẾM  END
+                    //XỬ LÝ TÌM KIẾM END
                     //***************************************************************************
                     //***************************************************************************
-
+/*
                     //***************************************************************************
                     //NÚT PGD ĐƯỢC CLICK START
                     $("#pgd-btn").click(function (e) {
@@ -509,7 +548,7 @@
                     });
                     //NÚT ATM ĐƯỢC CLICK END
                     //***************************************************************************
-
+*/
                     //Hàm bổ sung
                     function handleMarkerClick(markerId, latitude, longitude) {
                         if (findRouting != null) {
