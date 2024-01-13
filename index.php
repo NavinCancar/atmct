@@ -64,26 +64,29 @@
                     <!-- Search Start -->
                     <div class="container-fluid bg-primary" style="padding: 35px; opacity: 95%;">
                         <div class="container">
-                            <form action="#">
+                            <form action="#" id="pgd-form">
                                 <div class="row g-2">
                                     <div class="col-md-9">
                                         <div class="row g-2">
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control border-0" required="" placeholder="Khoảng cách tối đa cần tìm (*)" />
+                                                <input type="number" min="0" class="form-control border-0" name="khoangcach" required="" placeholder="Khoảng cách (km) tối đa cần tìm (*)" />
                                             </div>
                                             <div class="col-md-6">
-                                                <select class="form-select border-0">
-                                                    <option selected>Thuộc ngân hàng</option>
-                                                    <option value="0">Tất cả ngân hàng</option>
-                                                    <option value="1">Category 1</option>
-                                                    <option value="2">Category 2</option>
-                                                    <option value="3">Category 3</option>
+                                                <select class="form-select border-0" name="nganhang">
+                                                    <option value="0" selected>Thuộc ngân hàng</option>
+                                                    <?php
+                                                        $query = "SELECT * FROM `ngan_hang`";
+                                                        $result = mysqli_query($conn, $query);
+                                                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
+                                                            echo '<option value="'.$row["NH_MA"].'">'.$row["NH_TEN"].'</option>';
+                                                        }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>   
                                     <div class="col-md-3">
-                                        <button type="submit" class="btn btn-orange border-0 w-100">Tìm phòng giao dịch</button>
+                                        <button type="button" id="pgd-sb" class="btn btn-orange border-0 w-100">Tìm phòng giao dịch</button>
                                     </div>
                                 </div>     
                             </form>
@@ -96,36 +99,50 @@
                     <!-- Search Start -->
                     <div class="container-fluid bg-primary" style="padding: 35px; opacity: 95%;">
                         <div class="container">
-                            <form action="#">
+                            <form action="#" id="atm-form">
                                 <div class="row g-2">
                                     <div class="col-md-9">
                                         <div class="row g-2">
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control border-0" required="" placeholder="Khoảng cách tối đa cần tìm (*)" />
+                                                <input type="number" min="0" class="form-control border-0" required="" name="khoangcach" placeholder="Khoảng cách (km) tối đa cần tìm (*)" />
                                             </div>
                                             <div class="col-md-6">
-                                                <select class="form-select border-0">
-                                                    <option selected>Chấp nhận thẻ ngân hàng (*)</option>
-                                                    <option value="1">Category 1</option>
-                                                    <option value="2">Category 2</option>
-                                                    <option value="3">Category 3</option>
+                                                <select class="form-select border-0" name="nganhang">
+                                                    <option  value="0" selected>Chấp nhận thẻ ngân hàng (*)</option>
+                                                    <?php
+                                                        $query = "SELECT * FROM `ngan_hang`";
+                                                        $result = mysqli_query($conn, $query);
+                                                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
+                                                            echo '<option value="'.$row["NH_MA"].'">'.$row["NH_TEN"].'</option>';
+                                                        }
+                                                    ?>
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
-                                                <select class="form-select border-0">
-                                                    <option selected>Có cung cấp dịch vụ</option>
-                                                    <option value="1">Location 1</option>
-                                                    <option value="2">Location 2</option>
-                                                    <option value="3">Location 3</option>
+                                                <select class="form-select border-0" name="dichvu">
+                                                    <option  value="0" selected>Có cung cấp dịch vụ</option>
+                                                    <?php
+                                                        $query = "SELECT * FROM `dich_vu`";
+                                                        $result = mysqli_query($conn, $query);
+                                                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
+                                                            echo '<option value="'.$row["DV_MA"].'">'.$row["DV_TEN"].'</option>';
+                                                        }
+                                                    ?>
                                                 </select>
                                             </div>
-                                            <div class="col-md-6">
-                                                <input type="text" class="form-control border-0" required="" placeholder="Khoản phí dịch vụ cần tìm" />
+                                            <div class="col-md-2">
+                                                <p class="text-center text-white mt-2">Giá dịch vụ:</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="number" class="form-control border-0" name="dichvumin" id="dichvumin" min="0" placeholder="Từ: (VNĐ)" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="number" class="form-control border-0" name="dichvumax" id="dichvumax" min="0" placeholder="Đến: (VNĐ)" />
                                             </div>
                                         </div>
                                     </div>   
                                     <div class="col-md-3">
-                                        <button type="submit" class="btn btn-orange border-0 w-100">Tìm trụ ATM</button>
+                                        <button type="button" id="atm-sb" class="btn btn-orange border-0 w-100">Tìm trụ ATM</button>
                                     </div>
                                 </div>     
                             </form>
@@ -491,8 +508,76 @@
     <script>
         $(document).ready(function(){
             $('#pgdcoll, #atmcoll').on('show.bs.collapse', function () {
-            $('#pgdcoll, #atmcoll').not(this).collapse('hide');
+                $('#pgdcoll, #atmcoll').not(this).collapse('hide');
             });
+
+
+            //***************************************************************************
+            //KIỂM TRA FORM PGD CHANGE START
+            
+            //Disabled 1 số thuộc tính khi được tải
+            var pgdSubmitButton = document.getElementById('pgd-sb');
+            pgdSubmitButton.disabled = true;
+
+            $("#pgd-form").change(function (e) {
+                e.preventDefault();
+                var pgdForm = document.getElementById('pgd-form');
+                var khoangcachInput = pgdForm.querySelector('input[name="khoangcach"]');
+                var nganhangSelect = pgdForm.querySelector('select[name="nganhang"]');
+
+                //console.log(khoangcachInput.value + ', ' + nganhangSelect.value);
+
+                if(khoangcachInput.value != "" ) {
+                    pgdSubmitButton.disabled = false;
+                }
+            });
+            //KIỂM TRA FORM PGD CHANGE END
+            //***************************************************************************
+            //***************************************************************************
+            //KIỂM TRA FORM ATM CHANGE START
+            
+            //Disabled 1 số thuộc tính khi được tải
+            var atmSubmitButton = document.getElementById('atm-sb');
+            var dvminInput = document.getElementById('dichvumin');
+            var dvmaxInput = document.getElementById('dichvumax');
+            atmSubmitButton.disabled = true;
+            dvminInput.disabled = true;
+            dvmaxInput.disabled = true;
+
+            $("#atm-form").change(function (e) {
+                e.preventDefault();
+                var atmForm = document.getElementById('atm-form');
+                var khoangcachInput = atmForm.querySelector('input[name="khoangcach"]');
+                var nganhangSelect = atmForm.querySelector('select[name="nganhang"]');
+                var dichvuSelect = atmForm.querySelector('select[name="dichvu"]');
+                var dichvuminInput = atmForm.querySelector('input[name="dichvumin"]');
+                var dichvumaxInput = atmForm.querySelector('input[name="dichvumax"]');
+
+                //console.log(khoangcachInput.value + ', ' + nganhangSelect.value + ', ' + dichvuSelect.value + ', ' + dichvuminInput.value + ', ' + dichvumaxInput.value);
+
+                /*function enableSearchButton() {
+                    atmSubmitButton.classList.remove('disabled');
+                }
+                function disableSearchButton() {
+                    atmSubmitButton.classList.add('disabled');
+                }*/
+                if(dichvuSelect.value != 0){
+                    //atmSubmitButton.classList.add('disabled');
+                    atmSubmitButton.disabled = true;
+                    dvminInput.disabled = false;
+                    if(dichvuminInput.value != ""){
+                        dvmaxInput.disabled = false;
+                    }
+                }
+
+                if((khoangcachInput.value != "" && nganhangSelect.value != 0 && dichvuSelect.value == 0) || 
+                    (khoangcachInput.value != "" && nganhangSelect.value != 0 && dichvuSelect.value != 0 && dichvuminInput.value != "" && dichvumaxInput.value != "" && dichvumaxInput.value>dichvuminInput.value)){
+                    //atmSubmitButton.classList.remove('disabled');
+                    atmSubmitButton.disabled = false;
+                }
+            });
+            //KIỂM TRA FORM ATM CHANGE END
+            //***************************************************************************
         });
     </script>
 
@@ -768,6 +853,116 @@
                     //***************************************************************************
 
                     
+
+                    //***************************************************************************
+                    //FORM PGD ĐƯỢC SUBMIT START
+                    $("#pgd-sb").click(function (e) {
+                        e.preventDefault();
+                        map.remove();
+                        var form = $(this).closest('form');
+                        var productid_hidden = form.find('input[name="productid_hidden"]').val();
+                        var qty = form.find('input[name="qty"]').val();
+                        var _token = $('input[name="_token"]').val();
+                        
+                        //Lấy vị trí ng dùng
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function(position){
+                                var ulatitude = position.coords.latitude;
+                                var ulongitude = position.coords.longitude;
+
+                                //----------------------------------------------------------------
+                                //Gọi map
+                                var mapOptions = {
+                                    center: [ulatitude, ulongitude],
+                                    zoom: 15
+                                };
+                                
+                                map = new L.map('map', mapOptions);
+                                
+                                var layer = new
+                                L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                                
+                                map.addLayer(layer);
+                                
+                                //----------------------------------------------------------------
+                                // Hiển thị vị trí người dùng
+                                var userPolyline = L.polyline([[ulatitude, ulongitude], [ulatitude, ulongitude]], { color: 'red', weight: 30 }).addTo(map);
+                                userPolyline.bindPopup('Vị trí của bạn').openPopup();        
+                                
+
+                                //----------------------------------------------------------------
+                                //Lẩy toạ độ trong csdl ra rounting
+                                <?php
+                                    //Viết câu truy vấn
+                                    $query = "SELECT * FROM `ngan_hang`";
+                                    //Thực thi truy vấn
+                                    $result = mysqli_query($conn, $query);
+                                    //Duyệt kết quả trả về
+                                    while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
+                                ?>
+                                    //----------------------------------------------------------------
+                                    //Tìm đường từ người dùng
+                                    var control = L.Routing.control({
+                                        waypoints: [
+                                            L.latLng(ulatitude, ulongitude),
+                                            L.latLng(<?php echo $row["NH_VIDOX"].', '.$row["NH_KINHDOY"]; ?>)
+                                        ],
+                                        geocoder: L.Control.Geocoder.nominatim(),
+                                        routeWhileDragging: true,
+                                        reverseWaypoints: true,
+                                        showAlternatives: true,
+                                        language: 'vi',
+                                        altLineOptions: {
+                                            styles: [
+                                                {color: 'black', opacity: 0.15, weight: 9},
+                                                {color: 'white', opacity: 0.8, weight: 6},
+                                                {color: 'blue', opacity: 0.5, weight: 2}
+                                            ]
+                                        }
+                                        
+                                    });
+
+                                    //----------------------------------------------------------------
+                                    //Tính đường đi
+                                    control.on('routesfound', function(e) {
+                                        var routes = e.routes;
+                                        var summary = routes[0].summary;
+                                        // alert distance and time in km and minutes
+                                        console.log('Total [<?php echo $row["NH_TEN"]; ?>] distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+                                        if(summary.totalDistance / 1000 <= khoangCach){
+                                            <?php
+                                                echo 'var marker = L.marker(['.$row["NH_VIDOX"].', '.$row["NH_KINHDOY"].']).addTo(map);';
+                                                echo 'marker.bindPopup("'.$row["NH_TEN"].'");';
+                                            ?>
+
+                                            //---------------------------------------------------
+                                            // CLICK -> ROUTING START
+                                            marker.on("click", function(e) {
+                                                var markerId = <?php echo $row["NH_MA"]; ?>;
+                                                var latitude = <?php echo $row["NH_VIDOX"]; ?>;
+                                                var longitude = <?php echo $row["NH_KINHDOY"]; ?>;
+                                                handleMarkerClick(markerId, latitude, longitude);
+                                                //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
+                                            });
+                                            // CLICK -> ROUTING END
+                                            //---------------------------------------------------
+                                        }
+                                    });
+
+                                control.route();
+                                
+                            <?php } ?>
+                            
+                            });
+                        }
+
+                        else {
+                            // Xử lý trường hợp trình duyệt không hỗ trợ geolocation
+                            console.error('Geolocation is not supported by your browser.');
+                        }
+                    });
+                    //FORM PGD ĐƯỢC SUBMIT END
+                    //***************************************************************************
                     $("#sb-kc").click(function (e) {
                         e.preventDefault();
                         map.remove();
