@@ -7,7 +7,7 @@
 <div class="collapse navbar-collapse" id="navbarCollapse">
     <div class="navbar-nav ms-auto p-4 p-lg-0">
         <a href="index.php" class="nav-item nav-link">Trang chủ</a>
-        <a href="phonggiaodich.php" class="nav-item nav-link">Phòng giao dịch</a>
+        <a href="mangluoi.php" class="nav-item nav-link">Mạng Lưới</a>
         <a href="thongke.php" class="nav-item nav-link">Thống kê</a>
         <a href="gioithieu.php" class="nav-item nav-link">Giới thiệu</a>
     </div>
