@@ -98,6 +98,7 @@
     <!-- ================================================================ -->
     <?php
     if(isset($_GET['check']) && $_GET['check'] == 1){
+        $bank = $_GET['bank'];
         $title = $_GET['title'];
         $add = $_GET['add'];
         $phone = $_GET['phone'];
@@ -106,6 +107,19 @@
         $y = $_GET['y'];
     ?>
     <script>
+    /*****H Start*****/   
+    var PGDIcon = L.Icon.extend({
+        options: {
+            shadowUrl: 'img/shadow.png',
+            iconSize:     [38, 48],
+            shadowSize:   [50, 38],
+            iconAnchor:   [18, 42],
+            shadowAnchor: [25, 30],
+            popupAnchor:  [-3, -76]
+        }
+    });
+    /*****H End*****/   
+
     var mapOptions = {
         center: [<?php echo $x .','.$y?>],
         zoom: 20
@@ -119,7 +133,10 @@
         alt: '...'
     });
 
-    marker.addTo(map);
+    /*****H Start*****/   
+    var pgdIcon = new PGDIcon({iconUrl: "img/pgd/<?php echo $bank; ?>.png"});
+    marker = L.marker([<?php echo $x; ?>, <?php echo $y; ?>],{icon: pgdIcon}).addTo(map);
+    /*****H End*****/   
 
     var customOptions = {
         'maxWidth': '500',
@@ -135,8 +152,7 @@
         '<a href="#" onclick="find()"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
         '</div>' +
         '<div class = "col-7" >' +
-        ' <img src = "img/gd.png"' +
-        ' style = "width: 6rem;" >' +
+        ' <img src = "img/logo/<?php echo $bank; ?>.png" width = "70px" class="float-end">' +
         '</div>',
         customOptions
     ).openPopup();
@@ -166,6 +182,7 @@
     <?php }
 
     if(isset($_GET['check']) && $_GET['check'] == 2){
+        $bank = $_GET['bank'];
         $title = $_GET['title'];
         $add = $_GET['add'];
         $check = $_GET['check'];
@@ -173,6 +190,19 @@
         $y = $_GET['y'];
     ?>
     <script>
+    /*****H Start*****/   
+    var ATMIcon = L.Icon.extend({
+        options: {
+            shadowUrl: 'img/shadow.png',
+            iconSize:     [32, 45],
+            shadowSize:   [50, 38],
+            iconAnchor:   [0, 42],
+            shadowAnchor: [12, 30],
+            popupAnchor:  [-3, -76]
+        }
+    });
+    /*****H End*****/   
+
     var mapOptions = {
         center: [<?php echo $x .','.$y?>],
         zoom: 20
@@ -185,7 +215,10 @@
         alt: '...'
     });
 
-    marker.addTo(map);
+    /*****H Start*****/
+    var atmIcon = new ATMIcon({iconUrl: "img/atm/<?php echo $bank; ?>.png"});
+    marker = L.marker([<?php echo $x; ?>, <?php echo $y; ?>],{icon: atmIcon}).addTo(map);
+    /*****H End*****/  
 
     var customOptions = {
         'maxWidth': '500',
@@ -199,8 +232,7 @@
         '<a href="#" onclick="find()"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
         '</div>' +
         '<div class = "col-7" >' +
-        ' <img src = "img/ta.jpg"' +
-        ' style = "width: 6rem;" >' +
+        ' <img src = "img/logo/<?php echo $bank; ?>.png" width = "70px" class="float-end">' +
         '</div>',
         customOptions
     ).openPopup();
@@ -231,6 +263,31 @@
     <?php }?>
     <script>
     $(document).ready(function() {
+
+        /*****H Start*****/   
+        var PGDIcon = L.Icon.extend({
+            options: {
+                shadowUrl: 'img/shadow.png',
+                iconSize:     [38, 48],
+                shadowSize:   [50, 38],
+                iconAnchor:   [18, 42],
+                shadowAnchor: [25, 30],
+                popupAnchor:  [-3, -76]
+            }
+        });
+
+        var ATMIcon = L.Icon.extend({
+            options: {
+                shadowUrl: 'img/shadow.png',
+                iconSize:     [32, 45],
+                shadowSize:   [50, 38],
+                iconAnchor:   [0, 42],
+                shadowAnchor: [12, 30],
+                popupAnchor:  [-3, -76]
+            }
+        });
+        /*****H End*****/   
+
         var manh1_arr = [];
         $("#plus1").on("click", function() {
             var manh1 = $("#manh1").val();
@@ -268,9 +325,14 @@
                     var atm_arr = JSON.parse(data);
                     // alert('aaaaaaa');
                     atm_arr.forEach(function(atm) {
-                        var marker = L.marker([parseFloat(atm.ta_vidox),
+                        /*var marker = L.marker([parseFloat(atm.ta_vidox),
                             parseFloat(atm.ta_kinhdoy)
-                        ]).addTo(map)
+                        ]).addTo(map)*/
+
+                        /*****H Start*****/
+                        var atmIcon = new ATMIcon({iconUrl: "img/atm/"+parseFloat(atm.bank)+".png"});
+                        var marker = L.marker([parseFloat(atm.ta_vidox), parseFloat(atm.ta_kinhdoy)],{icon: atmIcon}).addTo(map);
+                        /*****H End*****/  
 
                         marker.bindPopup(
                             '<div class="row">' +
@@ -284,8 +346,7 @@
                             '"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
                             '</div>' +
                             '<div class="col-7">' +
-                            ' <img src="img/gd.png" style="width: 6rem;">' +
-                            '</div>' +
+                            ' <img src = "img/logo/'+parseFloat(atm.bank)+'.png" width = "70px" class="float-end">' +
                             '</div>'
                         );
                     });
@@ -403,9 +464,13 @@
 
                     var pgd_arr = JSON.parse(data);
                     pgd_arr.forEach(function(pgd) {
-                        var marker = L.marker([parseFloat(pgd.pgd_vidox),
+                        /*var marker = L.marker([parseFloat(pgd.pgd_vidox),
                             parseFloat(pgd.pgd_kinhdoy)
-                        ]).addTo(map)
+                        ]).addTo(map)*/
+                        /*****H Start*****/
+                        var pgdIcon = new PGDIcon({iconUrl: "img/pgd/"+parseFloat(pgd.bank)+".png"});
+                        var marker = L.marker([parseFloat(pgd.pgd_vidox), parseFloat(pgd.pgd_kinhdoy)],{icon: pgdIcon}).addTo(map);
+                        /*****H End*****/  
 
                         marker.bindPopup(
                             '<div class="row">' +
@@ -421,8 +486,7 @@
                             '"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
                             '</div>' +
                             '<div class="col-7">' +
-                            ' <img src="img/gd.png" style="width: 6rem;">' +
-                            '</div>' +
+                            ' <img src = "img/logo/' +parseFloat(pgd.bank) + '.png" width = "70px" class="float-end">' +
                             '</div>'
                         );
                     });

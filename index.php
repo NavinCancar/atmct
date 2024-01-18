@@ -47,8 +47,7 @@
 
         <!-- Map Start -->
         <div class="container-fluid p-0">
-            <h1 class="text-center mb-5 wow fadeInUp orange-text" data-wow-delay="0.1s">Mạng lưới cây ATM và phòng giao
-                dịch tại Cần Thơ</h1>
+            <h1 class="text-center mb-5 wow fadeInUp orange-text" data-wow-delay="0.1s">Mạng lưới cây ATM và phòng giao dịch tại Cần Thơ</h1>
             <div class="row">
                 <div class="col-md-4">
                     <h5 class="px-5 text-center text-primary">Tìm kiếm:</h5>
@@ -525,444 +524,464 @@
 
     <!-- SCRIPT XỬ LÝ GIAO DIỆN -->
     <script>
-    $(document).ready(function() {
-        $('#pgdcoll, #atmcoll').on('show.bs.collapse', function() {
-            $('#pgdcoll, #atmcoll').not(this).collapse('hide');
-        });
+        $(document).ready(function(){
+            $('#pgdcoll, #atmcoll').on('show.bs.collapse', function () {
+                $('#pgdcoll, #atmcoll').not(this).collapse('hide');
+            });
 
-        //***************************************************************************
-        //KIỂM TRA FORM PGD CHANGE START
+            //***************************************************************************
+            //KIỂM TRA FORM PGD CHANGE START
+            
+            //Disabled 1 số thuộc tính khi được tải
+            var pgdSubmitButton = document.getElementById('pgd-sb');
+            pgdSubmitButton.disabled = true;
 
-        //Disabled 1 số thuộc tính khi được tải
-        var pgdSubmitButton = document.getElementById('pgd-sb');
-        pgdSubmitButton.disabled = true;
+            $("#pgd-form").change(function () {
+                var pgdForm = document.getElementById('pgd-form');
+                var khoangcachInput = pgdForm.querySelector('input[name="khoangcach"]').value;
+                var nganhangSelect = pgdForm.querySelector('select[name="nganhang"]').value;
 
-        $("#pgd-form").change(function() {
-            var pgdForm = document.getElementById('pgd-form');
-            var khoangcachInput = pgdForm.querySelector('input[name="khoangcach"]').value;
-            var nganhangSelect = pgdForm.querySelector('select[name="nganhang"]').value;
+                //console.log(khoangcachInput + ', ' + nganhangSelect);
 
-            //console.log(khoangcachInput + ', ' + nganhangSelect);
-
-            if (khoangcachInput != "") {
-                pgdSubmitButton.disabled = false;
-            }
-        });
-        //KIỂM TRA FORM PGD CHANGE END
-        //***************************************************************************
-        //***************************************************************************
-        //KIỂM TRA FORM ATM CHANGE START
-
-        //Disabled 1 số thuộc tính khi được tải
-        var atmSubmitButton = document.getElementById('atm-sb');
-        var dvminInput = document.getElementById('dichvumin');
-        var dvmaxInput = document.getElementById('dichvumax');
-        atmSubmitButton.disabled = true;
-        dvminInput.disabled = true;
-        dvmaxInput.disabled = true;
-
-        $("#atm-form").change(function() {
-            var atmForm = document.getElementById('atm-form');
-            var khoangcachInput = atmForm.querySelector('input[name="khoangcach"]').value;
-            var nganhangSelect = atmForm.querySelector('select[name="nganhang"]').value;
-            var dichvuSelect = atmForm.querySelector('select[name="dichvu"]').value;
-            var dichvuminInput = atmForm.querySelector('input[name="dichvumin"]').value;
-            var dichvumaxInput = atmForm.querySelector('input[name="dichvumax"]').value;
-
-            //console.log(khoangcachInput + ', ' + nganhangSelect + ', ' + dichvuSelect + ', ' + dichvuminInput + ', ' + dichvumaxInput);
-
-            /*function enableSearchButton() {
-                atmSubmitButton.classList.remove('disabled');
-            }
-            function disableSearchButton() {
-                atmSubmitButton.classList.add('disabled');
-            }*/
-            if (dichvuSelect != 0) {
-                //atmSubmitButton.classList.add('disabled');
-                atmSubmitButton.disabled = true;
-                dvminInput.disabled = false;
-                if (dichvuminInput != "") {
-                    dvmaxInput.disabled = false;
+                if(khoangcachInput != "" ) {
+                    pgdSubmitButton.disabled = false;
                 }
-            }
+            });
+            //KIỂM TRA FORM PGD CHANGE END
+            //***************************************************************************
+            //***************************************************************************
+            //KIỂM TRA FORM ATM CHANGE START
+            
+            //Disabled 1 số thuộc tính khi được tải
+            var atmSubmitButton = document.getElementById('atm-sb');
+            var dvminInput = document.getElementById('dichvumin');
+            var dvmaxInput = document.getElementById('dichvumax');
+            atmSubmitButton.disabled = true;
+            dvminInput.disabled = true;
+            dvmaxInput.disabled = true;
 
-            if ((khoangcachInput != "" && nganhangSelect != 0 && dichvuSelect == 0) ||
-                (khoangcachInput != "" && nganhangSelect != 0 && dichvuSelect != 0 && dichvuminInput !=
-                    "" && dichvumaxInput != "" && dichvumaxInput >= dichvuminInput)) {
-                //atmSubmitButton.classList.remove('disabled');
-                atmSubmitButton.disabled = false;
-            }
+            $("#atm-form").change(function () {
+                var atmForm = document.getElementById('atm-form');
+                var khoangcachInput = atmForm.querySelector('input[name="khoangcach"]').value;
+                var nganhangSelect = atmForm.querySelector('select[name="nganhang"]').value;
+                var dichvuSelect = atmForm.querySelector('select[name="dichvu"]').value;
+                var dichvuminInput = atmForm.querySelector('input[name="dichvumin"]').value;
+                var dichvumaxInput = atmForm.querySelector('input[name="dichvumax"]').value;
+
+                //console.log(khoangcachInput + ', ' + nganhangSelect + ', ' + dichvuSelect + ', ' + dichvuminInput + ', ' + dichvumaxInput);
+
+                /*function enableSearchButton() {
+                    atmSubmitButton.classList.remove('disabled');
+                }
+                function disableSearchButton() {
+                    atmSubmitButton.classList.add('disabled');
+                }*/
+                if(dichvuSelect != 0){
+                    //atmSubmitButton.classList.add('disabled');
+                    atmSubmitButton.disabled = true;
+                    dvminInput.disabled = false;
+                    if(dichvuminInput != ""){
+                        dvmaxInput.disabled = false;
+                    }
+                }
+
+                if((khoangcachInput != "" && nganhangSelect != 0 && dichvuSelect == 0) || 
+                    (khoangcachInput != "" && nganhangSelect != 0 && dichvuSelect != 0 && dichvuminInput != "" && dichvumaxInput != "" && dichvumaxInput>=dichvuminInput)){
+                    //atmSubmitButton.classList.remove('disabled');
+                    atmSubmitButton.disabled = false;
+                }
+            });
+            //KIỂM TRA FORM ATM CHANGE END
+            //***************************************************************************
         });
-        //KIỂM TRA FORM ATM CHANGE END
-        //***************************************************************************
-    });
     </script>
 
     <!-- SCRIPT XỬ LÝ BẢN ĐỒ -->
     <script>
-    $(document).ready(function() {
-        //***************************************************************************
-        //KHAI BÁO BAN ĐẦU
-        //***************************************************************************
-        var findRouting = null;
+        $(document).ready(function () {
+            //***************************************************************************
+            //KHAI BÁO BAN ĐẦU
+            //***************************************************************************
+            var findRouting = null;
 
-        //***************************************************************************
-        //SETUP ICON
-        //***************************************************************************
-        var NHIcon = L.Icon.extend({
-            options: {
-                shadowUrl: 'img/light.png',
-                iconSize: [48, 60],
-                shadowSize: [60, 46],
-                iconAnchor: [23.5, 52],
-                shadowAnchor: [29, 18],
-                popupAnchor: [-3, -76]
-            }
-        });
+            //***************************************************************************
+            //SETUP ICON
+            //***************************************************************************
+            var customPopup = {
+                'maxWidth': '500',
+                'className': 'custom'
+            };
 
-        var PGDIcon = L.Icon.extend({
-            options: {
-                shadowUrl: 'img/shadow.png',
-                iconSize: [38, 48],
-                shadowSize: [50, 38],
-                iconAnchor: [18, 42],
-                shadowAnchor: [25, 30],
-                popupAnchor: [-3, -76]
-            }
-        });
+            var NHIcon = L.Icon.extend({
+                options: {
+                    shadowUrl: 'img/light.png',
+                    iconSize:     [48, 60],
+                    shadowSize:   [60, 46],
+                    iconAnchor:   [23.5, 52],
+                    shadowAnchor: [29, 18],
+                    popupAnchor:  [-3, -76]
+                }
+            });
 
-        var ATMIcon = L.Icon.extend({
-            options: {
-                shadowUrl: 'img/shadow.png',
-                iconSize: [32, 45],
-                shadowSize: [50, 38],
-                iconAnchor: [0, 42],
-                shadowAnchor: [12, 30],
-                popupAnchor: [-3, -76]
-            }
-        });
+            var PGDIcon = L.Icon.extend({
+                options: {
+                    shadowUrl: 'img/shadow.png',
+                    iconSize:     [38, 48],
+                    shadowSize:   [50, 38],
+                    iconAnchor:   [18, 42],
+                    shadowAnchor: [25, 30],
+                    popupAnchor:  [-3, -76]
+                }
+            });
 
-        //***************************************************************************
-        //LẤY VỊ TRÍ NGƯỜI DÙNG -> XỬ LÝ
-        //***************************************************************************
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var ulatitude = position.coords.latitude;
-                var ulongitude = position.coords.longitude;
+            var ATMIcon = L.Icon.extend({
+                options: {
+                    shadowUrl: 'img/shadow.png',
+                    iconSize:     [32, 45],
+                    shadowSize:   [50, 38],
+                    iconAnchor:   [0, 42],
+                    shadowAnchor: [12, 30],
+                    popupAnchor:  [-3, -76]
+                }
+            });
 
-                //----------------------------------------------------------------
-                //Gọi map
-                var mapOptions = {
-                    center: [ulatitude, ulongitude],
-                    zoom: 10
-                };
+            //***************************************************************************
+            //LẤY VỊ TRÍ NGƯỜI DÙNG -> XỬ LÝ
+            //***************************************************************************
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position){
+                    var ulatitude = position.coords.latitude;
+                    var ulongitude = position.coords.longitude;
 
-                var map = new L.map('map', mapOptions);
+                    //----------------------------------------------------------------
+                    //Gọi map
+                    var mapOptions = {
+                        center: [ulatitude, ulongitude],
+                        zoom: 10
+                    };
+                    
+                    var map = new L.map('map', mapOptions);
+                    
+                    var layer = new
+                    L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                    
+                    map.addLayer(layer);
+                    
+                    //----------------------------------------------------------------
+                    // Hiển thị vị trí người dùng
+                    var userPolyline = L.polyline([[ulatitude, ulongitude], [ulatitude, ulongitude]], { color: 'red', weight: 30 }).addTo(map);
+                    userPolyline.bindPopup('Vị trí của bạn').openPopup();        
 
-                var layer = new
-                L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-
-                map.addLayer(layer);
-
-                //----------------------------------------------------------------
-                // Hiển thị vị trí người dùng
-                var userPolyline = L.polyline([
-                    [ulatitude, ulongitude],
-                    [ulatitude, ulongitude]
-                ], {
-                    color: 'red',
-                    weight: 30
-                }).addTo(map);
-                userPolyline.bindPopup('Vị trí của bạn').openPopup();
-
-                //***************************************************************************
-                //GỌI NGÂN HÀNG START
-                <?php
-                        $query = "SELECT * FROM `ngan_hang`";
+                    //***************************************************************************
+                    //GỌI NGÂN HÀNG START
+                    <?php
+                        $query = "SELECT * FROM `ngan_hang` JOIN  `xa_phuong` ON `xa_phuong`.`XP_MA` = `ngan_hang`.`XP_MA`
+                                                            JOIN  `quan_huyen` ON `xa_phuong`.`QH_MA` = `quan_huyen`.`QH_MA`";
                         $result = mysqli_query($conn, $query);
                         while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
-                var pgdIcon = new NHIcon({
-                    iconUrl: "img/pgd/<?php echo $row["NH_MA"]; ?>.png"
-                });
-                var marker = L.marker([<?php echo $row["NH_VIDOX"]; ?>,
-                    <?php echo $row["NH_KINHDOY"]; ?>
-                ], {
-                    icon: pgdIcon
-                }).addTo(map);
-                marker.bindPopup("<?php echo $row["NH_TEN"]; ?>");
-                //----------------------------------------------------------------
-                // CLICK -> ROUTING START
-                marker.on("click", function(e) {
-                    var markerId = <?php echo $row["NH_MA"]; ?>;
-                    var latitude = <?php echo $row["NH_VIDOX"]; ?>;
-                    var longitude = <?php echo $row["NH_KINHDOY"]; ?>;
-                    handleMarkerClick(markerId, latitude, longitude);
-                    //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
-                });
-                // CLICK -> ROUTING END
-                //----------------------------------------------------------------
-                <?php } ?>
-                //GỌI NGÂN HÀNG END
-                //***************************************************************************
-                //***************************************************************************
-                //GỌI PGD START
-                <?php
-                        $query = "SELECT * FROM `phong_giao_dich` ";
-                        $result = mysqli_query($conn, $query);
-                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
-                var pgdIcon = new PGDIcon({
-                    iconUrl: "img/pgd/<?php echo $row["NH_MA"]; ?>.png"
-                });
-                var marker = L.marker([<?php echo $row["PGD_VIDOX"]; ?>,
-                    <?php echo $row["PGD_KINHDOY"]; ?>
-                ], {
-                    icon: pgdIcon
-                }).addTo(map);
-                marker.bindPopup("<?php echo $row["PGD_TEN"]; ?>");
-                //----------------------------------------------------------------
-                // CLICK -> ROUTING START
-                marker.on("click", function(e) {
-                    var markerId = <?php echo $row["PGD_MA"]; ?>;
-                    var latitude = <?php echo $row["PGD_VIDOX"]; ?>;
-                    var longitude = <?php echo $row["PGD_KINHDOY"]; ?>;
-                    handleMarkerClick(markerId, latitude, longitude);
-                    //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
-                });
-                // CLICK -> ROUTING END
-                //----------------------------------------------------------------
-                <?php } ?>
-                //GỌI PGD END
-                //***************************************************************************
-                //***************************************************************************
-                //GỌI ATM START
-                <?php
-                        $query = "SELECT * FROM `tru_atm` ";
-                        $result = mysqli_query($conn, $query);
-                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
-                var atmIcon = new ATMIcon({
-                    iconUrl: "img/atm/<?php echo $row["NH_MA"]; ?>.png"
-                });
-                var marker = L.marker([<?php echo $row["TA_VIDOX"]; ?>,
-                    <?php echo $row["TA_KINHDOY"]; ?>
-                ], {
-                    icon: atmIcon
-                }).addTo(map);
-                marker.bindPopup("<?php echo $row["TA_SOHIEU"]; ?>");
-                //----------------------------------------------------------------
-                // CLICK -> ROUTING START
-                marker.on("click", function(e) {
-                    var markerId = <?php echo $row["TA_SOHIEU"]; ?>;
-                    var latitude = <?php echo $row["TA_VIDOX"]; ?>;
-                    var longitude = <?php echo $row["TA_KINHDOY"]; ?>;
-                    handleMarkerClick(markerId, latitude, longitude);
-                    //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
-                });
-                // CLICK -> ROUTING END
-                //----------------------------------------------------------------
-                <?php } ?>
-                //GỌI ATM END
-                //***************************************************************************
-
-
-
-                //***************************************************************************
-                //NÚT PGD ĐƯỢC CLICK START
-                $("#pgd-btn").click(function(e) {
-                    e.preventDefault();
-                    map.remove();
-                    //Lấy vị trí ng dùng
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(function(position) {
-                            var ulatitude = position.coords.latitude;
-                            var ulongitude = position.coords.longitude;
-
-                            //----------------------------------------------------------------
-                            //Gọi map
-                            var mapOptions = {
-                                center: [ulatitude, ulongitude],
-                                zoom: 10
-                            };
-
-                            map = new L.map('map', mapOptions);
-
-                            var layer = new
-                            L.TileLayer(
-                                'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-
-                            map.addLayer(layer);
-
-                            //----------------------------------------------------------------
-                            // Hiển thị vị trí người dùng
-                            var userPolyline = L.polyline([
-                                [ulatitude, ulongitude],
-                                [ulatitude, ulongitude]
-                            ], {
-                                color: 'red',
-                                weight: 30
-                            }).addTo(map);
-                            userPolyline.bindPopup('Vị trí của bạn').openPopup();
-
-                            //----------------------------------------------------------------
-                            //***************************************************************************
-                            //GỌI PGD START
-                            <?php
-                                    $query = "SELECT * FROM `phong_giao_dich` ";
-                                    $result = mysqli_query($conn, $query);
-                                    while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
-                            var pgdIcon = new PGDIcon({
-                                iconUrl: "img/pgd/<?php echo $row["NH_MA"]; ?>.png"
-                            });
-                            var marker = L.marker([<?php echo $row["PGD_VIDOX"]; ?>,
-                                <?php echo $row["PGD_KINHDOY"]; ?>
-                            ], {
-                                icon: pgdIcon
-                            }).addTo(map);
-                            marker.bindPopup("<?php echo $row["PGD_TEN"]; ?>");
+                            var pgdIcon = new NHIcon({iconUrl: "img/pgd/<?php echo $row["NH_MA"]; ?>.png"});
+                            var marker = L.marker([<?php echo $row["NH_VIDOX"]; ?>, <?php echo $row["NH_KINHDOY"]; ?>],{icon: pgdIcon}).addTo(map);
+                            marker.bindPopup(
+                                '<div class="row">' +
+                                ' <h5>Ngân hàng <?php echo $row["NH_TEN"].' - '.$row["NH_DIACHI"];?></h5>' +
+                                '<p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["NH_DIACHI"].', '.$row["XP_TEN"].', '.$row["QH_TEN"].', TP Cần Thơ'?></p>' +
+                                '<div class="col-5">' +
+                                '<p><i class="fas fa-phone"></i> <?php echo $row["NH_SDT"];?></p>' +
+                                '<a class="findRoute"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
+                                '</div>' +
+                                '<div class = "col-7" >' +
+                                ' <img src = "img/logo/<?php echo $row["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
+                                '</div>',
+                                customPopup
+                            );
                             //----------------------------------------------------------------
                             // CLICK -> ROUTING START
-                            marker.on("click", function(e) {
+                            marker.on("click", function() {
+                                var markerId = <?php echo $row["NH_MA"]; ?>;
+                                var latitude = <?php echo $row["NH_VIDOX"]; ?>;
+                                var longitude = <?php echo $row["NH_KINHDOY"]; ?>;
+                                $('.findRoute').on("click", function() {
+                                    handleMarkerClick(markerId, latitude, longitude);
+                                })
+                                //
+                                //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
+                            });
+                            // CLICK -> ROUTING END
+                            //----------------------------------------------------------------
+                    <?php } ?>
+                    //GỌI NGÂN HÀNG END
+                    //***************************************************************************
+                    //***************************************************************************
+                    //GỌI PGD START
+                    <?php
+                        $query = "SELECT * FROM `phong_giao_dich`  JOIN  `xa_phuong` ON `xa_phuong`.`XP_MA` = `phong_giao_dich`.`XP_MA`
+                                                                    JOIN  `quan_huyen` ON `xa_phuong`.`QH_MA` = `quan_huyen`.`QH_MA`";
+                        $result = mysqli_query($conn, $query);
+                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
+                            var pgdIcon = new PGDIcon({iconUrl: "img/pgd/<?php echo $row["NH_MA"]; ?>.png"});
+                            var marker = L.marker([<?php echo $row["PGD_VIDOX"]; ?>, <?php echo $row["PGD_KINHDOY"]; ?>],{icon: pgdIcon}).addTo(map);
+                            marker.bindPopup(
+                                '<div class="row">' +
+                                ' <h5><?php echo $row["PGD_TEN"].' - '.$row["PGD_DIACHI"];?></h5>' +
+                                '<p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["PGD_DIACHI"].', '.$row["XP_TEN"].', '.$row["QH_TEN"].', TP Cần Thơ'?></p>' +
+                                '<div class="col-5">' +
+                                '<p><i class="fas fa-phone"></i> <?php echo $row["PGD_SDT"];?></p>' +
+                                '<a class="findRoute"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
+                                '</div>' +
+                                '<div class = "col-7" >' +
+                                ' <img src = "img/logo/<?php echo $row["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
+                                '</div>',
+                                customPopup
+                            );
+                            //----------------------------------------------------------------
+                            // CLICK -> ROUTING START
+                            marker.on("click", function() {
                                 var markerId = <?php echo $row["PGD_MA"]; ?>;
                                 var latitude = <?php echo $row["PGD_VIDOX"]; ?>;
-                                var longitude =
-                                    <?php echo $row["PGD_KINHDOY"]; ?>;
-                                handleMarkerClick(markerId, latitude,
-                                    longitude);
+                                var longitude = <?php echo $row["PGD_KINHDOY"]; ?>;
+                                $('.findRoute').on("click", function() {
+                                    handleMarkerClick(markerId, latitude, longitude);
+                                })
+                                //
                                 //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
                             });
                             // CLICK -> ROUTING END
                             //----------------------------------------------------------------
-                            <?php } ?>
-                            //GỌI PGD END
-                            //***************************************************************************
-
-                        });
-                    } else {
-                        // Xử lý trường hợp trình duyệt không hỗ trợ geolocation
-                        console.error('Geolocation is not supported by your browser.');
-                    }
-                });
-                //NÚT PGD ĐƯỢC CLICK END
-                //***************************************************************************
-                //***************************************************************************
-                //NÚT ATM ĐƯỢC CLICK START
-                $("#atm-btn").click(function(e) {
-                    e.preventDefault();
-                    map.remove();
-                    //Lấy vị trí ng dùng
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(function(position) {
-                            var ulatitude = position.coords.latitude;
-                            var ulongitude = position.coords.longitude;
-
-                            //----------------------------------------------------------------
-                            //Gọi map
-                            var mapOptions = {
-                                center: [ulatitude, ulongitude],
-                                zoom: 10
-                            };
-
-                            map = new L.map('map', mapOptions);
-
-                            var layer = new
-                            L.TileLayer(
-                                'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-
-                            map.addLayer(layer);
-
-                            //----------------------------------------------------------------
-                            // Hiển thị vị trí người dùng
-                            var userPolyline = L.polyline([
-                                [ulatitude, ulongitude],
-                                [ulatitude, ulongitude]
-                            ], {
-                                color: 'red',
-                                weight: 30
-                            }).addTo(map);
-                            userPolyline.bindPopup('Vị trí của bạn').openPopup();
-
-                            //----------------------------------------------------------------
-                            //***************************************************************************
-                            //GỌI ATM START
-                            <?php
-                                    $query = "SELECT * FROM `tru_atm` ";
-                                    $result = mysqli_query($conn, $query);
-                                    while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
-                            var atmIcon = new ATMIcon({
-                                iconUrl: "img/atm/<?php echo $row["NH_MA"]; ?>.png"
-                            });
-                            var marker = L.marker([<?php echo $row["TA_VIDOX"]; ?>,
-                                <?php echo $row["TA_KINHDOY"]; ?>
-                            ], {
-                                icon: atmIcon
-                            }).addTo(map);
-                            marker.bindPopup("<?php echo $row["TA_SOHIEU"]; ?>");
+                    <?php } ?>
+                    //GỌI PGD END
+                    //***************************************************************************
+                    //***************************************************************************
+                    //GỌI ATM START
+                    <?php
+                        $query = "SELECT * FROM `tru_atm`  JOIN  `xa_phuong` ON `xa_phuong`.`XP_MA` = `tru_atm`.`XP_MA`
+                                                            JOIN  `quan_huyen` ON `xa_phuong`.`QH_MA` = `quan_huyen`.`QH_MA`";
+                        $result = mysqli_query($conn, $query);
+                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
+                            var atmIcon = new ATMIcon({iconUrl: "img/atm/<?php echo $row["NH_MA"]; ?>.png"});
+                            var marker = L.marker([<?php echo $row["TA_VIDOX"]; ?>, <?php echo $row["TA_KINHDOY"]; ?>],{icon: atmIcon}).addTo(map);
+                            marker.bindPopup(
+                                '<div class="row">' +
+                                ' <h5>Trụ ATM <?php echo $row["TA_SOHIEU"].' - '.$row["TA_DIACHI"];?></h5>' +
+                                '<p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["TA_DIACHI"].', '.$row["XP_TEN"].', '.$row["QH_TEN"].', TP Cần Thơ'?></p>' +
+                                '<div class="col-5">' +
+                                '<a class="findRoute"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
+                                '</div>' +
+                                '<div class = "col-7" >' +
+                                ' <img src = "img/logo/<?php echo $row["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
+                                '</div>',
+                                customPopup
+                            );
                             //----------------------------------------------------------------
                             // CLICK -> ROUTING START
-                            marker.on("click", function(e) {
+                            marker.on("click", function() {
                                 var markerId = <?php echo $row["TA_SOHIEU"]; ?>;
                                 var latitude = <?php echo $row["TA_VIDOX"]; ?>;
-                                var longitude =
-                                    <?php echo $row["TA_KINHDOY"]; ?>;
-                                handleMarkerClick(markerId, latitude,
-                                    longitude);
+                                var longitude = <?php echo $row["TA_KINHDOY"]; ?>;
+                                $('.findRoute').on("click", function() {
+                                    handleMarkerClick(markerId, latitude, longitude);
+                                })
+                                //
                                 //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
                             });
                             // CLICK -> ROUTING END
                             //----------------------------------------------------------------
-                            <?php } ?>
-                            //GỌI ATM END
-                            //***************************************************************************
-                        });
-                    } else {
-                        // Xử lý trường hợp trình duyệt không hỗ trợ geolocation
-                        console.error('Geolocation is not supported by your browser.');
-                    }
-                });
-                //NÚT ATM ĐƯỢC CLICK END
-                //***************************************************************************
+                    <?php } ?>
+                    //GỌI ATM END
+                    //***************************************************************************
+                    
 
-                //Hàm bổ sung
-                function handleMarkerClick(markerId, latitude, longitude) {
-                    if (findRouting != null) {
-                        map.removeControl(findRouting);
-                        findRouting = null;
-                    }
-                    findRouting = L.Routing.control({
-                        waypoints: [
-                            L.latLng(ulatitude, ulongitude),
-                            L.latLng(latitude, longitude)
-                        ],
-                        geocoder: L.Control.Geocoder.nominatim(),
-                        routeWhileDragging: true,
-                        reverseWaypoints: true,
-                        showAlternatives: true,
-                        language: 'vi',
-                        altLineOptions: {
-                            styles: [{
-                                    color: 'black',
-                                    opacity: 0.15,
-                                    weight: 9
-                                },
-                                {
-                                    color: 'white',
-                                    opacity: 0.8,
-                                    weight: 6
-                                },
-                                {
-                                    color: 'blue',
-                                    opacity: 0.5,
-                                    weight: 2
-                                }
-                            ]
+
+                    //***************************************************************************
+                    //NÚT PGD ĐƯỢC CLICK START
+                    $("#pgd-btn").click(function (e) {
+                        e.preventDefault();
+                        map.remove();
+                        //Lấy vị trí ng dùng
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function(position){
+                                var ulatitude = position.coords.latitude;
+                                var ulongitude = position.coords.longitude;
+
+                                //----------------------------------------------------------------
+                                //Gọi map
+                                var mapOptions = {
+                                    center: [ulatitude, ulongitude],
+                                    zoom: 10
+                                };
+                                
+                                map = new L.map('map', mapOptions);
+                                
+                                var layer = new
+                                L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                                
+                                map.addLayer(layer);
+                                
+                                //----------------------------------------------------------------
+                                // Hiển thị vị trí người dùng
+                                var userPolyline = L.polyline([[ulatitude, ulongitude], [ulatitude, ulongitude]], { color: 'red', weight: 30 }).addTo(map);
+                                userPolyline.bindPopup('Vị trí của bạn').openPopup();   
+
+                                //----------------------------------------------------------------
+                                //***************************************************************************
+                                //GỌI PGD START
+                                <?php
+                                    $query = "SELECT * FROM `phong_giao_dich`  JOIN  `xa_phuong` ON `xa_phuong`.`XP_MA` = `phong_giao_dich`.`XP_MA`
+                                                                                JOIN  `quan_huyen` ON `xa_phuong`.`QH_MA` = `quan_huyen`.`QH_MA`";
+                                    $result = mysqli_query($conn, $query);
+                                    while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
+                                        var pgdIcon = new PGDIcon({iconUrl: "img/pgd/<?php echo $row["NH_MA"]; ?>.png"});
+                                        var marker = L.marker([<?php echo $row["PGD_VIDOX"]; ?>, <?php echo $row["PGD_KINHDOY"]; ?>],{icon: pgdIcon}).addTo(map);
+                                        marker.bindPopup(
+                                            '<div class="row">' +
+                                            ' <h5><?php echo $row["PGD_TEN"].' - '.$row["PGD_DIACHI"];?></h5>' +
+                                            '<p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["PGD_DIACHI"].', '.$row["XP_TEN"].', '.$row["QH_TEN"].', TP Cần Thơ'?></p>' +
+                                            '<div class="col-5">' +
+                                            '<p><i class="fas fa-phone"></i> <?php echo $row["PGD_SDT"];?></p>' +
+                                            '<a class="findRoute"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
+                                            '</div>' +
+                                            '<div class = "col-7" >' +
+                                            ' <img src = "img/logo/<?php echo $row["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
+                                            '</div>',
+                                            customPopup
+                                        );
+                                        //----------------------------------------------------------------
+                                        // CLICK -> ROUTING START
+                                        marker.on("click", function() {
+                                            var markerId = <?php echo $row["PGD_MA"]; ?>;
+                                            var latitude = <?php echo $row["PGD_VIDOX"]; ?>;
+                                            var longitude = <?php echo $row["PGD_KINHDOY"]; ?>;
+                                            $('.findRoute').on("click", function() {
+                                                handleMarkerClick(markerId, latitude, longitude);
+                                            })
+                                            //
+                                            //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
+                                        });
+                                        // CLICK -> ROUTING END
+                                        //----------------------------------------------------------------
+                                <?php } ?>
+                                //GỌI PGD END
+                                //***************************************************************************
+
+                            });
                         }
-                    }).addTo(map);
-                };
+                        else {
+                            // Xử lý trường hợp trình duyệt không hỗ trợ geolocation
+                            console.error('Geolocation is not supported by your browser.');
+                        }
+                    });
+                    //NÚT PGD ĐƯỢC CLICK END
+                    //***************************************************************************
+                    //***************************************************************************
+                    //NÚT ATM ĐƯỢC CLICK START
+                    $("#atm-btn").click(function (e) {
+                        e.preventDefault();
+                        map.remove();
+                        //Lấy vị trí ng dùng
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function(position){
+                                var ulatitude = position.coords.latitude;
+                                var ulongitude = position.coords.longitude;
 
-            })
-        } else {
-            console.error('Geolocation is not supported by your browser.');
-        }
-    });
+                                //----------------------------------------------------------------
+                                //Gọi map
+                                var mapOptions = {
+                                    center: [ulatitude, ulongitude],
+                                    zoom: 10
+                                };
+                                
+                                map = new L.map('map', mapOptions);
+                                
+                                var layer = new
+                                L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                                
+                                map.addLayer(layer);
+                                
+                                //----------------------------------------------------------------
+                                // Hiển thị vị trí người dùng
+                                var userPolyline = L.polyline([[ulatitude, ulongitude], [ulatitude, ulongitude]], { color: 'red', weight: 30 }).addTo(map);
+                                userPolyline.bindPopup('Vị trí của bạn').openPopup();   
+
+                                //----------------------------------------------------------------
+                                //***************************************************************************
+                                //GỌI ATM START
+                                <?php
+                                    $query = "SELECT * FROM `tru_atm`  JOIN  `xa_phuong` ON `xa_phuong`.`XP_MA` = `tru_atm`.`XP_MA`
+                                                                        JOIN  `quan_huyen` ON `xa_phuong`.`QH_MA` = `quan_huyen`.`QH_MA`";
+                                    $result = mysqli_query($conn, $query);
+                                    while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
+                                        var atmIcon = new ATMIcon({iconUrl: "img/atm/<?php echo $row["NH_MA"]; ?>.png"});
+                                        var marker = L.marker([<?php echo $row["TA_VIDOX"]; ?>, <?php echo $row["TA_KINHDOY"]; ?>],{icon: atmIcon}).addTo(map);
+                                        marker.bindPopup(
+                                            '<div class="row">' +
+                                            ' <h5>Trụ ATM <?php echo $row["TA_SOHIEU"].' - '.$row["TA_DIACHI"];?></h5>' +
+                                            '<p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["TA_DIACHI"].', '.$row["XP_TEN"].', '.$row["QH_TEN"].', TP Cần Thơ'?></p>' +
+                                            '<div class="col-5">' +
+                                            '<a class="findRoute"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
+                                            '</div>' +
+                                            '<div class = "col-7" >' +
+                                            ' <img src = "img/logo/<?php echo $row["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
+                                            '</div>',
+                                            customPopup
+                                        );
+                                        //----------------------------------------------------------------
+                                        // CLICK -> ROUTING START
+                                        marker.on("click", function() {
+                                            var markerId = <?php echo $row["TA_SOHIEU"]; ?>;
+                                            var latitude = <?php echo $row["TA_VIDOX"]; ?>;
+                                            var longitude = <?php echo $row["TA_KINHDOY"]; ?>;
+                                            $('.findRoute').on("click", function() {
+                                                handleMarkerClick(markerId, latitude, longitude);
+                                            })
+                                            //
+                                            //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
+                                        });
+                                        // CLICK -> ROUTING END
+                                        //----------------------------------------------------------------
+                                <?php } ?>
+                                //GỌI ATM END
+                                //***************************************************************************
+                            });
+                        }
+                        else {
+                            // Xử lý trường hợp trình duyệt không hỗ trợ geolocation
+                            console.error('Geolocation is not supported by your browser.');
+                        }
+                    });
+                    //NÚT ATM ĐƯỢC CLICK END
+                    //***************************************************************************
+
+                    //Hàm bổ sung
+                    function handleMarkerClick(markerId, latitude, longitude) {
+                        if (findRouting != null) {
+                            map.removeControl(findRouting);
+                            findRouting = null;
+                        }
+                        findRouting = L.Routing.control({
+                            waypoints: [
+                                L.latLng(ulatitude, ulongitude),
+                                L.latLng(latitude, longitude)
+                            ],
+                            geocoder: L.Control.Geocoder.nominatim(),
+                            routeWhileDragging: true,
+                            reverseWaypoints: true,
+                            showAlternatives: true,
+                            language: 'vi',
+                            altLineOptions: {
+                                styles: [
+                                    {color: 'black', opacity: 0.15, weight: 9},
+                                    {color: 'white', opacity: 0.8, weight: 6},
+                                    {color: 'blue', opacity: 0.5, weight: 2}
+                                ]
+                            }
+                        }).addTo(map);
+                    };
+                    
+                })
+            }
+            else {
+                console.error('Geolocation is not supported by your browser.');
+            }
+        });
     </script>
 </body>
 

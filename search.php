@@ -97,6 +97,7 @@ if (isset($_POST['check']) && $_POST['check'] == 3) {
         $row_qh = $result_qh->fetch_assoc();
         $dc = $row_TA['TA_DIACHI'].', '.$row_qh['XP_TEN'].', '.$row_qh['QH_TEN'].', Cần thơ.';
         $atm = array(
+            'bank'=> $row_TA['NH_MA'],
             'title'=> $title,
             'dc' => $dc,
             'ta_vidox'=>$row_TA['TA_VIDOX'],
@@ -123,6 +124,7 @@ if (isset($_POST['check']) && $_POST['check'] == 4) {
         $row_qh = $result_qh->fetch_assoc();
         $dc = $row_PGD['PGD_DIACHI'].', '.$row_qh['XP_TEN'].', '.$row_qh['QH_TEN'].', Cần thơ.';
         $pgd = array(
+            'bank'=> $row_PGD['NH_MA'],
             'title'=> $title,
             'dc' => $dc,
             'sdt' => $row_PGD['PGD_SDT'],
