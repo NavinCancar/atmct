@@ -16,6 +16,10 @@
     z-index: 99;
 }
 
+.leaflet-popup-content p {
+    margin: 5px 0 !important;
+}
+
 .orange-text{
     color: var(--orange) !important;
 }
@@ -512,3 +516,53 @@
     --bs-table-hover-color: #000;
     color:#fff;
     border-color:#b8d7cc}
+
+/* Sidebar */
+
+.sidebar {
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+  }
+  
+  .sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .sidebar .card {
+    background-color: #f9fffc;
+    font-size: 0.85em;
+  }
+
+  .sidebar .card:hover {
+    background-color: #f1f1f1;
+  }
+
+  .card p{
+    margin-bottom: 5px;
+  }
+
+  .openbtn:hover {
+    background-color: #444;
+  }
+  
+  #map-container {
+    transition: margin-left .5s;
+    padding: 16px;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }
+
+  .findRoute{
+    cursor: pointer;
+  }
