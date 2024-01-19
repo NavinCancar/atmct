@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Mạng lưới</title>
+    <title>Phòng giao dịch & trụ ATM</title>
     <?php
         include('head.php');
     ?>
@@ -25,11 +25,11 @@
         <!-- Header End -->
         <div class="container-xxl py-5 bg-dark page-header mb-5">
             <div class="container my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Mạng lưới</h1>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Phòng giao dịch & trụ ATM</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb text-uppercase">
                         <li class="breadcrumb-item"><a href="index.php">Trang chủ</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">Mạng lưới</li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Phòng giao dịch & trụ ATM</li>
                     </ol>
                 </nav>
             </div>
@@ -102,7 +102,7 @@
                                 <div class="job-item p-4 mb-4">
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid border rounded" src="img/gd.png" alt=""
+                                            <img class="flex-shrink-0 img-fluid border rounded" src="img/logo/<?php echo $row_pgd['NH_MA'] ;?>.png" alt=""
                                                 style="width: 80px; height: 80px;">
                                             <div class="text-start ps-4">
                                                 <h5 class="mb-3">
@@ -125,7 +125,7 @@
                                             <div class="d-flex mb-3">
 
                                                 <a class="btn btn-primary"
-                                                    href="result.php?title=<?php echo $ten_pgd?>&add=<?php echo $dc?>&phone=<?php echo $row_pgd['PGD_SDT']?>&check=1&x=<?php echo $row_pgd['PGD_VIDOX']?>&y=<?php echo $row_pgd['PGD_KINHDOY']?>">
+                                                    href="result.php?bank=<?php echo $row_pgd['NH_MA']?>&title=<?php echo $ten_pgd?>&add=<?php echo $dc?>&phone=<?php echo $row_pgd['PGD_SDT']?>&check=1&x=<?php echo $row_pgd['PGD_VIDOX']?>&y=<?php echo $row_pgd['PGD_KINHDOY']?>">
                                                     Chi tiết</a>
                                             </div>
                                             <small class="text-truncate">
@@ -178,7 +178,7 @@
                                 <div class="job-item p-4 mb-4">
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid border rounded" src="img/ta.jpg" alt=""
+                                            <img class="flex-shrink-0 img-fluid border rounded" src="img/logo/<?php echo $row_atm['NH_MA'] ;?>.png" alt=""
                                                 style="width: 80px; height: 80px;">
                                             <div class="text-start ps-4">
                                                 <h5 class="mb-3">
@@ -205,7 +205,7 @@
                                             class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                             <div class="d-flex mb-3">
                                                 <a class="btn btn-primary"
-                                                    href="result.php?title=<?php echo $tentru?>&add=<?php echo $dc?>&check=2&x=<?php echo $row_atm['TA_VIDOX']?>&y=<?php echo $row_atm['TA_KINHDOY']?>">
+                                                    href="result.php?bank=<?php echo $row_atm['NH_MA']?>&title=<?php echo $tentru?>&add=<?php echo $dc?>&check=2&x=<?php echo $row_atm['TA_VIDOX']?>&y=<?php echo $row_atm['TA_KINHDOY']?>">
                                                     Chi tiết</a>
                                             </div>
 
@@ -230,7 +230,7 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="img/nh.png" alt=""
+                                        <img class="flex-shrink-0 img-fluid border rounded" src="img/logo/<?php echo $row_nh['NH_MA'] ;?>.png" alt=""
                                             style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">

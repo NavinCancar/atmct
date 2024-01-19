@@ -75,6 +75,29 @@
 
         <!-- ================================================================ -->
         <script>
+        /*****H Start*****/
+        var PGDIcon = L.Icon.extend({
+                options: {
+                    shadowUrl: 'img/shadow.png',
+                    iconSize:     [38, 48],
+                    shadowSize:   [50, 38],
+                    iconAnchor:   [18, 42],
+                    shadowAnchor: [25, 30],
+                    popupAnchor:  [-3, -76]
+                }
+            });
+
+            var ATMIcon = L.Icon.extend({
+                options: {
+                    shadowUrl: 'img/shadow.png',
+                    iconSize:     [32, 45],
+                    shadowSize:   [50, 38],
+                    iconAnchor:   [0, 42],
+                    shadowAnchor: [12, 30],
+                    popupAnchor:  [-3, -76]
+                }
+            });
+        /*****H End*****/  
         var mapOptions = {
             center: [10.029294, 105.769436],
             zoom: 12
@@ -100,8 +123,10 @@
                         $row_qh = $result_qh->fetch_assoc();
                         $dc = $row_pgd['PGD_DIACHI'].', '.$row_qh['XP_TEN'].', '.$row_qh['QH_TEN'].', Cần thơ.';
                         ?>
-        var marker = L.marker([<?php echo $row_pgd["PGD_VIDOX"]; ?>, <?php echo $row_pgd["PGD_KINHDOY"]; ?>]).addTo(
-            map);
+        /*****H Start*****/
+        var pgdIcon = new PGDIcon({iconUrl: "img/pgd/<?php echo $row_pgd["NH_MA"]; ?>.png"});     
+        var marker = L.marker([<?php echo $row_pgd["PGD_VIDOX"]; ?>, <?php echo $row_pgd["PGD_KINHDOY"]; ?>],{icon: pgdIcon}).addTo(map);
+        /*****H End*****/  
         marker.bindPopup(
             '<div class="row">' +
             ' <h5><?php echo $title?></h5>' +
@@ -111,8 +136,7 @@
             '<a href="#" onclick="findMarker(this)" data-lat="<?php echo $row_pgd["PGD_VIDOX"] ?>" data-lng="<?php echo $row_pgd["PGD_KINHDOY"] ?>"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
             '</div>' +
             '<div class="col-7">' +
-            ' <img src="img/gd.png" style="width: 6rem;">' +
-            '</div>' +
+            ' <img src = "img/logo/<?php echo $row_pgd["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
             '</div>'
         );
         marker.on('click', function() {
@@ -173,8 +197,11 @@
                         $row_qh = $result_qh->fetch_assoc();
                         $dc = $row_TA['TA_DIACHI'].', '.$row_qh['XP_TEN'].', '.$row_qh['QH_TEN'].', Cần thơ.';
                         ?>
-        var marker = L.marker([<?php echo $row_TA["TA_VIDOX"]; ?>, <?php echo $row_TA["TA_KINHDOY"]; ?>]).addTo(
-            map);
+        
+        /*****H Start*****/
+        var atmIcon = new ATMIcon({iconUrl: "img/atm/<?php echo $row_TA["NH_MA"]; ?>.png"});  
+        var marker = L.marker([<?php echo $row_TA["TA_VIDOX"]; ?>, <?php echo $row_TA["TA_KINHDOY"]; ?>],{icon: atmIcon}).addTo(map);
+        /*****H End*****/ 
         marker.bindPopup(
             '<div class="row">' +
             ' <h5><?php echo $title?></h5>' +
@@ -183,8 +210,7 @@
             '<a href="#" onclick="findMarker(this)" lat="<?php echo $row_TA["TA_VIDOX"] ?>" lng="<?php echo $row_TA["TA_KINHDOY"] ?>"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
             '</div>' +
             '<div class="col-7">' +
-            ' <img src="img/ta.jpg" style="width: 6rem;">' +
-            '</div>' +
+            ' <img src = "img/logo/<?php echo $row_TA["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
             '</div>'
         );
         marker.on('click', function() {

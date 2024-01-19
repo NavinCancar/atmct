@@ -254,6 +254,11 @@
             //***************************************************************************
             //SETUP ICON
             //***************************************************************************
+            var customPopup = {
+                'maxWidth': '500',
+                'className': 'custom'
+            };
+
             var NHIcon = L.Icon.extend({
                 options: {
                     shadowUrl: 'img/light.png',
@@ -333,7 +338,9 @@
                         }
 
                         if($dichvu==0){
-                            $query = "SELECT `tru_atm`.* FROM `tru_atm` JOIN `chap_nhan_the` ON `tru_atm`.`TA_SOHIEU` = `chap_nhan_the`.`TA_SOHIEU`
+                            $query = "SELECT `tru_atm`.*, `xa_phuong`.`XP_TEN`, `quan_huyen`.`QH_TEN`  FROM `tru_atm` JOIN `chap_nhan_the` ON `tru_atm`.`TA_SOHIEU` = `chap_nhan_the`.`TA_SOHIEU`
+                                                                        JOIN  `xa_phuong` ON `xa_phuong`.`XP_MA` = `tru_atm`.`XP_MA`
+                                                                        JOIN  `quan_huyen` ON `xa_phuong`.`QH_MA` = `quan_huyen`.`QH_MA`
                                         WHERE `chap_nhan_the`.`NH_MA`=".$nganhang;
                         }
                         else{
@@ -342,7 +349,9 @@
                                         JOIN `dich_vu` ON `muc_phi`.`DV_MA` = `dich_vu`.`DV_MA`
                                         WHERE `muc_phi`.`NH_THE`=".$nganhang." AND `muc_phi`.`MP_DONGIA` BETWEEN ".$dichvumin." AND ".$dichvumax;*/
 
-                            $query = "SELECT `tru_atm`.* FROM `tru_atm` JOIN `chap_nhan_the` ON `tru_atm`.`TA_SOHIEU` = `chap_nhan_the`.`TA_SOHIEU`
+                            $query = "SELECT `tru_atm`.*, `xa_phuong`.`XP_TEN`, `quan_huyen`.`QH_TEN` FROM `tru_atm` JOIN `chap_nhan_the` ON `tru_atm`.`TA_SOHIEU` = `chap_nhan_the`.`TA_SOHIEU`
+                                        JOIN  `xa_phuong` ON `xa_phuong`.`XP_MA` = `tru_atm`.`XP_MA`
+                                        JOIN  `quan_huyen` ON `xa_phuong`.`QH_MA` = `quan_huyen`.`QH_MA`
                                         WHERE `tru_atm`.`TA_SOHIEU` IN (SELECT `tru_atm`.`TA_SOHIEU` FROM `tru_atm` JOIN `ngan_hang` ON `tru_atm`.`NH_MA` = `ngan_hang`.`NH_MA`
                                         JOIN `muc_phi` ON `muc_phi`.`NH_TRU_ATM` = `ngan_hang`.`NH_MA`
                                         JOIN `dich_vu` ON `muc_phi`.`DV_MA` = `dich_vu`.`DV_MA`
@@ -350,7 +359,10 @@
                                         AND `chap_nhan_the`.`NH_MA`=".$nganhang;
 
                             if($dichvumin == 0){
-                                $subquery = "SELECT `tru_atm`.* FROM `tru_atm` WHERE `NH_MA`=".$nganhang."";
+                                $subquery = "SELECT `tru_atm`.*, `xa_phuong`.`XP_TEN`, `quan_huyen`.`QH_TEN` FROM `tru_atm`
+                                JOIN  `xa_phuong` ON `xa_phuong`.`XP_MA` = `tru_atm`.`XP_MA`
+                                JOIN  `quan_huyen` ON `xa_phuong`.`QH_MA` = `quan_huyen`.`QH_MA`
+                                WHERE `NH_MA`=".$nganhang."";
                                 $query = $query. " UNION " . $subquery;
                             }
                         }
@@ -395,19 +407,32 @@
                                 if(summary.totalDistance / 1000 <= <?php echo $khoangcach ?>){
                                     var atmIcon = new ATMIcon({iconUrl: "img/atm/<?php echo $row["NH_MA"]; ?>.png"});
                                     var marker = L.marker([<?php echo $row["TA_VIDOX"]; ?>, <?php echo $row["TA_KINHDOY"]; ?>],{icon: atmIcon}).addTo(map);
-                                    marker.bindPopup("<?php echo $row["TA_SOHIEU"]; ?>");
-
-                                    //---------------------------------------------------
+                                    marker.bindPopup(
+                                        '<div class="row">' +
+                                        ' <h5>Trụ ATM <?php echo $row["TA_SOHIEU"].' - '.$row["TA_DIACHI"];?></h5>' +
+                                        '<p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["TA_DIACHI"].', '.$row["XP_TEN"].', '.$row["QH_TEN"].', TP Cần Thơ'?></p>' +
+                                        '<div class="col-5">' +
+                                        '<a class="findRoute"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
+                                        '</div>' +
+                                        '<div class = "col-7" >' +
+                                        ' <img src = "img/logo/<?php echo $row["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
+                                        '</div>',
+                                        customPopup
+                                    );
+                                    //----------------------------------------------------------------
                                     // CLICK -> ROUTING START
-                                    marker.on("click", function(e) {
+                                    marker.on("click", function() {
                                         var markerId = <?php echo $row["TA_SOHIEU"]; ?>;
                                         var latitude = <?php echo $row["TA_VIDOX"]; ?>;
                                         var longitude = <?php echo $row["TA_KINHDOY"]; ?>;
-                                        handleMarkerClick(markerId, latitude, longitude);
+                                        $('.findRoute').on("click", function() {
+                                            handleMarkerClick(markerId, latitude, longitude);
+                                        })
+                                        //
                                         //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
                                     });
                                     // CLICK -> ROUTING END
-                                    //---------------------------------------------------
+                                    //----------------------------------------------------------------
                                 }
                             });
                             control.route();      
@@ -420,7 +445,7 @@
                     //XỬ LÝ TÌM KIẾM END
                     //***************************************************************************
                     //***************************************************************************
-/*
+
                     //***************************************************************************
                     //NÚT PGD ĐƯỢC CLICK START
                     $("#pgd-btn").click(function (e) {
@@ -455,19 +480,35 @@
                                 //***************************************************************************
                                 //GỌI PGD START
                                 <?php
-                                    $query = "SELECT * FROM `phong_giao_dich` ";
+                                    $query = "SELECT * FROM `phong_giao_dich`  JOIN  `xa_phuong` ON `xa_phuong`.`XP_MA` = `phong_giao_dich`.`XP_MA`
+                                                                                JOIN  `quan_huyen` ON `xa_phuong`.`QH_MA` = `quan_huyen`.`QH_MA`";
                                     $result = mysqli_query($conn, $query);
                                     while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
                                         var pgdIcon = new PGDIcon({iconUrl: "img/pgd/<?php echo $row["NH_MA"]; ?>.png"});
                                         var marker = L.marker([<?php echo $row["PGD_VIDOX"]; ?>, <?php echo $row["PGD_KINHDOY"]; ?>],{icon: pgdIcon}).addTo(map);
-                                        marker.bindPopup("<?php echo $row["PGD_TEN"]; ?>");
+                                        marker.bindPopup(
+                                            '<div class="row">' +
+                                            ' <h5><?php echo $row["PGD_TEN"].' - '.$row["PGD_DIACHI"];?></h5>' +
+                                            '<p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["PGD_DIACHI"].', '.$row["XP_TEN"].', '.$row["QH_TEN"].', TP Cần Thơ'?></p>' +
+                                            '<div class="col-5">' +
+                                            '<p><i class="fas fa-phone"></i> <?php echo $row["PGD_SDT"];?></p>' +
+                                            '<a class="findRoute"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
+                                            '</div>' +
+                                            '<div class = "col-7" >' +
+                                            ' <img src = "img/logo/<?php echo $row["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
+                                            '</div>',
+                                            customPopup
+                                        );
                                         //----------------------------------------------------------------
                                         // CLICK -> ROUTING START
-                                        marker.on("click", function(e) {
+                                        marker.on("click", function() {
                                             var markerId = <?php echo $row["PGD_MA"]; ?>;
                                             var latitude = <?php echo $row["PGD_VIDOX"]; ?>;
                                             var longitude = <?php echo $row["PGD_KINHDOY"]; ?>;
-                                            handleMarkerClick(markerId, latitude, longitude);
+                                            $('.findRoute').on("click", function() {
+                                                handleMarkerClick(markerId, latitude, longitude);
+                                            })
+                                            //
                                             //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
                                         });
                                         // CLICK -> ROUTING END
@@ -519,19 +560,34 @@
                                 //***************************************************************************
                                 //GỌI ATM START
                                 <?php
-                                    $query = "SELECT * FROM `tru_atm` ";
+                                    $query = "SELECT * FROM `tru_atm`  JOIN  `xa_phuong` ON `xa_phuong`.`XP_MA` = `tru_atm`.`XP_MA`
+                                                                        JOIN  `quan_huyen` ON `xa_phuong`.`QH_MA` = `quan_huyen`.`QH_MA`";
                                     $result = mysqli_query($conn, $query);
                                     while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){ ?>
                                         var atmIcon = new ATMIcon({iconUrl: "img/atm/<?php echo $row["NH_MA"]; ?>.png"});
                                         var marker = L.marker([<?php echo $row["TA_VIDOX"]; ?>, <?php echo $row["TA_KINHDOY"]; ?>],{icon: atmIcon}).addTo(map);
-                                        marker.bindPopup("<?php echo $row["TA_SOHIEU"]; ?>");
+                                        marker.bindPopup(
+                                            '<div class="row">' +
+                                            ' <h5>Trụ ATM <?php echo $row["TA_SOHIEU"].' - '.$row["TA_DIACHI"];?></h5>' +
+                                            '<p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["TA_DIACHI"].', '.$row["XP_TEN"].', '.$row["QH_TEN"].', TP Cần Thơ'?></p>' +
+                                            '<div class="col-5">' +
+                                            '<a class="findRoute"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
+                                            '</div>' +
+                                            '<div class = "col-7" >' +
+                                            ' <img src = "img/logo/<?php echo $row["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
+                                            '</div>',
+                                            customPopup
+                                        );
                                         //----------------------------------------------------------------
                                         // CLICK -> ROUTING START
-                                        marker.on("click", function(e) {
+                                        marker.on("click", function() {
                                             var markerId = <?php echo $row["TA_SOHIEU"]; ?>;
                                             var latitude = <?php echo $row["TA_VIDOX"]; ?>;
                                             var longitude = <?php echo $row["TA_KINHDOY"]; ?>;
-                                            handleMarkerClick(markerId, latitude, longitude);
+                                            $('.findRoute').on("click", function() {
+                                                handleMarkerClick(markerId, latitude, longitude);
+                                            })
+                                            //
                                             //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
                                         });
                                         // CLICK -> ROUTING END
@@ -548,7 +604,7 @@
                     });
                     //NÚT ATM ĐƯỢC CLICK END
                     //***************************************************************************
-*/
+
                     //Hàm bổ sung
                     function handleMarkerClick(markerId, latitude, longitude) {
                         if (findRouting != null) {

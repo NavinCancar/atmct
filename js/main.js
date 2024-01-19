@@ -76,6 +76,18 @@
             }
         }
     });
-    
+
+
 })(jQuery);
 
+//Sidebar
+function toggleNav() {
+    var sidebar = document.getElementById("mySidebar");
+    if (sidebar.style.width === "250px") {
+      sidebar.style.width = "0";
+      iconToggle.className = "fas fa-chevron-right";
+    } else {
+      sidebar.style.width = "250px";
+      iconToggle.className = "fas fa-chevron-left";
+    }
+}
