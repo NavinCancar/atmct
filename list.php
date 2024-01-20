@@ -43,7 +43,7 @@
                                         echo'
                                         <h4> CÁC trụ ATM của ngân hàng '.$_GET['tennh'].'</h4>
                                        <p>
-                                        Tìm phòng giao dịch gần nhất: <span><button type="button"
+                                        Tìm trụ ATM gần nhất: <span><button type="button"
                                         class="btn btn-light"  onclick="min()" ><i class="fas fa-search"></i></button></span>
                                        </p>
                                         ';
@@ -55,8 +55,86 @@
                 </div>
 
                 <!-- Map -->
-                <div id="map" style="border:1px; width: 100%; height: 35rem" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"></div>
+                <!-- Map -->
+                <div class="d-flex">
+                    <div id="mySidebar" class="sidebar" style="max-width: 250px">
+                        <div id="list-location" style="max-height: 35rem; overflow-y: auto;">
+                            <?php
+                                 if(isset($_GET['check']) && $_GET['check'] == 1){
+                                    $manh = $_GET['manh'];
+                                    $pgd = "SELECT DISTINCT * FROM phong_giao_dich WHERE NH_MA = '". $manh."'";
+                                    $result_pgd = $conn->query($pgd);
+                                            while ($row_pgd = $result_pgd->fetch_assoc()) {
+                                                $title = $row_pgd["PGD_TEN"]. ' - '.$row_pgd["PGD_DIACHI"];
+                                                $qh ="SELECT XP_TEN, QH_TEN FROM xa_phuong, quan_huyen
+                                                WHERE xa_phuong.QH_MA = quan_huyen.QH_MA 
+                                                AND xa_phuong.XP_MA = '".$row_pgd['XP_MA']."' ";
+                                                $result_qh = $conn->query($qh);
+                                                $row_qh = $result_qh->fetch_assoc();
+                                                $dc = $row_pgd['PGD_DIACHI'].', '.$row_qh['XP_TEN'].', '.$row_qh['QH_TEN'].', Cần thơ.';
+
+                                                echo'
+                                                <div class="card text-dark m-1 p-2">
+                                                    <h6>'.$title.'</h6>
+                                                    <p><i class="fas fa-map-marker-alt"></i> &nbsp; '.$dc.' </p>
+                                                    <p><i class="fas fa-phone"></i>'.$row_pgd["PGD_SDT"].' </p>
+                                                    <div class="d-flex">
+                                                        <a href="#" onclick="findMarker(this)" data-lat="'.$row_pgd["PGD_VIDOX"].'"
+                                                        data-lng="'.$row_pgd["PGD_KINHDOY"].'">
+                                                        <i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>
+                                                        <img src="img/logo/1.png" width="50px" class="float-end" style="margin-left: auto">
+                                                    </div>
+                                                </div>
+                 
+                                                ';
+                                                }
+                                        }
+                                        // atm 
+                                        if(isset($_GET['check']) && $_GET['check'] == 2){
+                                            $manh = $_GET['manh'];
+                                            $TA = "SELECT DISTINCT * FROM tru_atm WHERE NH_MA = '". $manh."'";
+                                            $i=1;
+                                            $result_TA = $conn->query($TA);
+                                                    while ($row_TA = $result_TA->fetch_assoc()) {
+                                                        $title ='Trụ '.$i.' - '. $row_TA["TA_SOHIEU"]. ' - '.$row_TA["TA_DIACHI"];
+                                                        $i++;
+                                                        $qh ="SELECT XP_TEN, QH_TEN FROM xa_phuong, quan_huyen
+                                                        WHERE xa_phuong.QH_MA = quan_huyen.QH_MA 
+                                                        AND xa_phuong.XP_MA = '".$row_TA['XP_MA']."' ";
+                                                        $result_qh = $conn->query($qh);
+                                                        $row_qh = $result_qh->fetch_assoc();
+                                                        $dc = $row_TA['TA_DIACHI'].', '.$row_qh['XP_TEN'].', '.$row_qh['QH_TEN'].', Cần thơ.';
+                        
+                                                        echo'
+                                                        <div class="card text-dark m-1 p-2">
+                                                            <h6>'.$title.'</h6>
+                                                            <p><i class="fas fa-map-marker-alt"></i> &nbsp; '.$dc.' </p>
+                                                           
+                                                            <div class="d-flex">
+                                                            <a href="#" onclick="findMarker(this)" lat="'.$row_TA["TA_VIDOX"].'" lng="'.$row_TA["TA_KINHDOY"].'">
+                                                            <i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>
+                                                                <img src="img/logo/1.png" width="50px" class="float-end" style="margin-left: auto">
+                                                            </div>
+                                                        </div>
+                         
+                                                        ';
+                                                        }
+                                                }
+                                    ?>
+
+
+
+                        </div>
+                    </div>
+                    <!-- Map -->
+                    <div id="map-container" class="flex-grow-1 d-flex p-0">
+                        <button class="btn btn-orange" onclick="toggleNav()"><i id="iconToggle"
+                                class="fas fa-chevron-left"></i></button>
+                        <div id="map" style="border:1px; width: 100%; height: 35rem" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></div>
+                    </div>
+                </div>
+
             </div>
             <!-- Map End -->
 
@@ -77,27 +155,27 @@
         <script>
         /*****H Start*****/
         var PGDIcon = L.Icon.extend({
-                options: {
-                    shadowUrl: 'img/shadow.png',
-                    iconSize:     [38, 48],
-                    shadowSize:   [50, 38],
-                    iconAnchor:   [18, 42],
-                    shadowAnchor: [25, 30],
-                    popupAnchor:  [-3, -76]
-                }
-            });
+            options: {
+                shadowUrl: 'img/shadow.png',
+                iconSize: [38, 48],
+                shadowSize: [50, 38],
+                iconAnchor: [18, 42],
+                shadowAnchor: [25, 30],
+                popupAnchor: [-3, -76]
+            }
+        });
 
-            var ATMIcon = L.Icon.extend({
-                options: {
-                    shadowUrl: 'img/shadow.png',
-                    iconSize:     [32, 45],
-                    shadowSize:   [50, 38],
-                    iconAnchor:   [0, 42],
-                    shadowAnchor: [12, 30],
-                    popupAnchor:  [-3, -76]
-                }
-            });
-        /*****H End*****/  
+        var ATMIcon = L.Icon.extend({
+            options: {
+                shadowUrl: 'img/shadow.png',
+                iconSize: [32, 45],
+                shadowSize: [50, 38],
+                iconAnchor: [0, 42],
+                shadowAnchor: [12, 30],
+                popupAnchor: [-3, -76]
+            }
+        });
+        /*****H End*****/
         var mapOptions = {
             center: [10.029294, 105.769436],
             zoom: 12
@@ -109,6 +187,7 @@
         var markers = [];
         var old_marker = null;
         var routingControl = null;
+
         <?php 
         if(isset($_GET['check']) && $_GET['check'] == 1){
             $manh = $_GET['manh'];
@@ -124,9 +203,13 @@
                         $dc = $row_pgd['PGD_DIACHI'].', '.$row_qh['XP_TEN'].', '.$row_qh['QH_TEN'].', Cần thơ.';
                         ?>
         /*****H Start*****/
-        var pgdIcon = new PGDIcon({iconUrl: "img/pgd/<?php echo $row_pgd["NH_MA"]; ?>.png"});     
-        var marker = L.marker([<?php echo $row_pgd["PGD_VIDOX"]; ?>, <?php echo $row_pgd["PGD_KINHDOY"]; ?>],{icon: pgdIcon}).addTo(map);
-        /*****H End*****/  
+        var pgdIcon = new PGDIcon({
+            iconUrl: "img/pgd/<?php echo $row_pgd["NH_MA"]; ?>.png"
+        });
+        var marker = L.marker([<?php echo $row_pgd["PGD_VIDOX"]; ?>, <?php echo $row_pgd["PGD_KINHDOY"]; ?>], {
+            icon: pgdIcon
+        }).addTo(map);
+        /*****H End*****/
         marker.bindPopup(
             '<div class="row">' +
             ' <h5><?php echo $title?></h5>' +
@@ -180,8 +263,8 @@
             }
         }
         <?php 
-    } 
- } 
+    } // white
+ } // isset
         if(isset($_GET['check']) && $_GET['check'] == 2){
             $manh = $_GET['manh'];
             $TA = "SELECT DISTINCT * FROM tru_atm WHERE NH_MA = '". $manh."'";
@@ -197,11 +280,15 @@
                         $row_qh = $result_qh->fetch_assoc();
                         $dc = $row_TA['TA_DIACHI'].', '.$row_qh['XP_TEN'].', '.$row_qh['QH_TEN'].', Cần thơ.';
                         ?>
-        
+
         /*****H Start*****/
-        var atmIcon = new ATMIcon({iconUrl: "img/atm/<?php echo $row_TA["NH_MA"]; ?>.png"});  
-        var marker = L.marker([<?php echo $row_TA["TA_VIDOX"]; ?>, <?php echo $row_TA["TA_KINHDOY"]; ?>],{icon: atmIcon}).addTo(map);
-        /*****H End*****/ 
+        var atmIcon = new ATMIcon({
+            iconUrl: "img/atm/<?php echo $row_TA["NH_MA"]; ?>.png"
+        });
+        var marker = L.marker([<?php echo $row_TA["TA_VIDOX"]; ?>, <?php echo $row_TA["TA_KINHDOY"]; ?>], {
+            icon: atmIcon
+        }).addTo(map);
+        /*****H End*****/
         marker.bindPopup(
             '<div class="row">' +
             ' <h5><?php echo $title?></h5>' +

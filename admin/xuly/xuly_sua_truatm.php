@@ -3,35 +3,33 @@
 include('../connect.php');
 
 // Xử lý khi người dùng bấm nút "Lưu"
-if (isset($_POST['NH_TEN']) ) {
+if (isset($_POST['TA_SOHIEU']) ) {
     // Lấy các giá trị mới từ form
-    $NH_MA = $_POST['NH_MA'];
-    $NH_TEN = $_POST['NH_TEN'];
-    $NH_DIACHI = $_POST['NH_DIACHI'];
-    $NH_SDT = $_POST['NH_SDT'];
-    $NH_VIDOX = $_POST['NH_VIDOX'];
-    $NH_KINHDOY = $_POST['NH_KINHDOY'];
+    $TA_SOHIEU = $_POST['TA_SOHIEU'];
+    $TA_DIACHI = $_POST['TA_DIACHI'];
+    $TA_VIDOX = $_POST['TA_VIDOX'];
+    $TA_KINHDOY = $_POST['TA_KINHDOY'];
     $XP_MA = $_POST['XP_MA'];
 
 
         // Nếu ngân hàng tồn tại, thực hiện cập nhật thông tin
-        $update_sql = "UPDATE NGAN_HANG SET NH_TEN = '$NH_TEN', NH_DIACHI = '$NH_DIACHI', 
-        NH_SDT = '$NH_SDT', NH_VIDOX = '$NH_VIDOX', NH_KINHDOY = '$NH_KINHDOY',
-         XP_MA = '$XP_MA' WHERE NH_MA = '$NH_MA'";
+        $update_sql = "UPDATE TRU_ATM SET TA_DIACHI = '$TA_DIACHI', TA_VIDOX = '$TA_VIDOX', TA_KINHDOY = '$TA_KINHDOY',
+         XP_MA = '$XP_MA' WHERE TA_SOHIEU = '$TA_SOHIEU'";
+         echo  $update_sql;
        // echo $update_sql;
         if ($conn->query($update_sql) === TRUE) {
            // echo "Cập nhật thông tin ngân hàng thành công";
-            header('Location: ../ds_nganhang.php');
+            header('Location: ../ds_truatm.php');
         } else {
             echo "Lỗi: " . $update_sql . "<br>" . $conn->error;
         }
 } 
 if (isset($_GET['check']) ) {
-    $update_sql1 = "UPDATE NGAN_HANG SET NH_TT = 0 WHERE NH_MA = '".$_GET['manh']."'";
+    $update_sql1 = "UPDATE PHONG_GIAO_DICH SET PGD_TT = 0 WHERE TA_SOHIEU = '".$_GET['sohieu']."'";
    // echo $update_sql;
     if ($conn->query($update_sql1) === TRUE) {
        // echo "Cập nhật thông tin ngân hàng thành công";
-        header('Location: ../ds_nganhang.php');
+        header('Location: ../ds_truatm.php');
     } else {
         echo "Lỗi: " . $update_sql . "<br>" . $conn->error;
     }

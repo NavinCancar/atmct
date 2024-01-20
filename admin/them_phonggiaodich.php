@@ -3,7 +3,7 @@
 
 <head>
     <?php include('head.php') ?>
-    <title>Thêm ngân hàng</title>
+    <title>Thêm phòng giao dịch</title>
 </head>
 
 <body>
@@ -22,22 +22,22 @@
             <div class="container-fluid px-4">
 
                 <div class="row my-2 secondary-bg shadow-sm">
-                    <h2 class="fs-3 mb-3 p-2 primary-bg text-center text-light">THÊM NGÂN HÀNG</h2>
+                    <h2 class="fs-3 mb-3 p-2 primary-bg text-center text-light">THÊM PHÒNG GIAO DỊCH</h2>
 
                     <!--Content-->
 
                     <div class="panel-body bg-white rounded shadow-sm center mb-3 pt-2">
                         <div class="position-center">
-                            <form role="form" action="xuly/xuly_them_nganhang.php" method="post">
+                            <form role="form" action="xuly/xuly_them_phonggiaodich.php" method="post">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Tên</label>
-                                    <input type="text" name="NH_TEN" class="form-control" id="exampleInputEmail1"
+                                    <input type="text" name="PGD_TEN" class="form-control" id="exampleInputEmail1"
                                         required="">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Địa chỉ</label>
-                                    <input type="text" name="NH_DIACHI" class="form-control" id="dc" required="">
+                                    <input type="text" name="PGD_DIACHI" class="form-control" id="dc" required="">
                                 </div>
 
                                 <div class="form-group">
@@ -55,31 +55,47 @@
                                     </datalist>
 
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Ngân hàng</label>
+                                    <input class="form-control me-2" list="datalistOptions1" id="mapgd" name="NH_MA"
+                                        type="search" required>
+                                    <datalist id="datalistOptions1">
+                                        <?php
+                                                        $query = "SELECT * FROM ngan_hang";
+                                                        $result = mysqli_query($conn, $query);
+                                                        while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
+                                                            echo '<option value="'.$row["NH_MA"].'">'.$row["NH_TEN"].'</option>';
+                                                        }
+                                                    ?>
+                                    </datalist>
+
+                                </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Số điện thoại</label>
-                                    <input type="text" name="NH_SDT" class="form-control" id="exampleInputEmail1"
-                                        required>
+                                    <input type="text" name="PGD_SDT" class="form-control" id="exampleInputEmail1"
+                                        required="">
                                 </div>
                                 <div style="display: none;" id="toado">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Vĩ độ</label>
-                                        <input type="text" name="NH_VIDOX" class="form-control" id="x" readonly>
+                                        <input type="text" name="PGD_VIDOX" class="form-control" id="x" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Kinh độ</label>
-                                        <input type="text" name="NH_KINHDOY" class="form-control" id="y" readonly>
+                                        <input type="text" name="PGD_KINHDOY" class="form-control" id="y" readonly>
                                     </div>
                                     <h6 class="text-danger">Vui lòng xác nhận vị trí bên dưới bản đồ</h6>
                                 </div>
 
-                                <button type="submit" name="them_atm" class="btn btn-search mb-3 mt-2 text-light"
-                                    style="width: 100%;">Xác nhận lại tọa độ</button>
+
+                                <button type="submit" name="them_pgd" class="btn btn-search mb-3 mt-2 text-light"
+                                    style="width: 100%;">Thêm phòng giao dịch</button>
                             </form>
                         </div>
                     </div>
 
                 </div>
-
                 <div id="map" style="border:1px; width: 100%; height: 35rem;" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></div>
             </div>
@@ -96,9 +112,6 @@
     toggleButton.onclick = function() {
         el.classList.toggle("toggled");
     };
-    // ========================================================================================
-
-    // ========================================================
 
     $(document).ready(function() {
         $("#xp").blur(function() {
