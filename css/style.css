@@ -564,5 +564,5 @@
   }
 
   .findRoute{
-    cursor: pointer;
+    cursor: pointer !important;
   }

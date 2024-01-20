@@ -691,6 +691,7 @@
                     var userPolyline = L.polyline([[ulatitude, ulongitude], [ulatitude, ulongitude]], { color: 'red', weight: 30 }).addTo(map);
                     userPolyline.bindPopup('Vị trí của bạn').openPopup();        
 
+                    <?php $newlatitude=0; $newlongitude=0; $count=0; ?>
                     //***************************************************************************
                     //GỌI NGÂN HÀNG START
                     <?php
@@ -747,6 +748,10 @@
                                 //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
                             });
                             // CLICK -> ROUTING END
+                            //----------------------------------------------------------------
+                            //----------------------------------------------------------------
+                            //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
+                            <?php $newlatitude+=$row["NH_VIDOX"]; $newlongitude+=$row["NH_KINHDOY"]; $count++; ?>
                             //----------------------------------------------------------------
                     <?php } ?>
                     //GỌI NGÂN HÀNG END
@@ -808,6 +813,10 @@
                             });
                             // CLICK -> ROUTING END
                             //----------------------------------------------------------------
+                            //----------------------------------------------------------------
+                            //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
+                            <?php $newlatitude+=$row["PGD_VIDOX"]; $newlongitude+=$row["PGD_KINHDOY"]; $count++; ?>
+                            //----------------------------------------------------------------
                     <?php } ?>
                     //GỌI PGD END
                     //***************************************************************************
@@ -867,11 +876,23 @@
                             });
                             // CLICK -> ROUTING END
                             //----------------------------------------------------------------
+                            //----------------------------------------------------------------
+                            //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
+                            <?php $newlatitude+=$row["TA_VIDOX"]; $newlongitude+=$row["TA_KINHDOY"]; $count++; ?>
+                            //----------------------------------------------------------------
                     <?php } ?>
                     //GỌI ATM END
                     //***************************************************************************
-                    
 
+                    //***************************************************************************
+                    //CENTER VÀ ZOOM LẠI START
+                    <?php $newlatitude = $newlatitude/$count; $newlongitude=$newlongitude/$count; ?>
+                    var newCenter = [<?php echo $newlatitude .', '. $newlongitude; ?>];
+                    var newZoomLevel = 15;
+                    map.setView(newCenter, newZoomLevel);
+                    <?php $newlatitude = 0; $newlongitude=0; $count=0; ?>
+                    //CENTER VÀ ZOOM LẠI END
+                    //***************************************************************************
 
                     //***************************************************************************
                     //NÚT PGD ĐƯỢC CLICK START
@@ -905,6 +926,7 @@
                                 userPolyline.bindPopup('Vị trí của bạn').openPopup();   
 
                                 //----------------------------------------------------------------
+                                <?php $newlatitude=0; $newlongitude=0; $count=0; ?>
                                 //***************************************************************************
                                 //GỌI PGD START
                                 <?php
@@ -962,10 +984,22 @@
                                         });
                                         // CLICK -> ROUTING END
                                         //----------------------------------------------------------------
+                                        //----------------------------------------------------------------
+                                        //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
+                                        <?php $newlatitude+=$row["PGD_VIDOX"]; $newlongitude+=$row["PGD_KINHDOY"]; $count++; ?>
+                                        //----------------------------------------------------------------
                                 <?php } ?>
                                 //GỌI PGD END
                                 //***************************************************************************
-
+                                //***************************************************************************
+                                //CENTER VÀ ZOOM LẠI START
+                                <?php $newlatitude = $newlatitude/$count; $newlongitude=$newlongitude/$count; ?>
+                                var newCenter = [<?php echo $newlatitude .', '. $newlongitude; ?>];
+                                var newZoomLevel = 15;
+                                map.setView(newCenter, newZoomLevel);
+                                <?php $newlatitude = 0; $newlongitude=0; $count=0; ?>
+                                //CENTER VÀ ZOOM LẠI END
+                                //***************************************************************************
                             });
                         }
                         else {
@@ -1007,6 +1041,7 @@
                                 userPolyline.bindPopup('Vị trí của bạn').openPopup();   
 
                                 //----------------------------------------------------------------
+                                <?php $newlatitude=0; $newlongitude=0; $count=0; ?>
                                 //***************************************************************************
                                 //GỌI ATM START
                                 <?php
@@ -1063,8 +1098,21 @@
                                         });
                                         // CLICK -> ROUTING END
                                         //----------------------------------------------------------------
+                                        //----------------------------------------------------------------
+                                        //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
+                                        <?php $newlatitude+=$row["TA_VIDOX"]; $newlongitude+=$row["TA_KINHDOY"]; $count++; ?>
+                                        //----------------------------------------------------------------
                                 <?php } ?>
                                 //GỌI ATM END
+                                //***************************************************************************
+                                //***************************************************************************
+                                //CENTER VÀ ZOOM LẠI START
+                                <?php $newlatitude = $newlatitude/$count; $newlongitude=$newlongitude/$count; ?>
+                                var newCenter = [<?php echo $newlatitude .', '. $newlongitude; ?>];
+                                var newZoomLevel = 15;
+                                map.setView(newCenter, newZoomLevel);
+                                <?php $newlatitude = 0; $newlongitude=0; $count=0; ?>
+                                //CENTER VÀ ZOOM LẠI END
                                 //***************************************************************************
                             });
                         }
@@ -1104,7 +1152,6 @@
                             }
                         }).addTo(map);
                     };
-
 
                     //LẤY GIÁ TRỊ KCÁCH VÀ TGIAN CHO DANH SÁCH
                     function getValue(latitude, longitude, callback) {
