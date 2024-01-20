@@ -151,8 +151,29 @@
             </div>
             
             <!-- Map -->
-            <div id="map" style="border:1px; width: 100%; height: 35rem" allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></div>
+            <div class="d-flex">
+                <div id="mySidebar" class="sidebar" style="max-width: 250px">
+                    <div id="list-location" style="max-height: 35rem; overflow-y: auto;">
+                        <!--<div class="card text-dark m-1 p-2">
+                            <h6>Ngân hàng Agribank - 280 Phạm Hùng</h6>
+                            <p><i class="fas fa-map-marker-alt"></i> &nbsp; 280 Phạm Hùng, Lê Bình, Cái Răng, TP Cần Thơ</p>
+                            <p class="m-0"><i class="fas fa-motorcycle"></i> Cách bạn <b>10km</b> và cần <b>20p</b> di chuyển</p>
+                            <div class="d-flex">
+                                <a  class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
+                                    <i class="fas fa-directions fs-4"></i>&nbsp; Tìm đường
+                                </a>
+                                <img src="img/logo/1.png" width="50px" class="float-end" style="margin-left: auto">
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+                <!-- Map -->
+                <div id="map-container" class="flex-grow-1 d-flex p-0">
+                    <button class="btn btn-orange" onclick="toggleNav()"><i id="iconToggle" class="fas fa-chevron-left"></i></button>
+                    <div id="map" style="border:1px; width: 100%; height: 35rem" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></div>
+                </div>
+            </div>
         </div>
         <!-- Map End -->
 
@@ -304,7 +325,7 @@
                     //Gọi map
                     var mapOptions = {
                         center: [ulatitude, ulongitude],
-                        zoom: 10
+                        zoom: 15
                     };
                     
                     var map = new L.map('map', mapOptions);
@@ -420,6 +441,27 @@
                                         customPopup
                                     );
                                     //----------------------------------------------------------------
+                                    // CALL LIST START
+                                    getValue(<?php echo $row["TA_VIDOX"]; ?>, <?php echo $row["TA_KINHDOY"]; ?>, function(khoangcach, thoigian) {
+                                        const htmlResult = `
+                                        <div class="card text-dark m-1 p-2">
+                                            <h6>Trụ ATM <?php echo $row["TA_SOHIEU"]; ?> - <?php echo $row["TA_DIACHI"]; ?></h6>
+                                            <p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["TA_DIACHI"]; ?>, <?php echo $row["XP_TEN"]; ?>, <?php echo $row["QH_TEN"]; ?>, TP Cần Thơ</p>
+                                            <p class="m-0"><i class="fas fa-motorcycle"></i> Cách bạn <b>${summary.totalDistance / 1000} km</b> và cần <b>${Math.round(summary.totalTime % 3600 / 60)} phút</b> di chuyển</p>
+                                            <div class="d-flex">
+                                                <a  class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
+                                                    <i class="fas fa-directions fs-4"></i>&nbsp; Tìm đường
+                                                </a>
+                                                <img src="img/logo/<?php echo $row["NH_MA"]; ?>.png" width="50px" class="float-end" style="margin-left: auto">
+                                            </div>
+                                        </div>
+                                        `;
+                                        const listLocationDiv = document.getElementById('list-location');
+                                        listLocationDiv.innerHTML += htmlResult;
+                                    });
+                                    // CALL LIST END
+                                    //----------------------------------------------------------------
+                                    //----------------------------------------------------------------
                                     // CLICK -> ROUTING START
                                     marker.on("click", function() {
                                         var markerId = <?php echo $row["TA_SOHIEU"]; ?>;
@@ -451,6 +493,7 @@
                     $("#pgd-btn").click(function (e) {
                         e.preventDefault();
                         map.remove();
+                        clearListLocationDiv()
                         //Lấy vị trí ng dùng
                         if (navigator.geolocation) {
                             navigator.geolocation.getCurrentPosition(function(position){
@@ -461,7 +504,7 @@
                                 //Gọi map
                                 var mapOptions = {
                                     center: [ulatitude, ulongitude],
-                                    zoom: 10
+                                    zoom: 15
                                 };
                                 
                                 map = new L.map('map', mapOptions);
@@ -500,6 +543,27 @@
                                             customPopup
                                         );
                                         //----------------------------------------------------------------
+                                        // CALL LIST START
+                                        getValue(<?php echo $row["PGD_VIDOX"]; ?>, <?php echo $row["PGD_KINHDOY"]; ?>, function(khoangcach, thoigian) {
+                                            const htmlResult = `
+                                                <div class="card text-dark m-1 p-2">
+                                                    <h6><?php echo $row["PGD_TEN"]; ?> - <?php echo $row["PGD_DIACHI"]; ?></h6>
+                                                    <p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["PGD_DIACHI"]; ?>, <?php echo $row["XP_TEN"]; ?>, <?php echo $row["QH_TEN"]; ?>, TP Cần Thơ</p>
+                                                    <p class="m-0"><i class="fas fa-motorcycle"></i> Cách bạn <b>${khoangcach} km</b> và cần <b>${thoigian} phút</b> di chuyển</p>
+                                                    <div class="d-flex">
+                                                        <a  class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
+                                                            <i class="fas fa-directions fs-4"></i>&nbsp; Tìm đường
+                                                        </a>
+                                                        <img src="img/logo/<?php echo $row["NH_MA"]; ?>.png" width="50px" class="float-end" style="margin-left: auto">
+                                                    </div>
+                                                </div>
+                                            `;
+                                            const listLocationDiv = document.getElementById('list-location');
+                                            listLocationDiv.innerHTML += htmlResult;
+                                        });
+                                        // CALL LIST END
+                                        //----------------------------------------------------------------
+                                        //----------------------------------------------------------------
                                         // CLICK -> ROUTING START
                                         marker.on("click", function() {
                                             var markerId = <?php echo $row["PGD_MA"]; ?>;
@@ -531,6 +595,7 @@
                     $("#atm-btn").click(function (e) {
                         e.preventDefault();
                         map.remove();
+                        clearListLocationDiv()
                         //Lấy vị trí ng dùng
                         if (navigator.geolocation) {
                             navigator.geolocation.getCurrentPosition(function(position){
@@ -541,7 +606,7 @@
                                 //Gọi map
                                 var mapOptions = {
                                     center: [ulatitude, ulongitude],
-                                    zoom: 10
+                                    zoom: 15
                                 };
                                 
                                 map = new L.map('map', mapOptions);
@@ -579,6 +644,27 @@
                                             customPopup
                                         );
                                         //----------------------------------------------------------------
+                                        // CALL LIST START
+                                        getValue(<?php echo $row["TA_VIDOX"]; ?>, <?php echo $row["TA_KINHDOY"]; ?>, function(khoangcach, thoigian) {
+                                            const htmlResult = `
+                                            <div class="card text-dark m-1 p-2">
+                                                <h6>Trụ ATM <?php echo $row["TA_SOHIEU"]; ?> - <?php echo $row["TA_DIACHI"]; ?></h6>
+                                                <p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["TA_DIACHI"]; ?>, <?php echo $row["XP_TEN"]; ?>, <?php echo $row["QH_TEN"]; ?>, TP Cần Thơ</p>
+                                                <p class="m-0"><i class="fas fa-motorcycle"></i> Cách bạn <b>${khoangcach} km</b> và cần <b>${thoigian} phút</b> di chuyển</p>
+                                                <div class="d-flex">
+                                                    <a  class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
+                                                        <i class="fas fa-directions fs-4"></i>&nbsp; Tìm đường
+                                                    </a>
+                                                    <img src="img/logo/<?php echo $row["NH_MA"]; ?>.png" width="50px" class="float-end" style="margin-left: auto">
+                                                </div>
+                                            </div>
+                                            `;
+                                            const listLocationDiv = document.getElementById('list-location');
+                                            listLocationDiv.innerHTML += htmlResult;
+                                        });
+                                        // CALL LIST END
+                                        //----------------------------------------------------------------
+                                        //----------------------------------------------------------------
                                         // CLICK -> ROUTING START
                                         marker.on("click", function() {
                                             var markerId = <?php echo $row["TA_SOHIEU"]; ?>;
@@ -605,7 +691,10 @@
                     //NÚT ATM ĐƯỢC CLICK END
                     //***************************************************************************
 
-                    //Hàm bổ sung
+                    //***************************************************************************
+                    //HÀM BỔ SUNG
+                    //***************************************************************************
+                    //CLICK -> ROUNTING
                     function handleMarkerClick(markerId, latitude, longitude) {
                         if (findRouting != null) {
                             map.removeControl(findRouting);
@@ -630,6 +719,54 @@
                             }
                         }).addTo(map);
                     };
+
+
+                    //LẤY GIÁ TRỊ KCÁCH VÀ TGIAN CHO DANH SÁCH
+                    function getValue(latitude, longitude, callback) {
+                        //---------------------------------------------------
+                        // ROUTING ẨN ĐỂ TÌM ĐƯỜNG ĐẾN NGƯỜI DÙNG -> VALUE START
+                        var control = L.Routing.control({
+                            waypoints: [
+                                L.latLng(ulatitude, ulongitude),
+                                L.latLng(latitude, longitude)
+                            ],
+                            geocoder: L.Control.Geocoder.nominatim(),
+                            routeWhileDragging: true,
+                            reverseWaypoints: true,
+                            showAlternatives: true,
+                            language: 'vi',
+                            altLineOptions: {
+                                styles: [
+                                    {color: 'black', opacity: 0.15, weight: 9},
+                                    {color: 'white', opacity: 0.8, weight: 6},
+                                    {color: 'blue', opacity: 0.5, weight: 2}
+                                ]
+                            }
+                        });
+                        // ROUTING ẨN ĐỂ TÌM ĐƯỜNG ĐẾN NGƯỜI DÙNG  -> VALUE END
+                        //---------------------------------------------------
+                        //---------------------------------------------------
+                        // TÍNH KHOẢNG CÁCH NGẦM  -> VALUE START
+                        control.on('routesfound', function(e) {
+                            var routes = e.routes;
+                            var summary = routes[0].summary;
+                            // Công thức lấy khoảng cách và thời gian
+                            //console.log('Total ['+ten+'] distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+
+                            var khoangcach = summary.totalDistance / 1000;
+                            var thoigian = Math.round(summary.totalTime % 3600 / 60);
+                            callback(khoangcach, thoigian);
+                        });
+                        control.route();   
+                        // TÍNH KHOẢNG CÁCH NGẦM  -> VALUE END
+                        //---------------------------------------------------
+                    }
+
+                    //LÀM RỖNG DANH SÁCH
+                    function clearListLocationDiv() {
+                        const listLocationDiv = document.getElementById('list-location');
+                        listLocationDiv.innerHTML = "";
+                    }
                 })
             }
             else {

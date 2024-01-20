@@ -676,7 +676,7 @@
                     //Gọi map
                     var mapOptions = {
                         center: [ulatitude, ulongitude],
-                        zoom: 10
+                        zoom: 15
                     };
                     
                     var map = new L.map('map', mapOptions);
@@ -889,7 +889,7 @@
                                 //Gọi map
                                 var mapOptions = {
                                     center: [ulatitude, ulongitude],
-                                    zoom: 10
+                                    zoom: 15
                                 };
                                 
                                 map = new L.map('map', mapOptions);
@@ -991,7 +991,7 @@
                                 //Gọi map
                                 var mapOptions = {
                                     center: [ulatitude, ulongitude],
-                                    zoom: 10
+                                    zoom: 15
                                 };
                                 
                                 map = new L.map('map', mapOptions);
