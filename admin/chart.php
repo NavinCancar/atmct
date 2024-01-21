@@ -2,125 +2,26 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="stylesheet" href="css/styles.css" />
+    <?php include('head.php') ?>
     <link rel="stylesheet" href="css/morris.css">
-    <title>ATM Cần Thơ - Admin</title>
-    <link rel="shortcut icon" href="image/logo.png" type="image/x-icon" />
+    <title>Thống kê</title>
+    
     <script src="js/raphael-min.js"></script>
     <script src="js/morris.js"></script>
     <script src="://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
 
 </head>
-<?php include('connect.php');
+<?php
     session_start();
 ?>
 <body>
     <div class="d-flex" id="wrapper">
-        <!-- Sidebar -->
-        <div class="bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4 primary-text fs-2 fw-bold text-uppercase border-bottom">
-                <img src="image/logo.png" width="80px">
-            </div>
-            <div class="list-group list-group-flush my-3">
-                <a href="index.php" class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
-                    <i class="fas fa-tachometer-alt me-2"></i>Tổng quan
-                </a>
-                <div id="accordion">
-                    <div class="card">
-                        <div class="card-header">
-                            <a class="btn list-group-item list-group-item-action bg-transparent primary-text fw-bold"
-                                data-bs-toggle="collapse" href="#collapse1">
-                                <i class="fas fa-building me-2"></i>Ngân hàng
-                            </a>
-                        </div>
-                        <div id="collapse1" class="collapse" data-bs-parent="#accordion">
-                            <div class="card-body">
-                                <a href="them_nganhang.php"
-                                    class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
-                                    Thêm ngân hàng
-                                </a>
-                                <a href="ds_nganhang.php"
-                                    class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
-                                    Danh sách ngân hàng
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="accordion">
-                    <div class="card">
-                        <div class="card-header">
-                            <a class="btn list-group-item list-group-item-action bg-transparent primary-text fw-bold"
-                                data-bs-toggle="collapse" href="#collapse2">
-                                <i class="fas fa-hand-holding-usd me-2"></i>Phòng giao dịch
-                            </a>
-                        </div>
-                        <div id="collapse2" class="collapse" data-bs-parent="#accordion">
-                            <div class="card-body">
-                                <a href="input.html"
-                                    class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
-                                    Thêm phòng giao dịch
-                                </a>
-                                <a href="table.html"
-                                    class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
-                                    Danh sách phòng giao dịch
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <a href="chart.html" class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
-                    <i class="fas fa-chart-bar me-2"></i>Thống kê
-                </a>
-            </div>
-        </div>
-        <!-- /#sidebar-wrapper -->
+        <?php include('sidebar.php'); ?>
 
         <!-- Page Content -->
         <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-                    <div class="today shadow-sm d-flex justify-content-around align-items-center rounded">
-                        <h6><?php
-				            $date_array = getdate();
-				            $formated_date  = "Hôm nay là: ";
-				            $formated_date .= $date_array['mday'] . "/";
-				            $formated_date .= $date_array['mon'] . "/";
-				            $formated_date .= $date_array['year'];
-				            print $formated_date;
-				        ?></h6>
-                    </div>
-                </div>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span><i class="fas fa-caret-down" style="color: #1e8383; font-size: 30px;"></i></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="image/logo.png" width="40px" class="rounded-full border-5"></i> Nguyễn Hoàng Ngọc
-                                Nguyên
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
-                                <li><a class="dropdown-item" href="login.html">Đăng xuất</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+            <?php include('nav.php'); ?>
 
             <div class="container-fluid px-4">
                 <div class="p-3 bg-white shadow-sm text-center rounded">

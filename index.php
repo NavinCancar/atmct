@@ -1128,7 +1128,7 @@
                             // Công thức lấy khoảng cách và thời gian
                             //console.log('Total ['+ten+'] distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
 
-                            var khoangcach = summary.totalDistance / 1000;
+                            var khoangcach = (summary.totalDistance / 1000).toFixed(3);
                             var thoigian = Math.round(summary.totalTime % 3600 / 60);
                             callback(khoangcach, thoigian);
                         });

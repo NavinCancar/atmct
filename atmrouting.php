@@ -47,8 +47,9 @@
             ?>
 
             <div class="row">
-                <div class="col-md-4">
-                    <h5 class="px-5 text-center text-primary">Tìm kiếm:</h5>
+                <div class="col-md-4 d-flex">
+                    <button id="sortButton" class="btn btn-orange btn-sm-square"><i class="fas fa-filter"></i></button>
+                    <h5 class="px-5 text-primary mx-auto">Tìm kiếm:</h5>
                 </div>
                 <div class="col-md-4">
                     <button data-bs-toggle="collapse" data-bs-target="#pgdcoll" id="pgd-btn" class="btn btn-primary px-5 w-100">Phòng giao dịch</button>
@@ -471,10 +472,10 @@
                                     // CALL LIST START
                                     getValue(<?php echo $row["TA_VIDOX"]; ?>, <?php echo $row["TA_KINHDOY"]; ?>, function(khoangcach, thoigian) {
                                         const htmlResult = `
-                                        <div class="card text-dark m-1 p-2">
+                                        <div data-value="${(summary.totalDistance / 1000)}" class="card text-dark m-1 p-2">
                                             <h6>Trụ ATM <?php echo $row["TA_SOHIEU"]; ?> - <?php echo $row["TA_DIACHI"]; ?></h6>
                                             <p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["TA_DIACHI"]; ?>, <?php echo $row["XP_TEN"]; ?>, <?php echo $row["QH_TEN"]; ?>, TP Cần Thơ</p>
-                                            <p class="m-0"><i class="fas fa-motorcycle"></i> Cách bạn <b>${summary.totalDistance / 1000} km</b> và cần <b>${Math.round(summary.totalTime % 3600 / 60)} phút</b> di chuyển</p>
+                                            <p class="m-0"><i class="fas fa-motorcycle"></i> Cách bạn <b>${(summary.totalDistance / 1000).toFixed(3)} km</b> và cần <b>${Math.round(summary.totalTime % 3600 / 60)} phút</b> di chuyển</p>
                                             <div class="d-flex">
                                                 <a onclick="getMarker(<?php echo $row["TA_VIDOX"]; ?>,<?php echo $row["TA_KINHDOY"]; ?>)" class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
                                                     <i class="fas fa-directions fs-4"></i>&nbsp; Tìm đường
@@ -787,7 +788,7 @@
                             // Công thức lấy khoảng cách và thời gian
                             //console.log('Total ['+ten+'] distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
 
-                            var khoangcach = summary.totalDistance / 1000;
+                            var khoangcach = (summary.totalDistance / 1000).toFixed(3);
                             var thoigian = Math.round(summary.totalTime % 3600 / 60);
                             callback(khoangcach, thoigian);
                         });
@@ -806,6 +807,26 @@
             else {
                 console.error('Geolocation is not supported by your browser.');
             }
+
+            //***************************************************************************
+            //LỌC
+            //***************************************************************************
+            $("#sortButton").click(function () {
+                var parentDiv = document.getElementById("list-location");
+                var divElements = Array.from(parentDiv.children);
+
+                divElements.sort(function(a, b) {
+                    var aValue = parseFloat(a.getAttribute("data-value"));
+                    var bValue = parseFloat(b.getAttribute("data-value"));
+                    return aValue - bValue;
+                });
+
+                parentDiv.innerHTML = "";
+
+                divElements.forEach(function(div) {
+                    parentDiv.appendChild(div);
+                });
+            }); 
         });
     </script>
 </body>

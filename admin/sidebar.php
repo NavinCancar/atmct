@@ -4,7 +4,7 @@
         <img src="image/logo.png" width="80px">
     </div>
     <div class="list-group list-group-flush my-3">
-        <a href="index.html" class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
+        <a href="index.php" class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
             <i class="fas fa-tachometer-alt me-2"></i>Tổng quan
         </a>
         <div id="accordion">
@@ -17,7 +17,7 @@
                 </div>
                 <div id="collapse1" class="collapse" data-bs-parent="#accordion">
                     <div class="card-body">
-                        <a href="Them_nganhang.php"
+                        <a href="them_nganhang.php"
                             class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
                             Thêm ngân hàng
                         </a>
@@ -61,7 +61,7 @@
                 </div>
                 <div id="collapse3" class="collapse" data-bs-parent="#accordion">
                     <div class="card-body">
-                        <a href="Them_truatm.php"
+                        <a href="them_truatm.php"
                             class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
                             Thêm trụ atm
                         </a>
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-        <a href="chart.html" class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
+        <a href="chart.php" class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
             <i class="fas fa-chart-bar me-2"></i>Thống kê
         </a>
     </div>
