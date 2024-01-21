@@ -5,7 +5,11 @@
     <title>Thống kê</title>
     <?php
         include('head.php');
+        include('connect.php');
     ?>
+    <script src="js/morris.js"></script>
+    <script src="://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
 </head>
 
 <body>
@@ -49,7 +53,102 @@
             <div class="container">
                 <h1 class="text-center mb-5 wow fadeInUp orange-text" data-wow-delay="0.1s">Thống kê trụ ATM tại Cần Thơ</h1>
                 <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
-                    <img src="https://www.mongodb.com/docs/charts/images/charts/stacked-bar-chart-reference-small.png"/>
+                <?php
+                              $servername = "localhost";
+                              $username = "root";
+                              $password = "";
+                              $dbname = "qltruatm";
+                              $connect = mysqli_connect($servername, $username, $password, $dbname);
+
+                              $query = "SELECT ngan_hang.NH_TEN, quan_huyen.qh_TEN as ten_quan_huyen, COUNT(tru_atm.ta_sohieu) as tong_so_atm 
+                              FROM ngan_hang 
+                              JOIN tru_atm ON ngan_hang.NH_MA = tru_atm.NH_MA
+                              JOIN xa_phuong ON tru_atm.xp_ma = xa_phuong.xp_ma 
+                              JOIN quan_huyen ON xa_phuong.qh_ma = quan_huyen.qh_ma 
+                              GROUP BY ngan_hang.NH_MA, quan_huyen.qh_ma";
+                              
+                              $result = mysqli_query($connect, $query);
+                              
+                              $data = array();
+                              while ($row = mysqli_fetch_assoc($result)) {
+                                  $data[] = $row;
+                              }
+                              
+                              // Chuyển đổi dữ liệu thành định dạng JSON
+                              $data = json_encode($data);
+                              
+                              // Đóng kết nối CSDL
+                              mysqli_close($connect);
+                              ?>
+                              <canvas id="bar-chart"></canvas>
+                              <script>
+        // Lấy dữ liệu từ PHP
+        var data = <?php echo $data; ?>;
+
+        // Tạo các mảng để lưu trữ nhãn và dữ liệu cho biểu đồ
+        var labels = [];
+        var dataset = [];
+
+        // Duyệt qua mảng dữ liệu và tách ra các giá trị cần thiết
+        for (var i = 0; i < data.length; i++) {
+            // Nếu nhãn chưa có trong mảng labels thì thêm vào
+            if (labels.indexOf(data[i].ten_quan_huyen) == -1) {
+                labels.push(data[i].ten_quan_huyen);
+            }
+
+            // Nếu dữ liệu của ngân hàng chưa có trong mảng dataset thì tạo mới
+            var found = false;
+            for (var j = 0; j < dataset.length; j++) {
+                if (dataset[j].label == data[i].NH_TEN) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                dataset.push({
+                    label: data[i].NH_TEN,
+                    data: [],
+                    backgroundColor: 'rgba(' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ', 0.6)',
+                    borderColor: 'rgba(' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ', 1)'
+                });
+            }
+
+            // Thêm số lượng trụ ATM của ngân hàng tại quận huyện vào mảng dữ liệu tương ứng
+            for (var j = 0; j < dataset.length; j++) {
+                if (dataset[j].label == data[i].NH_TEN) {
+                    dataset[j].data.push(data[i].tong_so_atm);
+                    break;
+                }
+            }
+        }
+
+        // Tạo đối tượng dữ liệu cho biểu đồ
+        var chartData = {
+            labels: labels,
+            datasets: dataset
+        };
+
+        // Lấy phần tử canvas từ HTML
+        var ctx = document.getElementById('bar-chart').getContext('2d');
+
+        // Khởi tạo biểu đồ cột
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+    </script>
                 </div>
             </div>
         </div>
