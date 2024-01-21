@@ -3,7 +3,7 @@
 
 <head>
     <?php include('head.php') ?>
-    <title>Danh sách ngân hàng</title>
+    <title>Danh sách phòng giao dịch</title>
 </head>
 
 <body>
@@ -22,7 +22,7 @@
             <div class="container-fluid px-4">
 
                 <div class="row my-2 secondary-bg shadow-sm">
-                    <h2 class="fs-3 mb-3 p-2 primary-bg text-center text-light">DANH SÁCH NGÂN HÀNG</h2>
+                    <h2 class="fs-3 mb-3 p-2 primary-bg text-center text-light">DANH SÁCH PHÒNG GIAO DỊCH</h2>
                     <!--Header-->
                     <div class="row pb-2">
                         <div class="col-sm-9">
@@ -46,13 +46,13 @@
                             <thead>
                                 <tr>
                                     <th scope="col" width="50">#</th>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Customer</th>
+                                    <th scope="col">Tên phòng giao dịch</th>
+                                    <th scope="col">Địa chỉ</th>
                                     <th scope="col">Thao tác</th>
                                 </tr>
                             </thead>
-                            <?php // Truy vấn dữ liệu từ bảng NGAN_HANG
-                                $sql = "SELECT * FROM NGAN_HANG WHERE NH_TT = 1";
+                            <?php // Truy vấn dữ liệu từ bảng PHONG_GIAO_DICH
+                                $sql = "SELECT * FROM PHONG_GIAO_DICH WHERE PGD_TT = 1";
                                 $result = $conn->query($sql);
 
                                 // Kiểm tra và hiển thị dữ liệu ngân hàng
@@ -61,15 +61,15 @@
                                     while($row = $result->fetch_assoc()) {?>
                             <tbody>
                                 <tr>
-                                    <th scope="row"><?php echo $row["NH_MA"] ?></th>
-                                    <td><?php echo $row["NH_TEN"] ?></td>
-                                    <td><?php echo $row["NH_DIACHI"] ?></td>
+                                    <th scope="row"><?php echo $row["PGD_MA"] ?></th>
+                                    <td><?php echo $row["PGD_TEN"] ?></td>
+                                    <td><?php echo $row["PGD_DIACHI"] ?></td>
                                     <td>
-                                        <a href="sua_nganhang.php?manh=<?php echo $row["NH_MA"] ?>"><i
+                                        <a href="sua_phonggiaodich.php?pgd=<?php echo $row["PGD_MA"] ?>"><i
                                                 class="fas fa-edit"></i></a> &nbsp;
                                         <span>
                                             <a
-                                                href="xuly/xuly_sua_nganhang.php?manh=<?php echo $row["NH_MA"] ?>&check=2">
+                                                href="xuly/xuly_sua_phonggiaodich.php?pgd=<?php echo $row["PGD_MA"] ?>&check=2">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </span>
@@ -77,7 +77,7 @@
                                 </tr>
                                 <?php }
                                     } else {
-                                        echo "Không có dữ liệu ngân hàng";
+                                        echo "Không có dữ liệu phòng giao dịch";
                                 } ?>
                             </tbody>
                         </table>

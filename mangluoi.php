@@ -102,7 +102,8 @@
                                 <div class="job-item p-4 mb-4">
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid border rounded" src="img/logo/<?php echo $row_pgd['NH_MA'] ;?>.png" alt=""
+                                            <img class="flex-shrink-0 img-fluid border rounded"
+                                                src="img/logo/<?php echo $row_pgd['NH_MA'] ;?>.png" alt=""
                                                 style="width: 80px; height: 80px;">
                                             <div class="text-start ps-4">
                                                 <h5 class="mb-3">
@@ -178,7 +179,8 @@
                                 <div class="job-item p-4 mb-4">
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid border rounded" src="img/logo/<?php echo $row_atm['NH_MA'] ;?>.png" alt=""
+                                            <img class="flex-shrink-0 img-fluid border rounded"
+                                                src="img/logo/<?php echo $row_atm['NH_MA'] ;?>.png" alt=""
                                                 style="width: 80px; height: 80px;">
                                             <div class="text-start ps-4">
                                                 <h5 class="mb-3">
@@ -230,7 +232,8 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="img/logo/<?php echo $row_nh['NH_MA'] ;?>.png" alt=""
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="img/logo/<?php echo $row_nh['NH_MA'] ;?>.png" alt=""
                                             style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">
@@ -255,11 +258,13 @@
                                         class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                         <div class="d-flex mb-3">
                                             <a class="btn btn-primary "
-                                                href="list.php?manh=<?php echo $row_nh['NH_MA']?>&check=1&tennh=<?php echo $row_nh['NH_TEN']?>">Các phòng
+                                                href="list.php?manh=<?php echo $row_nh['NH_MA']?>&check=1&tennh=<?php echo $row_nh['NH_TEN']?>">Các
+                                                phòng
                                                 giao dịch </a> &nbsp;
 
                                             <a class="btn btn-primary"
-                                                href="list.php?manh=<?php echo $row_nh['NH_MA']?>&check=2&tennh=<?php echo $row_nh['NH_TEN']?>">Các cây
+                                                href="list.php?manh=<?php echo $row_nh['NH_MA']?>&check=2&tennh=<?php echo $row_nh['NH_TEN']?>">Các
+                                                cây
                                                 ATM</a>
                                         </div>
                                         <small class="text-truncate">
