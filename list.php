@@ -80,7 +80,7 @@
                                                     <p><i class="fas fa-phone"></i>'.$row_pgd["PGD_SDT"].' </p>
                                                     <div class="d-flex">
                                                         <a href="#" onclick="findMarker(this)" data-lat="'.$row_pgd["PGD_VIDOX"].'"
-                                                        data-lng="'.$row_pgd["PGD_KINHDOY"].'">
+                                                        data-lng="'.$row_pgd["PGD_KINHDOY"].'" class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
                                                         <i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>
                                                         <img src="img/logo/1.png" width="50px" class="float-end" style="margin-left: auto">
                                                     </div>
@@ -111,7 +111,7 @@
                                                             <p><i class="fas fa-map-marker-alt"></i> &nbsp; '.$dc.' </p>
                                                            
                                                             <div class="d-flex">
-                                                            <a href="#" onclick="findMarker(this)" lat="'.$row_TA["TA_VIDOX"].'" lng="'.$row_TA["TA_KINHDOY"].'">
+                                                            <a href="#" onclick="findMarker(this)" lat="'.$row_TA["TA_VIDOX"].'" lng="'.$row_TA["TA_KINHDOY"].'" class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
                                                             <i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>
                                                                 <img src="img/logo/1.png" width="50px" class="float-end" style="margin-left: auto">
                                                             </div>

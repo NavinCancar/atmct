@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jan 18, 2024 at 01:24 PM
--- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th1 21, 2024 lúc 04:06 AM
+-- Phiên bản máy phục vụ: 10.4.28-MariaDB
+-- Phiên bản PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,56 +18,56 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `qltruatm`
+-- Cơ sở dữ liệu: `qltruatm`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `chap_nhan_the`
+-- Cấu trúc bảng cho bảng `chap_nhan_the`
 --
 
 CREATE TABLE `chap_nhan_the` (
-  `TA_SOHIEU` varchar(8) COLLATE utf8mb4_general_ci NOT NULL,
-  `NH_MA` int NOT NULL
+  `TA_SOHIEU` varchar(8) NOT NULL,
+  `NH_MA` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `chap_nhan_the`
+-- Đang đổ dữ liệu cho bảng `chap_nhan_the`
 --
 
 INSERT INTO `chap_nhan_the` (`TA_SOHIEU`, `NH_MA`) VALUES
 ('0924777', 1),
 ('1543878', 1),
-('5824633', 1),
-('6724987', 1),
-('9876245', 1),
-('1765423', 2),
-('2176883', 2),
-('5824633', 2),
-('6675942', 2),
-('8267599', 2),
 ('1543878', 3),
+('1765423', 2),
+('1765423', 4),
+('2176883', 2),
 ('2176883', 3),
 ('5632975', 3),
+('5824633', 1),
+('5824633', 2),
+('6675942', 2),
 ('6675942', 3),
-('1765423', 4),
 ('6675942', 4),
-('8267599', 4);
+('6724987', 1),
+('8267599', 2),
+('8267599', 4),
+('9876245', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dich_vu`
+-- Cấu trúc bảng cho bảng `dich_vu`
 --
 
 CREATE TABLE `dich_vu` (
-  `DV_MA` int NOT NULL,
-  `DV_TEN` varchar(30) COLLATE utf8mb4_general_ci NOT NULL
+  `DV_MA` int(11) NOT NULL,
+  `DV_TEN` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dich_vu`
+-- Đang đổ dữ liệu cho bảng `dich_vu`
 --
 
 INSERT INTO `dich_vu` (`DV_MA`, `DV_TEN`) VALUES
@@ -78,18 +78,18 @@ INSERT INTO `dich_vu` (`DV_MA`, `DV_TEN`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `muc_phi`
+-- Cấu trúc bảng cho bảng `muc_phi`
 --
 
 CREATE TABLE `muc_phi` (
-  `NH_THE` int NOT NULL,
-  `NH_TRU_ATM` int NOT NULL,
-  `DV_MA` int NOT NULL,
+  `NH_THE` int(11) NOT NULL,
+  `NH_TRU_ATM` int(11) NOT NULL,
+  `DV_MA` int(11) NOT NULL,
   `MP_DONGIA` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `muc_phi`
+-- Đang đổ dữ liệu cho bảng `muc_phi`
 --
 
 INSERT INTO `muc_phi` (`NH_THE`, `NH_TRU_ATM`, `DV_MA`, `MP_DONGIA`) VALUES
@@ -103,51 +103,50 @@ INSERT INTO `muc_phi` (`NH_THE`, `NH_TRU_ATM`, `DV_MA`, `MP_DONGIA`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ngan_hang`
+-- Cấu trúc bảng cho bảng `ngan_hang`
 --
 
 CREATE TABLE `ngan_hang` (
-  `NH_MA` int NOT NULL,
-  `XP_MA` int NOT NULL,
-  `NH_TEN` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `NH_DIACHI` varchar(90) COLLATE utf8mb4_general_ci NOT NULL,
-  `NH_SDT` char(11) COLLATE utf8mb4_general_ci NOT NULL,
+  `NH_MA` int(11) NOT NULL,
+  `XP_MA` int(11) NOT NULL,
+  `NH_TEN` varchar(30) NOT NULL,
+  `NH_DIACHI` varchar(90) NOT NULL,
+  `NH_SDT` char(11) NOT NULL,
   `NH_VIDOX` double NOT NULL,
   `NH_KINHDOY` double NOT NULL,
-  `NH_TT` int NOT NULL DEFAULT '1'
+  `NH_TT` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ngan_hang`
+-- Đang đổ dữ liệu cho bảng `ngan_hang`
 --
 
 INSERT INTO `ngan_hang` (`NH_MA`, `XP_MA`, `NH_TEN`, `NH_DIACHI`, `NH_SDT`, `NH_VIDOX`, `NH_KINHDOY`, `NH_TT`) VALUES
-(1, 4, 'Agribank', '280 Phạm Hùng', '0190055999', 9.9924618, 105.7488206, 1),
+(1, 4, 'Agribank', '280 Phạm Hùng', '0190055999', 9.99246, 105.74882, 1),
 (2, 3, 'Vietcombank', '3-5-7 Hòa Bình', '02923820445', 10.0336715, 105.7847596, 1),
 (3, 3, 'Sacombank', '95 Nam Kỳ Khởi Nghĩa', '02923843295', 10.0323723, 105.7841215, 1),
-(4, 9, 'HD Bank', '162-162B Trần Hưng Đạo', '02923734250', 10.0365398, 105.7758005, 1),
-(5, 1, 'abbsj', '122 Trần Quang Khải', '0909222222', 12344332, 12344422, 0);
+(4, 9, 'HD Bank', '162-162B Trần Hưng Đạo', '02923734250', 10.0365398, 105.7758005, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `phong_giao_dich`
+-- Cấu trúc bảng cho bảng `phong_giao_dich`
 --
 
 CREATE TABLE `phong_giao_dich` (
-  `PGD_MA` int NOT NULL,
-  `XP_MA` int NOT NULL,
-  `NH_MA` int NOT NULL,
-  `PGD_TEN` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `PGD_DIACHI` varchar(90) COLLATE utf8mb4_general_ci NOT NULL,
-  `PGD_SDT` char(11) COLLATE utf8mb4_general_ci NOT NULL,
+  `PGD_MA` int(11) NOT NULL,
+  `XP_MA` int(11) NOT NULL,
+  `NH_MA` int(11) NOT NULL,
+  `PGD_TEN` varchar(30) NOT NULL,
+  `PGD_DIACHI` varchar(90) NOT NULL,
+  `PGD_SDT` char(11) NOT NULL,
   `PGD_VIDOX` double NOT NULL,
   `PGD_KINHDOY` double NOT NULL,
-  `PGD_TT` int NOT NULL DEFAULT '1'
+  `PGD_TT` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `phong_giao_dich`
+-- Đang đổ dữ liệu cho bảng `phong_giao_dich`
 --
 
 INSERT INTO `phong_giao_dich` (`PGD_MA`, `XP_MA`, `NH_MA`, `PGD_TEN`, `PGD_DIACHI`, `PGD_SDT`, `PGD_VIDOX`, `PGD_KINHDOY`, `PGD_TT`) VALUES
@@ -164,16 +163,16 @@ INSERT INTO `phong_giao_dich` (`PGD_MA`, `XP_MA`, `NH_MA`, `PGD_TEN`, `PGD_DIACH
 -- --------------------------------------------------------
 
 --
--- Table structure for table `quan_huyen`
+-- Cấu trúc bảng cho bảng `quan_huyen`
 --
 
 CREATE TABLE `quan_huyen` (
-  `QH_MA` int NOT NULL,
-  `QH_TEN` varchar(30) COLLATE utf8mb4_general_ci NOT NULL
+  `QH_MA` int(11) NOT NULL,
+  `QH_TEN` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `quan_huyen`
+-- Đang đổ dữ liệu cho bảng `quan_huyen`
 --
 
 INSERT INTO `quan_huyen` (`QH_MA`, `QH_TEN`) VALUES
@@ -184,21 +183,21 @@ INSERT INTO `quan_huyen` (`QH_MA`, `QH_TEN`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tru_atm`
+-- Cấu trúc bảng cho bảng `tru_atm`
 --
 
 CREATE TABLE `tru_atm` (
-  `TA_SOHIEU` varchar(8) COLLATE utf8mb4_general_ci NOT NULL,
-  `NH_MA` int NOT NULL,
-  `XP_MA` int NOT NULL,
-  `TA_DIACHI` varchar(90) COLLATE utf8mb4_general_ci NOT NULL,
+  `TA_SOHIEU` varchar(8) NOT NULL,
+  `NH_MA` int(11) NOT NULL,
+  `XP_MA` int(11) NOT NULL,
+  `TA_DIACHI` varchar(90) NOT NULL,
   `TA_VIDOX` double NOT NULL,
   `TA_KINHDOY` double NOT NULL,
-  `TA_TT` int NOT NULL DEFAULT '1'
+  `TA_TT` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tru_atm`
+-- Đang đổ dữ liệu cho bảng `tru_atm`
 --
 
 INSERT INTO `tru_atm` (`TA_SOHIEU`, `NH_MA`, `XP_MA`, `TA_DIACHI`, `TA_VIDOX`, `TA_KINHDOY`, `TA_TT`) VALUES
@@ -216,17 +215,17 @@ INSERT INTO `tru_atm` (`TA_SOHIEU`, `NH_MA`, `XP_MA`, `TA_DIACHI`, `TA_VIDOX`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `xa_phuong`
+-- Cấu trúc bảng cho bảng `xa_phuong`
 --
 
 CREATE TABLE `xa_phuong` (
-  `XP_MA` int NOT NULL,
-  `QH_MA` int NOT NULL,
-  `XP_TEN` varchar(30) COLLATE utf8mb4_general_ci NOT NULL
+  `XP_MA` int(11) NOT NULL,
+  `QH_MA` int(11) NOT NULL,
+  `XP_TEN` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `xa_phuong`
+-- Đang đổ dữ liệu cho bảng `xa_phuong`
 --
 
 INSERT INTO `xa_phuong` (`XP_MA`, `QH_MA`, `XP_TEN`) VALUES
@@ -245,24 +244,24 @@ INSERT INTO `xa_phuong` (`XP_MA`, `QH_MA`, `XP_TEN`) VALUES
 (13, 1, 'An Bình');
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `chap_nhan_the`
+-- Chỉ mục cho bảng `chap_nhan_the`
 --
 ALTER TABLE `chap_nhan_the`
   ADD PRIMARY KEY (`TA_SOHIEU`,`NH_MA`),
   ADD KEY `FK_CHAP_NHAN_THE2` (`NH_MA`);
 
 --
--- Indexes for table `dich_vu`
+-- Chỉ mục cho bảng `dich_vu`
 --
 ALTER TABLE `dich_vu`
   ADD PRIMARY KEY (`DV_MA`);
 
 --
--- Indexes for table `muc_phi`
+-- Chỉ mục cho bảng `muc_phi`
 --
 ALTER TABLE `muc_phi`
   ADD PRIMARY KEY (`NH_THE`,`DV_MA`,`NH_TRU_ATM`),
@@ -270,14 +269,14 @@ ALTER TABLE `muc_phi`
   ADD KEY `FK_NH_TRU_ATM` (`NH_TRU_ATM`);
 
 --
--- Indexes for table `ngan_hang`
+-- Chỉ mục cho bảng `ngan_hang`
 --
 ALTER TABLE `ngan_hang`
   ADD PRIMARY KEY (`NH_MA`),
   ADD KEY `FK_CO_NGAN_HANG` (`XP_MA`);
 
 --
--- Indexes for table `phong_giao_dich`
+-- Chỉ mục cho bảng `phong_giao_dich`
 --
 ALTER TABLE `phong_giao_dich`
   ADD PRIMARY KEY (`PGD_MA`),
@@ -285,13 +284,13 @@ ALTER TABLE `phong_giao_dich`
   ADD KEY `FK_CO_PHONG_GIAO_DICH` (`XP_MA`);
 
 --
--- Indexes for table `quan_huyen`
+-- Chỉ mục cho bảng `quan_huyen`
 --
 ALTER TABLE `quan_huyen`
   ADD PRIMARY KEY (`QH_MA`);
 
 --
--- Indexes for table `tru_atm`
+-- Chỉ mục cho bảng `tru_atm`
 --
 ALTER TABLE `tru_atm`
   ADD PRIMARY KEY (`TA_SOHIEU`),
@@ -299,69 +298,69 @@ ALTER TABLE `tru_atm`
   ADD KEY `FK_CUNG_CAP` (`NH_MA`);
 
 --
--- Indexes for table `xa_phuong`
+-- Chỉ mục cho bảng `xa_phuong`
 --
 ALTER TABLE `xa_phuong`
   ADD PRIMARY KEY (`XP_MA`),
   ADD KEY `FK_THUOC_QUAN_HUYEN` (`QH_MA`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `ngan_hang`
+-- AUTO_INCREMENT cho bảng `ngan_hang`
 --
 ALTER TABLE `ngan_hang`
-  MODIFY `NH_MA` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `NH_MA` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `phong_giao_dich`
+-- AUTO_INCREMENT cho bảng `phong_giao_dich`
 --
 ALTER TABLE `phong_giao_dich`
-  MODIFY `PGD_MA` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `PGD_MA` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- Constraints for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Constraints for table `chap_nhan_the`
+-- Các ràng buộc cho bảng `chap_nhan_the`
 --
 ALTER TABLE `chap_nhan_the`
-  ADD CONSTRAINT `FK_CHAP_NHAN_THE` FOREIGN KEY (`TA_SOHIEU`) REFERENCES `tru_atm` (`TA_SOHIEU`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_CHAP_NHAN_THE2` FOREIGN KEY (`NH_MA`) REFERENCES `ngan_hang` (`NH_MA`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `FK_CHAP_NHAN_THE` FOREIGN KEY (`TA_SOHIEU`) REFERENCES `tru_atm` (`TA_SOHIEU`),
+  ADD CONSTRAINT `FK_CHAP_NHAN_THE2` FOREIGN KEY (`NH_MA`) REFERENCES `ngan_hang` (`NH_MA`);
 
 --
--- Constraints for table `muc_phi`
+-- Các ràng buộc cho bảng `muc_phi`
 --
 ALTER TABLE `muc_phi`
   ADD CONSTRAINT `FK_DV_MP` FOREIGN KEY (`DV_MA`) REFERENCES `dich_vu` (`DV_MA`),
-  ADD CONSTRAINT `FK_NH_THE` FOREIGN KEY (`NH_THE`) REFERENCES `ngan_hang` (`NH_MA`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_NH_TRU_ATM` FOREIGN KEY (`NH_TRU_ATM`) REFERENCES `ngan_hang` (`NH_MA`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `FK_NH_THE` FOREIGN KEY (`NH_THE`) REFERENCES `ngan_hang` (`NH_MA`),
+  ADD CONSTRAINT `FK_NH_TRU_ATM` FOREIGN KEY (`NH_TRU_ATM`) REFERENCES `ngan_hang` (`NH_MA`);
 
 --
--- Constraints for table `ngan_hang`
+-- Các ràng buộc cho bảng `ngan_hang`
 --
 ALTER TABLE `ngan_hang`
-  ADD CONSTRAINT `FK_CO_NGAN_HANG` FOREIGN KEY (`XP_MA`) REFERENCES `xa_phuong` (`XP_MA`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `FK_CO_NGAN_HANG` FOREIGN KEY (`XP_MA`) REFERENCES `xa_phuong` (`XP_MA`);
 
 --
--- Constraints for table `phong_giao_dich`
+-- Các ràng buộc cho bảng `phong_giao_dich`
 --
 ALTER TABLE `phong_giao_dich`
-  ADD CONSTRAINT `FK_CO` FOREIGN KEY (`NH_MA`) REFERENCES `phong_giao_dich` (`PGD_MA`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `FK_CO_pgd` FOREIGN KEY (`XP_MA`) REFERENCES `xa_phuong` (`XP_MA`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `FK_CO` FOREIGN KEY (`NH_MA`) REFERENCES `phong_giao_dich` (`PGD_MA`),
+  ADD CONSTRAINT `FK_CO_pgd` FOREIGN KEY (`XP_MA`) REFERENCES `xa_phuong` (`XP_MA`);
 
 --
--- Constraints for table `tru_atm`
+-- Các ràng buộc cho bảng `tru_atm`
 --
 ALTER TABLE `tru_atm`
   ADD CONSTRAINT `FK_CO_TRU_ATM` FOREIGN KEY (`XP_MA`) REFERENCES `xa_phuong` (`XP_MA`),
-  ADD CONSTRAINT `FK_CUNG_CAP` FOREIGN KEY (`NH_MA`) REFERENCES `ngan_hang` (`NH_MA`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `FK_CUNG_CAP` FOREIGN KEY (`NH_MA`) REFERENCES `ngan_hang` (`NH_MA`);
 
 --
--- Constraints for table `xa_phuong`
+-- Các ràng buộc cho bảng `xa_phuong`
 --
 ALTER TABLE `xa_phuong`
   ADD CONSTRAINT `FK_THUOC_QUAN_HUYEN` FOREIGN KEY (`QH_MA`) REFERENCES `quan_huyen` (`QH_MA`);
