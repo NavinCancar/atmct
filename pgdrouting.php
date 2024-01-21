@@ -257,6 +257,16 @@
 
     <!-- SCRIPT XỬ LÝ BẢN ĐỒ -->
     <script>
+        //***************************************************************************
+        //HÀM TRUNG GIAN ROUTING
+        //***************************************************************************
+        let handleMarkerClick;
+        function getMarker(x, y) {
+            if (handleMarkerClick) {
+                handleMarkerClick(x, y);
+            }
+        }
+
         $(document).ready(function () {
             //***************************************************************************
             //KHAI BÁO BAN ĐẦU
@@ -395,7 +405,7 @@
                                         '<p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["PGD_DIACHI"].', '.$row["XP_TEN"].', '.$row["QH_TEN"].', TP Cần Thơ'?></p>' +
                                         '<div class="col-5">' +
                                         '<p><i class="fas fa-phone"></i> <?php echo $row["PGD_SDT"];?></p>' +
-                                        '<a class="findRoute"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
+                                        '<a class="findRoute" onclick="getMarker(<?php echo $row["PGD_VIDOX"]; ?>,<?php echo $row["PGD_KINHDOY"]; ?>)"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
                                         '</div>' +
                                         '<div class = "col-7" >' +
                                         ' <img src = "img/logo/<?php echo $row["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
@@ -424,7 +434,7 @@
                                                 <p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["PGD_DIACHI"]; ?>, <?php echo $row["XP_TEN"]; ?>, <?php echo $row["QH_TEN"]; ?>, TP Cần Thơ</p>
                                                 <p class="m-0"><i class="fas fa-motorcycle"></i> Cách bạn <b>${summary.totalDistance / 1000} km</b> và cần <b>${Math.round(summary.totalTime % 3600 / 60)} phút</b> di chuyển</p>
                                                 <div class="d-flex">
-                                                    <a  class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
+                                                    <a onclick="getMarker(<?php echo $row["PGD_VIDOX"]; ?>,<?php echo $row["PGD_KINHDOY"]; ?>)" class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
                                                         <i class="fas fa-directions fs-4"></i>&nbsp; Tìm đường
                                                     </a>
                                                     <img src="img/logo/<?php echo $row["NH_MA"]; ?>.png" width="50px" class="float-end" style="margin-left: auto">
@@ -436,21 +446,6 @@
                                     });
                                     // CALL LIST END
                                     //----------------------------------------------------------------
-                                    //----------------------------------------------------------------
-                                    // CLICK -> ROUTING START
-                                    marker.on("click", function() {
-                                        var markerId = <?php echo $row["PGD_MA"]; ?>;
-                                        var latitude = <?php echo $row["PGD_VIDOX"]; ?>;
-                                        var longitude = <?php echo $row["PGD_KINHDOY"]; ?>;
-                                        $('.findRoute').on("click", function() {
-                                            handleMarkerClick(markerId, latitude, longitude);
-                                        })
-                                        //
-                                        //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
-                                    });
-                                    // CLICK -> ROUTING END
-                                    //----------------------------------------------------------------
-                                    console.log("minLat", minLat);
                                     //***************************************************************************
                                     //CENTER VÀ ZOOM LẠI START
                                     // Tạo đa giác từ tất cả các tọa độ của các marker
@@ -531,7 +526,7 @@
                                             '<p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["PGD_DIACHI"].', '.$row["XP_TEN"].', '.$row["QH_TEN"].', TP Cần Thơ'?></p>' +
                                             '<div class="col-5">' +
                                             '<p><i class="fas fa-phone"></i> <?php echo $row["PGD_SDT"];?></p>' +
-                                            '<a class="findRoute"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
+                                            '<a class="findRoute"  onclick="getMarker(<?php echo $row["PGD_VIDOX"]; ?>,<?php echo $row["PGD_KINHDOY"]; ?>)"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
                                             '</div>' +
                                             '<div class = "col-7" >' +
                                             ' <img src = "img/logo/<?php echo $row["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
@@ -547,7 +542,7 @@
                                                     <p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["PGD_DIACHI"]; ?>, <?php echo $row["XP_TEN"]; ?>, <?php echo $row["QH_TEN"]; ?>, TP Cần Thơ</p>
                                                     <p class="m-0"><i class="fas fa-motorcycle"></i> Cách bạn <b>${khoangcach} km</b> và cần <b>${thoigian} phút</b> di chuyển</p>
                                                     <div class="d-flex">
-                                                        <a  class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
+                                                        <a onclick="getMarker(<?php echo $row["PGD_VIDOX"]; ?>,<?php echo $row["PGD_KINHDOY"]; ?>)" class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
                                                             <i class="fas fa-directions fs-4"></i>&nbsp; Tìm đường
                                                         </a>
                                                         <img src="img/logo/<?php echo $row["NH_MA"]; ?>.png" width="50px" class="float-end" style="margin-left: auto">
@@ -558,20 +553,6 @@
                                             listLocationDiv.innerHTML += htmlResult;
                                         });
                                         // CALL LIST END
-                                        //----------------------------------------------------------------
-                                        //----------------------------------------------------------------
-                                        // CLICK -> ROUTING START
-                                        marker.on("click", function() {
-                                            var markerId = <?php echo $row["PGD_MA"]; ?>;
-                                            var latitude = <?php echo $row["PGD_VIDOX"]; ?>;
-                                            var longitude = <?php echo $row["PGD_KINHDOY"]; ?>;
-                                            $('.findRoute').on("click", function() {
-                                                handleMarkerClick(markerId, latitude, longitude);
-                                            })
-                                            //
-                                            //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
-                                        });
-                                        // CLICK -> ROUTING END
                                         //----------------------------------------------------------------
                                         //----------------------------------------------------------------
                                         //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
@@ -645,7 +626,7 @@
                                             ' <h5>Trụ ATM <?php echo $row["TA_SOHIEU"].' - '.$row["TA_DIACHI"];?></h5>' +
                                             '<p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["TA_DIACHI"].', '.$row["XP_TEN"].', '.$row["QH_TEN"].', TP Cần Thơ'?></p>' +
                                             '<div class="col-5">' +
-                                            '<a class="findRoute"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
+                                            '<a class="findRoute" onclick="getMarker(<?php echo $row["TA_VIDOX"]; ?>,<?php echo $row["TA_KINHDOY"]; ?>)"><i class="fas fa-directions fs-3"></i>&nbsp; Tìm đường</a>' +
                                             '</div>' +
                                             '<div class = "col-7" >' +
                                             ' <img src = "img/logo/<?php echo $row["NH_MA"]; ?>.png" width = "70px" class="float-end">' +
@@ -661,7 +642,7 @@
                                                 <p><i class="fas fa-map-marker-alt"></i> &nbsp; <?php echo $row["TA_DIACHI"]; ?>, <?php echo $row["XP_TEN"]; ?>, <?php echo $row["QH_TEN"]; ?>, TP Cần Thơ</p>
                                                 <p class="m-0"><i class="fas fa-motorcycle"></i> Cách bạn <b>${khoangcach} km</b> và cần <b>${thoigian} phút</b> di chuyển</p>
                                                 <div class="d-flex">
-                                                    <a  class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
+                                                    <a onclick="getMarker(<?php echo $row["TA_VIDOX"]; ?>,<?php echo $row["TA_KINHDOY"]; ?>)" class="findRoute card-link text-primary p-0" style="margin-top: auto; margin-bottom: auto">
                                                         <i class="fas fa-directions fs-4"></i>&nbsp; Tìm đường
                                                     </a>
                                                     <img src="img/logo/<?php echo $row["NH_MA"]; ?>.png" width="50px" class="float-end" style="margin-left: auto">
@@ -672,20 +653,6 @@
                                             listLocationDiv.innerHTML += htmlResult;
                                         });
                                         // CALL LIST END
-                                        //----------------------------------------------------------------
-                                        //----------------------------------------------------------------
-                                        // CLICK -> ROUTING START
-                                        marker.on("click", function() {
-                                            var markerId = <?php echo $row["TA_SOHIEU"]; ?>;
-                                            var latitude = <?php echo $row["TA_VIDOX"]; ?>;
-                                            var longitude = <?php echo $row["TA_KINHDOY"]; ?>;
-                                            $('.findRoute').on("click", function() {
-                                                handleMarkerClick(markerId, latitude, longitude);
-                                            })
-                                            //
-                                            //console.log(markerId + ' , ' + latitude + ' , ' + longitude );
-                                        });
-                                        // CLICK -> ROUTING END
                                         //----------------------------------------------------------------
                                         //----------------------------------------------------------------
                                         //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
@@ -717,7 +684,9 @@
                     //HÀM BỔ SUNG
                     //***************************************************************************
                     //CLICK -> ROUNTING
-                    function handleMarkerClick(markerId, latitude, longitude) {
+                    handleMarkerClick = function(latitude, longitude) {
+                        map.closePopup();
+
                         if (findRouting != null) {
                             map.removeControl(findRouting);
                             findRouting = null;
@@ -740,6 +709,7 @@
                                 ]
                             }
                         }).addTo(map);
+                        map.fitBounds(L.latLngBounds(L.latLng(ulatitude, ulongitude), L.latLng(latitude, longitude)));
                     };
 
 
