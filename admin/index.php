@@ -24,7 +24,13 @@
                     <div class="col-md-4">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                             <div>
-                                <h3 class="fs-2">720</h3>
+                                <?php
+                                    $query = "SELECT COUNT(*) count FROM `ngan_hang`";
+                                    $result = mysqli_query($conn, $query);
+                                    while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
+                                        echo "<h3 class='fs-2'>".$row["count"]."</h3>";
+                                    }
+                                ?>
                                 <p class="fs-5">Ngân hàng</p>
                             </div>
                             <i class="fas fa-building fs-1 primary-text rounded-full secondary-bg p-3"></i>
@@ -34,7 +40,13 @@
                     <div class="col-md-4">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                             <div>
-                                <h3 class="fs-2">4920</h3>
+                                <?php
+                                    $query = "SELECT COUNT(*) count FROM `phong_giao_dich`";
+                                    $result = mysqli_query($conn, $query);
+                                    while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
+                                        echo "<h3 class='fs-2'>".$row["count"]."</h3>";
+                                    }
+                                ?>
                                 <p class="fs-5">Phòng giao dịch</p>
                             </div>
                             <i class="fas fa-hand-holding-usd fs-1 primary-text rounded-full secondary-bg p-3"></i>
@@ -44,7 +56,13 @@
                     <div class="col-md-4">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                             <div>
-                                <h3 class="fs-2">43243</h3>
+                                <?php
+                                    $query = "SELECT COUNT(*) count FROM `tru_atm`";
+                                    $result = mysqli_query($conn, $query);
+                                    while($row = mysqli_fetch_array($result, MYSQLI_BOTH)){
+                                        echo "<h3 class='fs-2'>".$row["count"]."</h3>";
+                                    }
+                                ?>
                                 <p class="fs-5">Trụ ATM</p>
                             </div>
                             <i class="fas fa-credit-card fs-1 primary-text rounded-full secondary-bg p-3"></i>
