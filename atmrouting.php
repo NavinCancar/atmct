@@ -356,6 +356,7 @@
                     var maxLat = -Infinity;
                     var minLng = Infinity;
                     var maxLng = -Infinity;
+                    var old_polygon = L.polygon([[ulatitude, ulongitude]], {color: 'blue', fillOpacity: 0.2});
                     //***************************************************************************
                     //XỬ LÝ TÌM KIẾM START
                     //***************************************************************************
@@ -494,6 +495,8 @@
                                     // Tạo đa giác từ tất cả các tọa độ của các marker
                                     if (minLat != Infinity && maxLat != -Infinity && minLng != Infinity && maxLng != -Infinity) {
                                         
+                                        old_polygon.remove();
+
                                         var polygon = L.polygon([
                                             [minLat, maxLng],
                                             [maxLat, maxLng],
@@ -501,9 +504,7 @@
                                             [minLat, minLng],
                                         ], {color: 'blue', fillOpacity: 0.2}).addTo(map);
 
-                                        polygon.on('click', function () {
-                                            polygon.remove();
-                                        });
+                                        old_polygon = polygon;
                                         // Đặt trung tâm và zoom của bản đồ để nó hiển thị toàn bộ đa giác
                                         map.fitBounds(polygon.getBounds());
                                     }
