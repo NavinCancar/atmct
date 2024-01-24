@@ -701,7 +701,7 @@
                     var userPolyline = L.polyline([[ulatitude, ulongitude], [ulatitude, ulongitude]], { color: 'red', weight: 30 }).addTo(map);
                     userPolyline.bindPopup('Vị trí của bạn').openPopup();        
 
-                    <?php $newlatitude=0; $newlongitude=0; $count=0; ?>
+                    var markerClusterGroup = L.markerClusterGroup();
                     //***************************************************************************
                     //GỌI NGÂN HÀNG START
                     <?php
@@ -746,8 +746,11 @@
                             // CALL LIST END
                             //----------------------------------------------------------------
                             //----------------------------------------------------------------
-                            //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
-                            <?php $newlatitude+=$row["NH_VIDOX"]; $newlongitude+=$row["NH_KINHDOY"]; $count++; ?>
+                            //CENTER VÀ ZOOM LẠI START
+                            
+                            markerClusterGroup.addLayer(marker);
+                            
+                            //CENTER VÀ ZOOM LẠI END
                             //----------------------------------------------------------------
                     <?php } ?>
                     //GỌI NGÂN HÀNG END
@@ -796,8 +799,11 @@
                             // CALL LIST END
                             //----------------------------------------------------------------
                             //----------------------------------------------------------------
-                            //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
-                            <?php $newlatitude+=$row["PGD_VIDOX"]; $newlongitude+=$row["PGD_KINHDOY"]; $count++; ?>
+                            //CENTER VÀ ZOOM LẠI START
+                            
+                            markerClusterGroup.addLayer(marker);
+                            
+                            //CENTER VÀ ZOOM LẠI END
                             //----------------------------------------------------------------
                     <?php } ?>
                     //GỌI PGD END
@@ -845,8 +851,11 @@
                             // CALL LIST END
                             //----------------------------------------------------------------
                             //----------------------------------------------------------------
-                            //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
-                            <?php $newlatitude+=$row["TA_VIDOX"]; $newlongitude+=$row["TA_KINHDOY"]; $count++; ?>
+                            //CENTER VÀ ZOOM LẠI START
+                            
+                            markerClusterGroup.addLayer(marker);
+                            
+                            //CENTER VÀ ZOOM LẠI END
                             //----------------------------------------------------------------
                     <?php } ?>
                     //GỌI ATM END
@@ -854,11 +863,8 @@
 
                     //***************************************************************************
                     //CENTER VÀ ZOOM LẠI START
-                    <?php $newlatitude = $newlatitude/$count; $newlongitude=$newlongitude/$count; ?>
-                    var newCenter = [<?php echo $newlatitude .', '. $newlongitude; ?>];
-                    var newZoomLevel = 15;
-                    map.setView(newCenter, newZoomLevel);
-                    <?php $newlatitude = 0; $newlongitude=0; $count=0; ?>
+                    map.addLayer(markerClusterGroup);
+                    map.fitBounds(markerClusterGroup.getBounds());
                     //CENTER VÀ ZOOM LẠI END
                     //***************************************************************************
 
@@ -894,7 +900,7 @@
                                 userPolyline.bindPopup('Vị trí của bạn').openPopup();   
 
                                 //----------------------------------------------------------------
-                                <?php $newlatitude=0; $newlongitude=0; $count=0; ?>
+                                var markerClusterGroup = L.markerClusterGroup();
                                 //***************************************************************************
                                 //GỌI PGD START
                                 <?php
@@ -939,19 +945,19 @@
                                         // CALL LIST END
                                         //----------------------------------------------------------------
                                         //----------------------------------------------------------------
-                                        //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
-                                        <?php $newlatitude+=$row["PGD_VIDOX"]; $newlongitude+=$row["PGD_KINHDOY"]; $count++; ?>
+                                        //CENTER VÀ ZOOM LẠI START
+                                        
+                                        markerClusterGroup.addLayer(marker);
+                                        
+                                        //CENTER VÀ ZOOM LẠI END
                                         //----------------------------------------------------------------
                                 <?php } ?>
                                 //GỌI PGD END
                                 //***************************************************************************
                                 //***************************************************************************
                                 //CENTER VÀ ZOOM LẠI START
-                                <?php $newlatitude = $newlatitude/$count; $newlongitude=$newlongitude/$count; ?>
-                                var newCenter = [<?php echo $newlatitude .', '. $newlongitude; ?>];
-                                var newZoomLevel = 15;
-                                map.setView(newCenter, newZoomLevel);
-                                <?php $newlatitude = 0; $newlongitude=0; $count=0; ?>
+                                map.addLayer(markerClusterGroup);
+                                map.fitBounds(markerClusterGroup.getBounds());
                                 //CENTER VÀ ZOOM LẠI END
                                 //***************************************************************************
                             });
@@ -995,7 +1001,7 @@
                                 userPolyline.bindPopup('Vị trí của bạn').openPopup();   
 
                                 //----------------------------------------------------------------
-                                <?php $newlatitude=0; $newlongitude=0; $count=0; ?>
+                                var markerClusterGroup = L.markerClusterGroup();
                                 //***************************************************************************
                                 //GỌI ATM START
                                 <?php
@@ -1039,19 +1045,19 @@
                                         // CALL LIST END
                                         //----------------------------------------------------------------
                                         //----------------------------------------------------------------
-                                        //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
-                                        <?php $newlatitude+=$row["TA_VIDOX"]; $newlongitude+=$row["TA_KINHDOY"]; $count++; ?>
+                                        //CENTER VÀ ZOOM LẠI START
+                                        
+                                        markerClusterGroup.addLayer(marker);
+                                        
+                                        //CENTER VÀ ZOOM LẠI END
                                         //----------------------------------------------------------------
                                 <?php } ?>
                                 //GỌI ATM END
                                 //***************************************************************************
                                 //***************************************************************************
                                 //CENTER VÀ ZOOM LẠI START
-                                <?php $newlatitude = $newlatitude/$count; $newlongitude=$newlongitude/$count; ?>
-                                var newCenter = [<?php echo $newlatitude .', '. $newlongitude; ?>];
-                                var newZoomLevel = 15;
-                                map.setView(newCenter, newZoomLevel);
-                                <?php $newlatitude = 0; $newlongitude=0; $count=0; ?>
+                                map.addLayer(markerClusterGroup);
+                                map.fitBounds(markerClusterGroup.getBounds());
                                 //CENTER VÀ ZOOM LẠI END
                                 //***************************************************************************
                             });

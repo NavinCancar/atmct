@@ -54,12 +54,14 @@
                               $dbname = "qltruatm";
                               $connect = mysqli_connect($servername, $username, $password, $dbname);
 
-                              $query = "SELECT ngan_hang.NH_TEN, quan_huyen.qh_TEN as ten_quan_huyen, COUNT(tru_atm.ta_sohieu) as tong_so_atm 
+                              $query = "SELECT ngan_hang.NH_TEN, 
+                              quan_huyen.qh_TEN as ten_quan_huyen, 
+                              COUNT(tru_atm.ta_sohieu) as tong_so_atm 
                               FROM ngan_hang 
-                              JOIN tru_atm ON ngan_hang.NH_MA = tru_atm.NH_MA
-                              JOIN xa_phuong ON tru_atm.xp_ma = xa_phuong.xp_ma 
-                              JOIN quan_huyen ON xa_phuong.qh_ma = quan_huyen.qh_ma 
-                              GROUP BY ngan_hang.NH_MA, quan_huyen.qh_ma";
+                              CROSS JOIN quan_huyen 
+                              LEFT JOIN xa_phuong ON quan_huyen.qh_ma = xa_phuong.qh_ma 
+                              LEFT JOIN tru_atm ON ngan_hang.NH_MA = tru_atm.NH_MA AND xa_phuong.xp_ma = tru_atm.xp_ma 
+                              GROUP BY ngan_hang.NH_TEN, quan_huyen.qh_TEN;";
                               
                               $result = mysqli_query($connect, $query);
                               

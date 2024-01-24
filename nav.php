@@ -9,7 +9,7 @@
         <a href="index.php" class="nav-item nav-link">Trang chủ</a>
         <a href="thongke.php" class="nav-item nav-link">Thống kê</a>
         <a href="gioithieu.php" class="nav-item nav-link">Giới thiệu</a>
-        <a href="admin/login.php" class="nav-item nav-link">Đăng nhập</a>
+        <a href="admin/login.php" class="nav-item nav-link">Quản trị</a>
     </div>
     <a href="mangluoi.php" class="btn btn-blue rounded-0 py-4 px-lg-5 d-none d-lg-block">
         Phòng giao dịch & trụ ATM <i class="fa fa-arrow-right ms-3"></i>

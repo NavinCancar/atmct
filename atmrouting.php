@@ -352,15 +352,10 @@
                     userPolyline.bindPopup('Vị trí của bạn').openPopup();        
 
                     //***************************************************************************
-                    var minLat = Infinity;
-                    var maxLat = -Infinity;
-                    var minLng = Infinity;
-                    var maxLng = -Infinity;
-                    var old_polygon = L.polygon([[ulatitude, ulongitude]], {color: 'blue', fillOpacity: 0.2});
-                    //***************************************************************************
                     //XỬ LÝ TÌM KIẾM START
                     //***************************************************************************
                     //ROUTING ATM START
+                    var markerClusterGroup = L.markerClusterGroup();
                     <?php 
                         $khoangcach = $_GET['khoangcach'];
                         $nganhang = $_GET['nganhang'];
@@ -456,19 +451,6 @@
                                         '</div>',
                                         customPopup
                                     );
-                                    //---------------------------------------------------
-                                    //TÌM CÁC GÓC HCN -> POLYGON
-                                    const lat = marker.getLatLng().lat;
-                                    const lng = marker.getLatLng().lng;
-
-                                    // Tìm giá trị lat nhỏ nhất và lớn nhất
-                                    minLat = Math.min(minLat, lat);
-                                    maxLat = Math.max(maxLat, lat);
-
-                                    // Tìm giá trị lng nhỏ nhất và lớn nhất
-                                    minLng = Math.min(minLng, lng);
-                                    maxLng = Math.max(maxLng, lng);
-                                    //---------------------------------------------------
                                     //----------------------------------------------------------------
                                     // CALL LIST START
                                     getValue(<?php echo $row["TA_VIDOX"]; ?>, <?php echo $row["TA_KINHDOY"]; ?>, function(khoangcach, thoigian) {
@@ -490,32 +472,21 @@
                                     });
                                     // CALL LIST END
                                     //----------------------------------------------------------------
-                                    //***************************************************************************
+                                    //----------------------------------------------------------------
                                     //CENTER VÀ ZOOM LẠI START
-                                    // Tạo đa giác từ tất cả các tọa độ của các marker
-                                    if (minLat != Infinity && maxLat != -Infinity && minLng != Infinity && maxLng != -Infinity) {
-                                        
-                                        old_polygon.remove();
-
-                                        var polygon = L.polygon([
-                                            [minLat, maxLng],
-                                            [maxLat, maxLng],
-                                            [maxLat, minLng],
-                                            [minLat, minLng],
-                                        ], {color: 'blue', fillOpacity: 0.2}).addTo(map);
-
-                                        old_polygon = polygon;
-                                        // Đặt trung tâm và zoom của bản đồ để nó hiển thị toàn bộ đa giác
-                                        map.fitBounds(polygon.getBounds());
-                                    }
+                                    
+                                    markerClusterGroup.addLayer(marker);
+                                    
                                     //CENTER VÀ ZOOM LẠI END
-                                    //***************************************************************************
+                                    //----------------------------------------------------------------
                                 }
                             });
                             control.route();      
                             // TÍNH KHOẢNG CÁCH NGẦM END
                             //---------------------------------------------------
                     <?php } ?>
+                    map.addLayer(markerClusterGroup);
+                    map.fitBounds(markerClusterGroup.getBounds());
                     //ROUTING ATM END
                     //***************************************************************************
                     //XỬ LÝ TÌM KIẾM END
@@ -554,7 +525,7 @@
                                 userPolyline.bindPopup('Vị trí của bạn').openPopup();   
 
                                 //----------------------------------------------------------------
-                                <?php $newlatitude=0; $newlongitude=0; $count=0; ?>
+                                var markerClusterGroup = L.markerClusterGroup();
                                 //***************************************************************************
                                 //GỌI PGD START
                                 <?php
@@ -599,19 +570,19 @@
                                         // CALL LIST END
                                         //----------------------------------------------------------------
                                         //----------------------------------------------------------------
-                                        //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
-                                        <?php $newlatitude+=$row["PGD_VIDOX"]; $newlongitude+=$row["PGD_KINHDOY"]; $count++; ?>
+                                        //CENTER VÀ ZOOM LẠI START
+                                        
+                                        markerClusterGroup.addLayer(marker);
+                                        
+                                        //CENTER VÀ ZOOM LẠI END
                                         //----------------------------------------------------------------
                                 <?php } ?>
                                 //GỌI PGD END
                                 //***************************************************************************
                                 //***************************************************************************
                                 //CENTER VÀ ZOOM LẠI START
-                                <?php $newlatitude = $newlatitude/$count; $newlongitude=$newlongitude/$count; ?>
-                                var newCenter = [<?php echo $newlatitude .', '. $newlongitude; ?>];
-                                var newZoomLevel = 15;
-                                map.setView(newCenter, newZoomLevel);
-                                <?php $newlatitude = 0; $newlongitude=0; $count=0; ?>
+                                map.addLayer(markerClusterGroup);
+                                map.fitBounds(markerClusterGroup.getBounds());
                                 //CENTER VÀ ZOOM LẠI END
                                 //***************************************************************************
                             });
@@ -655,7 +626,7 @@
                                 userPolyline.bindPopup('Vị trí của bạn').openPopup();   
 
                                 //----------------------------------------------------------------
-                                <?php $newlatitude=0; $newlongitude=0; $count=0; ?>
+                                var markerClusterGroup = L.markerClusterGroup();
                                 //***************************************************************************
                                 //GỌI ATM START
                                 <?php
@@ -699,19 +670,19 @@
                                         // CALL LIST END
                                         //----------------------------------------------------------------
                                         //----------------------------------------------------------------
-                                        //THU THẬP TOẠ ĐỘ -> TÍNH TRUNG BÌNH
-                                        <?php $newlatitude+=$row["TA_VIDOX"]; $newlongitude+=$row["TA_KINHDOY"]; $count++; ?>
+                                        //CENTER VÀ ZOOM LẠI START
+                                        
+                                        markerClusterGroup.addLayer(marker);
+                                        
+                                        //CENTER VÀ ZOOM LẠI END
                                         //----------------------------------------------------------------
                                 <?php } ?>
                                 //GỌI ATM END
                                 //***************************************************************************
                                 //***************************************************************************
                                 //CENTER VÀ ZOOM LẠI START
-                                <?php $newlatitude = $newlatitude/$count; $newlongitude=$newlongitude/$count; ?>
-                                var newCenter = [<?php echo $newlatitude .', '. $newlongitude; ?>];
-                                var newZoomLevel = 15;
-                                map.setView(newCenter, newZoomLevel);
-                                <?php $newlatitude = 0; $newlongitude=0; $count=0; ?>
+                                map.addLayer(markerClusterGroup);
+                                map.fitBounds(markerClusterGroup.getBounds());
                                 //CENTER VÀ ZOOM LẠI END
                                 //***************************************************************************
                             });
