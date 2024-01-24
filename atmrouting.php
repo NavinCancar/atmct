@@ -476,7 +476,9 @@
                                     //CENTER VÀ ZOOM LẠI START
                                     
                                     markerClusterGroup.addLayer(marker);
-                                    
+                                    map.addLayer(markerClusterGroup);
+                                    map.fitBounds(markerClusterGroup.getBounds());
+                    
                                     //CENTER VÀ ZOOM LẠI END
                                     //----------------------------------------------------------------
                                 }
@@ -485,8 +487,6 @@
                             // TÍNH KHOẢNG CÁCH NGẦM END
                             //---------------------------------------------------
                     <?php } ?>
-                    map.addLayer(markerClusterGroup);
-                    map.fitBounds(markerClusterGroup.getBounds());
                     //ROUTING ATM END
                     //***************************************************************************
                     //XỬ LÝ TÌM KIẾM END
