@@ -322,6 +322,8 @@
                 navigator.geolocation.getCurrentPosition(function(position){
                     var ulatitude = position.coords.latitude;
                     var ulongitude = position.coords.longitude;
+                    //var ulatitude = 10.029294;
+                    //var ulongitude = 105.769436;
 
                     //----------------------------------------------------------------
                     //Gọi map
@@ -462,6 +464,8 @@
                             navigator.geolocation.getCurrentPosition(function(position){
                                 var ulatitude = position.coords.latitude;
                                 var ulongitude = position.coords.longitude;
+                                //var ulatitude = 10.029294;
+                                //var ulongitude = 105.769436;
 
                                 //----------------------------------------------------------------
                                 //Gọi map
@@ -563,6 +567,8 @@
                             navigator.geolocation.getCurrentPosition(function(position){
                                 var ulatitude = position.coords.latitude;
                                 var ulongitude = position.coords.longitude;
+                                //var ulatitude = 10.029294;
+                                //var ulongitude = 105.769436;
 
                                 //----------------------------------------------------------------
                                 //Gọi map
